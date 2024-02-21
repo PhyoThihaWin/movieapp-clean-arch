@@ -15,13 +15,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        primaryColor: PRIMARY_COLOR,
-        primarySwatch: PRIMARY_COLOR_MATERIAL,
-        fontFamily: "Poppins"
-      ),
+          // This is the theme of your application.
+          //
+          primaryColor: PRIMARY_COLOR,
+          primarySwatch: PRIMARY_COLOR_MATERIAL,
+          fontFamily: "Poppins"),
       home: const NavHostPage(),
     );
   }

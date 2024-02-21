@@ -11,99 +11,198 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: MARGIN_MEDIUM_2, vertical: MARGIN_MEDIUM_2),
-          sliver: SliverList(
-              delegate: SliverChildListDelegate([
-            const WelcomeAndNotificationIconSection(),
-            const HomeSearchViewSection(),
-            const SectionTitleAndSeeAll("Now Playing"),
-            const SizedBox(height: MARGIN_MEDIUM_3),
-            const CarouselSliderViewSection([
-              "https://i5.walmartimages.com/asr/65e23347-2ccc-4581-9700-581e0ea9c3a8.a808f8889bfa9e368659fbefc5e5dda4.jpeg",
-              "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
-              "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/bohemian-rhapsody-web.jpg"
-            ]),
-            const SizedBox(height: MARGIN_MEDIUM_2),
-          ])),
+    return Column(
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: MARGIN_MEDIUM_2, vertical: MARGIN_MEDIUM),
+          child: WelcomeAndNotificationIconSection(),
         ),
-        SliverList(
-          delegate: SliverChildListDelegate([
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-              child: const SectionTitleAndSeeAll("Coming soon"),
-            ),
-            SizedBox(height: MARGIN_MEDIUM),
-            SizedBox(
-              height: 380,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                itemBuilder: (context, index) => const HomeMovieListItemView(),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-              child: const SectionTitleAndSeeAll("Promo & Discount"),
-            ),
-            SizedBox(
-              height: 180,
-              child: PageView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (context, index) => Container(
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const Padding(
                   padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
-                      fit: BoxFit.cover,
+                  child: Column(children: [
+                    HomeSearchViewSection(),
+                    SectionTitleAndSeeAll("Now Playing"),
+                    SizedBox(height: MARGIN_MEDIUM_3),
+                  ]),
+                ),
+                const CarouselSliderViewSection([
+                  "https://i5.walmartimages.com/asr/65e23347-2ccc-4581-9700-581e0ea9c3a8.a808f8889bfa9e368659fbefc5e5dda4.jpeg",
+                  "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
+                  "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/bohemian-rhapsody-web.jpg"
+                ]),
+                const SizedBox(height: MARGIN_LARGE),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                  child: SectionTitleAndSeeAll("Coming soon"),
+                ),
+                const SizedBox(height: MARGIN_MEDIUM_2),
+                HorizontalListView<int>(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                  itemCount: 10,
+                  itemBuilder: (context, index) =>
+                      const HomeMovieListItemView(),
+                ),
+                const SizedBox(height: MARGIN_LARGE),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                  child: SectionTitleAndSeeAll("Promo & Discount"),
+                ),
+                const SizedBox(height: MARGIN_MEDIUM_2),
+                SizedBox(
+                  height: 180,
+                  child: PageView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 10,
+                    itemBuilder: (context, index) => Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: MARGIN_MEDIUM_2),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+                const SizedBox(height: MARGIN_LARGE),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                  child: SectionTitleAndSeeAll("Service"),
+                ),
+                const SizedBox(height: MARGIN_MEDIUM_2),
+                HorizontalListView<int>(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                  itemCount: 10,
+                  itemBuilder: (context, index) => const ServiceListItemView(),
+                ),
+                const SizedBox(height: MARGIN_LARGE),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                  child: SectionTitleAndSeeAll("Movie news"),
+                ),
+                const SizedBox(height: MARGIN_MEDIUM_2),
+                HorizontalListView<int>(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                  itemCount: 10,
+                  itemBuilder: (context, index) => const MoviesNewsItemView(),
+                ),
+                const SizedBox(height: MARGIN_LARGE),
+              ],
             ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-              child: const SectionTitleAndSeeAll("Service"),
-            ),
-            SizedBox(height: MARGIN_MEDIUM),
-            SizedBox(
-              height: 380,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                padding:
-                const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                itemBuilder: (context, index) => const HomeMovieListItemView(),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-              child: const SectionTitleAndSeeAll("Movie news"),
-            ),
-            SizedBox(height: MARGIN_MEDIUM),
-            SizedBox(
-              height: 380,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                padding:
-                const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                itemBuilder: (context, index) => const HomeMovieListItemView(),
-              ),
-            ),
-          ]),
-        )
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class MoviesNewsItemView extends StatelessWidget {
+  const MoviesNewsItemView({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 300,
+      padding: const EdgeInsets.only(right: MARGIN_MEDIUM_2),
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
+            child: CachedNetworkImage(
+              imageUrl:
+                  "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
+              fit: BoxFit.cover,
+              width: double.maxFinite,
+              height: 180,
+            ),
+          ),
+          const SizedBox(height: MARGIN_MEDIUM_2),
+          const Text(
+            "When The Batman 2 Starts Filming Reportedly Revealed",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: TEXT_REGULAR_2X,
+                fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ServiceListItemView extends StatelessWidget {
+  const ServiceListItemView({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 90,
+      margin: const EdgeInsets.only(right: MARGIN_MEDIUM),
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(40),
+            child: CachedNetworkImage(
+              imageUrl:
+                  "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
+              fit: BoxFit.cover,
+              width: 80,
+              height: 80,
+            ),
+          ),
+          const SizedBox(height: MARGIN_MEDIUM_2),
+          const Text(
+            "Avatar",
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: TEXT_REGULAR_2X,
+                fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class HorizontalListView<T> extends StatelessWidget {
+  final EdgeInsetsGeometry padding;
+  final int itemCount;
+  final Widget Function(BuildContext context, int index) itemBuilder;
+
+  const HorizontalListView(
+      {super.key,
+      required this.padding,
+      required this.itemCount,
+      required this.itemBuilder});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: padding,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: Iterable<int>.generate(itemCount)
+            .map((index) => itemBuilder(context, index))
+            .toList(),
+      ),
     );
   }
 }
@@ -274,7 +373,7 @@ class WelcomeAndNotificationIconSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Hi, Angelina",
+              "Hi, Angelina 👋",
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
             SectionTitleText("Welcome back")
