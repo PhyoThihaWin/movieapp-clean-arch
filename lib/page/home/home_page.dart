@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp_clean_arch/page/home/movie_detail_page.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
+import 'package:movieapp_clean_arch/utils/ext.dart';
 
 import '../../resource/colors.dart';
 
@@ -11,98 +13,101 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: MARGIN_MEDIUM_2, vertical: MARGIN_MEDIUM),
-          child: WelcomeAndNotificationIconSection(),
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                  child: Column(children: [
-                    HomeSearchViewSection(),
-                    SectionTitleAndSeeAll("Now Playing"),
-                    SizedBox(height: MARGIN_MEDIUM_3),
+    return SafeArea(
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: MARGIN_MEDIUM_2, vertical: MARGIN_MEDIUM),
+            child: WelcomeAndNotificationIconSection(),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                    child: Column(children: [
+                      HomeSearchViewSection(),
+                      SectionTitleAndSeeAll("Now Playing"),
+                      SizedBox(height: MARGIN_MEDIUM_3),
+                    ]),
+                  ),
+                  const CarouselSliderViewSection([
+                    "https://i5.walmartimages.com/asr/65e23347-2ccc-4581-9700-581e0ea9c3a8.a808f8889bfa9e368659fbefc5e5dda4.jpeg",
+                    "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
+                    "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/bohemian-rhapsody-web.jpg"
                   ]),
-                ),
-                const CarouselSliderViewSection([
-                  "https://i5.walmartimages.com/asr/65e23347-2ccc-4581-9700-581e0ea9c3a8.a808f8889bfa9e368659fbefc5e5dda4.jpeg",
-                  "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
-                  "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/bohemian-rhapsody-web.jpg"
-                ]),
-                const SizedBox(height: MARGIN_LARGE),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                  child: SectionTitleAndSeeAll("Coming soon"),
-                ),
-                const SizedBox(height: MARGIN_MEDIUM_2),
-                HorizontalListView<int>(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                  itemCount: 10,
-                  itemBuilder: (context, index) =>
-                      const HomeMovieListItemView(),
-                ),
-                const SizedBox(height: MARGIN_LARGE),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                  child: SectionTitleAndSeeAll("Promo & Discount"),
-                ),
-                const SizedBox(height: MARGIN_MEDIUM_2),
-                SizedBox(
-                  height: 180,
-                  child: PageView.builder(
-                    scrollDirection: Axis.horizontal,
+                  const SizedBox(height: MARGIN_LARGE),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                    child: SectionTitleAndSeeAll("Coming soon"),
+                  ),
+                  const SizedBox(height: MARGIN_MEDIUM_2),
+                  HorizontalListView<int>(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
                     itemCount: 10,
-                    itemBuilder: (context, index) => Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: MARGIN_MEDIUM_2),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
-                          fit: BoxFit.cover,
+                    itemBuilder: (context, index) =>
+                        const HomeMovieListItemView(),
+                  ),
+                  const SizedBox(height: MARGIN_LARGE),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                    child: SectionTitleAndSeeAll("Promo & Discount"),
+                  ),
+                  const SizedBox(height: MARGIN_MEDIUM_2),
+                  SizedBox(
+                    height: 180,
+                    child: PageView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 10,
+                      itemBuilder: (context, index) => Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: MARGIN_MEDIUM_2),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: MARGIN_LARGE),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                  child: SectionTitleAndSeeAll("Service"),
-                ),
-                const SizedBox(height: MARGIN_MEDIUM_2),
-                HorizontalListView<int>(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                  itemCount: 10,
-                  itemBuilder: (context, index) => const ServiceListItemView(),
-                ),
-                const SizedBox(height: MARGIN_LARGE),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                  child: SectionTitleAndSeeAll("Movie news"),
-                ),
-                const SizedBox(height: MARGIN_MEDIUM_2),
-                HorizontalListView<int>(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                  itemCount: 10,
-                  itemBuilder: (context, index) => const MoviesNewsItemView(),
-                ),
-                const SizedBox(height: MARGIN_LARGE),
-              ],
+                  const SizedBox(height: MARGIN_LARGE),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                    child: SectionTitleAndSeeAll("Service"),
+                  ),
+                  const SizedBox(height: MARGIN_MEDIUM_2),
+                  HorizontalListView<int>(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                    itemCount: 10,
+                    itemBuilder: (context, index) =>
+                        const ServiceListItemView(),
+                  ),
+                  const SizedBox(height: MARGIN_LARGE),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                    child: SectionTitleAndSeeAll("Movie news"),
+                  ),
+                  const SizedBox(height: MARGIN_MEDIUM_2),
+                  HorizontalListView<int>(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                    itemCount: 10,
+                    itemBuilder: (context, index) => const MoviesNewsItemView(),
+                  ),
+                  const SizedBox(height: MARGIN_LARGE),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -214,60 +219,65 @@ class HomeMovieListItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      padding: const EdgeInsets.only(right: MARGIN_MEDIUM_2),
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
-            child: CachedNetworkImage(
-              imageUrl:
-                  "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
-              fit: BoxFit.cover,
-              width: 200,
-              height: 230,
+    return GestureDetector(
+      onTap: () {
+        context.next(const MovieDetailPage());
+      },
+      child: Container(
+        width: 200,
+        padding: const EdgeInsets.only(right: MARGIN_MEDIUM_2),
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
+              child: CachedNetworkImage(
+                imageUrl:
+                    "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
+                fit: BoxFit.cover,
+                width: 200,
+                height: 230,
+              ),
             ),
-          ),
-          const SizedBox(height: MARGIN_MEDIUM_2),
-          const Text(
-            "Avatar 2: The Way Of Water",
-            style: TextStyle(
-                color: PRIMARY_COLOR,
-                fontSize: TEXT_REGULAR_2X,
-                fontWeight: FontWeight.w500),
-          ),
-          const SizedBox(height: MARGIN_10),
-          const Row(
-            children: [
-              Icon(
-                Icons.videocam_outlined,
-                color: Colors.white,
-                size: MARGIN_MEDIUM_2,
-              ),
-              SizedBox(width: MARGIN_MEDIUM),
-              Text(
-                "Adventure, Sci-fi",
-                style: TextStyle(color: Colors.white, fontSize: TEXT_SMALL),
-              ),
-            ],
-          ),
-          const SizedBox(height: MARGIN_SMALL),
-          const Row(
-            children: [
-              Icon(
-                Icons.calendar_month_outlined,
-                color: Colors.white,
-                size: MARGIN_MEDIUM_2,
-              ),
-              SizedBox(width: MARGIN_MEDIUM),
-              Text(
-                "20.12.2022",
-                style: TextStyle(color: Colors.white, fontSize: TEXT_SMALL),
-              ),
-            ],
-          )
-        ],
+            const SizedBox(height: MARGIN_MEDIUM_2),
+            const Text(
+              "Avatar 2: The Way Of Water",
+              style: TextStyle(
+                  color: PRIMARY_COLOR,
+                  fontSize: TEXT_REGULAR_2X,
+                  fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: MARGIN_10),
+            const Row(
+              children: [
+                Icon(
+                  Icons.videocam_outlined,
+                  color: Colors.white,
+                  size: MARGIN_MEDIUM_2,
+                ),
+                SizedBox(width: MARGIN_MEDIUM),
+                Text(
+                  "Adventure, Sci-fi",
+                  style: TextStyle(color: Colors.white, fontSize: TEXT_SMALL),
+                ),
+              ],
+            ),
+            const SizedBox(height: MARGIN_SMALL),
+            const Row(
+              children: [
+                Icon(
+                  Icons.calendar_month_outlined,
+                  color: Colors.white,
+                  size: MARGIN_MEDIUM_2,
+                ),
+                SizedBox(width: MARGIN_MEDIUM),
+                Text(
+                  "20.12.2022",
+                  style: TextStyle(color: Colors.white, fontSize: TEXT_SMALL),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
