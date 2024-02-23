@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
                     child: Column(children: [
                       HomeSearchViewSection(),
                       SectionTitleAndSeeAll("Now Playing"),
-                      SizedBox(height: MARGIN_MEDIUM_3),
+                      SizedBox(height: MARGIN_20),
                     ]),
                   ),
                   const CarouselSliderViewSection([
@@ -139,7 +139,7 @@ class MoviesNewsItemView extends StatelessWidget {
             "When The Batman 2 Starts Filming Reportedly Revealed",
             style: TextStyle(
                 color: Colors.white,
-                fontSize: TEXT_REGULAR_2X,
+                fontSize: TEXT_REGULAR_2,
                 fontWeight: FontWeight.w500),
           ),
         ],
@@ -177,7 +177,7 @@ class ServiceListItemView extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 color: Colors.white,
-                fontSize: TEXT_REGULAR_2X,
+                fontSize: TEXT_REGULAR_2,
                 fontWeight: FontWeight.w500),
           ),
         ],
@@ -243,7 +243,7 @@ class HomeMovieListItemView extends StatelessWidget {
               "Avatar 2: The Way Of Water",
               style: TextStyle(
                   color: PRIMARY_COLOR,
-                  fontSize: TEXT_REGULAR_2X,
+                  fontSize: TEXT_REGULAR_2,
                   fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: MARGIN_10),
@@ -360,7 +360,7 @@ class HomeSearchViewSection extends StatelessWidget {
                   hintStyle: TextStyle(
                       color: Colors.white38,
                       fontWeight: FontWeight.w300,
-                      fontSize: TEXT_REGULAR_2X)),
+                      fontSize: TEXT_REGULAR_2)),
             ),
           )
         ],
@@ -408,7 +408,7 @@ class SectionTitleText extends StatelessWidget {
     return Text(
       text,
       style: const TextStyle(
-        fontSize: TEXT_REGULAR_4X,
+        fontSize: TEXT_HEADING,
         color: Colors.white,
         fontWeight: FontWeight.w600,
       ),
@@ -451,7 +451,7 @@ class _CarouselSliderViewSectionState extends State<CarouselSliderViewSection> {
           items: widget.bannerList
               .map(
                 (banner) => ClipRRect(
-                  borderRadius: BorderRadius.circular(MARGIN_CARD_MEDIUM_2),
+                  borderRadius: BorderRadius.circular(MARGIN_12),
                   child: Image.network(
                     banner,
                     fit: BoxFit.cover,

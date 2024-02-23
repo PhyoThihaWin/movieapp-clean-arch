@@ -5,22 +5,34 @@ const MARGIN_SMALL = 4.0;
 const MARGIN_6 = 6.0;
 const MARGIN_MEDIUM = 8.0;
 const MARGIN_10 = 10.0;
-const MARGIN_CARD_MEDIUM_2 = 12.0;
+const MARGIN_12 = 12.0;
 const MARGIN_MEDIUM_2 = 16.0;
-const MARGIN_MEDIUM_3 = 20.0;
+const MARGIN_18 = 18.0;
+const MARGIN_20 = 20.0;
 const MARGIN_LARGE = 24.0;
 const MARGIN_XLARGE = 32.0;
-const MARGIN_XXLARGE = 48.0;
+const MARGIN_XXLARGE = 40.0;
+const MARGIN_XXXLARGE = 48.0;
+const MARGIN_XXXXLARGE = 56.0;
+
+const RADIUS_SMALL = 4.0;
+const RADIUS_MEDIUM = 8.0;
+const RADIUS_MEDIUM_2 = 16.0;
+const RADIUS_20 = 20.0;
+const RADIUS_LARGE = 24.0;
+const RADIUS_XLARGE = 100.0;
 
 /// Generic Text Dimensions
+const TEXT_XXSMALL = 8.0;
 const TEXT_XSMALL = 10.0;
 const TEXT_SMALL = 12.0;
 const TEXT_REGULAR = 14.0;
-const TEXT_REGULAR_2X = 16.0;
-const TEXT_REGULAR_3X = 18.0;
-const TEXT_REGULAR_4X = 20.0;
-const TEXT_HEADING_1X = 24.0;
-const TEXT_HEADING_2X = 28.0;
+const TEXT_REGULAR_2 = 16.0;
+const TEXT_REGULAR_3 = 18.0;
+const TEXT_LARGE = 20.0;
+const TEXT_XLARGE = 22.0;
+const TEXT_HEADING = 24.0;
+const TEXT_HEADING_2 = 28.0;
 const TEXT_BIG = 32.0;
 
 /// App Specific Dimensions
