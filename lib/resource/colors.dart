@@ -4,7 +4,7 @@ const PRIMARY_COLOR = Color(0xFFFCC434);
 const TEXT_GREY_COLOR = Color(0xFF888888);
 const SEARCH_BOX_COLOR = Color(0xFF3B3B3B);
 const GREY_BOX_COLOR = Color(0xFF1C1C1C);
-
+const SEAT_RESERVED_COLOR = Color(0xFF261D08);
 
 const MaterialColor PRIMARY_COLOR_MATERIAL = MaterialColor(
   0xFF00FF6A,

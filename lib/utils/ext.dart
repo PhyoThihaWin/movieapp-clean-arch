@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import '../resource/dimens.dart';
@@ -61,12 +60,6 @@ extension StringFormat on String {
 
   String toAssetIcon() => "assets/icons/$this";
 
-  Widget toSvgIcon({Color? color}) {
-    return SvgPicture.asset("assets/icons/$this",
-        colorFilter:
-            color != null ? ColorFilter.mode(color, BlendMode.srcIn) : null);
-  }
-
   String formatDate({
     String parseFormat = "yyyy-MM-dd",
     required String format,
@@ -77,22 +70,26 @@ extension StringFormat on String {
   }
 }
 
+/// integer extension
 extension NullIntExtension on int? {
   int get orZero => this ?? 0;
 
   int get toMMK => (this ?? 0) * 2100;
 }
 
+/// double extension
 extension NullDoubleExtension on double? {
   double get orZero => this ?? 0;
 }
 
+/// boolean extension
 extension NullBoolExtension on bool? {
   bool get orTrue => this ?? true;
 
   bool get orFalse => this ?? false;
 }
 
+/// list extension
 extension ListNullSafetyExtension<T> on List<T?>? {
   List<T?> get orEmpty => this ?? [];
 
@@ -100,6 +97,7 @@ extension ListNullSafetyExtension<T> on List<T?>? {
       this?.where((element) => element != null).toList().cast() ?? [];
 }
 
+/// [Color] extension
 extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
   static Color fromHex(String hexString) {
@@ -116,3 +114,4 @@ extension HexColor on Color {
       '${green.toRadixString(16).padLeft(2, '0')}'
       '${blue.toRadixString(16).padLeft(2, '0')}';
 }
+

@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:movieapp_clean_arch/page/home/cinema_seat_page.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
@@ -26,7 +25,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Stack(
+            const Stack(
               clipBehavior: Clip.none,
               children: [
                 MovieLandscapeImageSection(),
@@ -42,15 +41,15 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                 ),
               ],
             ),
-            SizedBox(height: MARGIN_LARGE),
-            MovieDescriptionsSection(),
-            SizedBox(height: MARGIN_LARGE),
-            MovieStoryLineSection(),
-            SizedBox(height: MARGIN_LARGE),
-            MovieDirectorListSeciton(),
-            SizedBox(height: MARGIN_LARGE),
-            MovieActorListSection(),
-            SizedBox(height: MARGIN_LARGE),
+            const SizedBox(height: MARGIN_LARGE),
+            const MovieDescriptionsSection(),
+            const SizedBox(height: MARGIN_LARGE),
+            const MovieStoryLineSection(),
+            const SizedBox(height: MARGIN_LARGE),
+            const MovieDirectorListSeciton(),
+            const SizedBox(height: MARGIN_LARGE),
+            const MovieActorListSection(),
+            const SizedBox(height: MARGIN_LARGE),
             MovieDetailCinemaSection(
               cinemaIndex: cinemaIndex,
               select: (index) {
@@ -59,28 +58,44 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                 });
               },
             ),
-            SizedBox(height: MARGIN_LARGE),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-              width: double.maxFinite,
-              height: 50,
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Continue",
-                  style: TextStyle(color: Colors.white),
-                ),
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(PRIMARY_COLOR),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(RADIUS_LARGE),
-                            side: BorderSide(color: PRIMARY_COLOR)))),
-              ),
+            const SizedBox(height: MARGIN_LARGE),
+            _MovieContinueBtnView(
+              onClick: () {
+                context.next(const CinemaSeatPage());
+              },
             ),
-            SizedBox(height: MARGIN_LARGE)
+            const SizedBox(height: MARGIN_LARGE)
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MovieContinueBtnView extends StatelessWidget {
+  final Function() onClick;
+
+  const _MovieContinueBtnView({required this.onClick});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+      width: double.maxFinite,
+      height: BUTTON_COMMON_HEIGHT,
+      child: TextButton(
+        onPressed: () {
+          onClick();
+        },
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(PRIMARY_COLOR),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(RADIUS_XLARGE),
+                    side: const BorderSide(color: PRIMARY_COLOR)))),
+        child: const Text(
+          "Continue",
+          style: TextStyle(color: Colors.black),
         ),
       ),
     );
@@ -91,29 +106,30 @@ class MovieDetailCinemaSection extends StatelessWidget {
   final int cinemaIndex;
   final Function(int) select;
 
-  MovieDetailCinemaSection({required this.cinemaIndex, required this.select});
+  const MovieDetailCinemaSection(
+      {super.key, required this.cinemaIndex, required this.select});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
           child: SectionTitleText("Cinema"),
         ),
-        SizedBox(height: MARGIN_12),
+        const SizedBox(height: MARGIN_12),
         ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: 3,
           itemBuilder: (context, index) => GestureDetector(
             onTap: () {
               select(index);
             },
             child: Container(
-              padding: EdgeInsets.all(MARGIN_MEDIUM_2),
-              margin: EdgeInsets.only(
+              padding: const EdgeInsets.all(MARGIN_MEDIUM_2),
+              margin: const EdgeInsets.only(
                   left: MARGIN_MEDIUM_2,
                   right: MARGIN_MEDIUM_2,
                   bottom: MARGIN_MEDIUM_2),
@@ -134,7 +150,7 @@ class MovieDetailCinemaSection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         "Vincom Ocean Park CGV",
                         style: TextStyle(
                             fontSize: TEXT_REGULAR_3,
@@ -153,8 +169,8 @@ class MovieDetailCinemaSection extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: MARGIN_6),
-                  Text(
+                  const SizedBox(height: MARGIN_6),
+                  const Text(
                     "9.32 km | 27 Co Linh, Long Bien, Ha Noi",
                     style: TextStyle(
                       color: Colors.white,
@@ -181,15 +197,15 @@ class MovieActorListSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: MARGIN_MEDIUM_2),
+        const Padding(
+          padding: EdgeInsets.only(left: MARGIN_MEDIUM_2),
           child: SectionTitleText("Actor"),
         ),
-        SizedBox(height: MARGIN_12),
+        const SizedBox(height: MARGIN_12),
         HorizontalListView(
-          padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+          padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
           itemCount: 10,
-          itemBuilder: (context, index) => MovieActorListiItemView(),
+          itemBuilder: (context, index) => const MovieActorListiItemView(),
         )
       ],
     );
@@ -206,15 +222,15 @@ class MovieDirectorListSeciton extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: MARGIN_MEDIUM_2),
+        const Padding(
+          padding: EdgeInsets.only(left: MARGIN_MEDIUM_2),
           child: SectionTitleText("Director"),
         ),
-        SizedBox(height: MARGIN_12),
+        const SizedBox(height: MARGIN_12),
         HorizontalListView(
-          padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+          padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
           itemCount: 10,
-          itemBuilder: (context, index) => MovieActorListiItemView(),
+          itemBuilder: (context, index) => const MovieActorListiItemView(),
         )
       ],
     );
@@ -233,9 +249,9 @@ class MovieActorListiItemView extends StatelessWidget {
           borderRadius: BorderRadius.circular(RADIUS_MEDIUM),
           color: GREY_BOX_COLOR),
       width: 140,
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
           vertical: MARGIN_MEDIUM, horizontal: MARGIN_MEDIUM_2),
-      margin: EdgeInsets.only(right: MARGIN_12),
+      margin: const EdgeInsets.only(right: MARGIN_12),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -249,10 +265,10 @@ class MovieActorListiItemView extends StatelessWidget {
               width: 30,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: MARGIN_MEDIUM,
           ),
-          Flexible(
+          const Flexible(
             child: Text(
               "Anthony Russo",
               overflow: TextOverflow.ellipsis,
@@ -273,8 +289,8 @@ class MovieStoryLineSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -297,7 +313,7 @@ class MovieDescriptionsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
         MovieDescTextView(
           desc: "Movie genre:",
@@ -322,7 +338,7 @@ class MovieDescTextView extends StatelessWidget {
   final String desc;
   final String text;
 
-  MovieDescTextView({required this.desc, required this.text});
+  const MovieDescTextView({super.key, required this.desc, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -335,15 +351,15 @@ class MovieDescTextView extends StatelessWidget {
             flex: 2,
             child: Text(
               desc,
-              style: TextStyle(color: Colors.white70),
+              style: const TextStyle(color: Colors.white70),
             ),
           ),
           Expanded(
             flex: 4,
             child: Text(
               text,
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+              style: const TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.w600),
             ),
           ),
         ],
@@ -371,7 +387,7 @@ class MovieLandscapeImageSection extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        SizedBox(height: 100)
+        const SizedBox(height: 100)
       ],
     );
   }

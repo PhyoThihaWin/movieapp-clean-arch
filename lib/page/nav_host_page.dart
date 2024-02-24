@@ -4,11 +4,10 @@ import 'package:movieapp_clean_arch/page/home/home_page.dart';
 import 'package:movieapp_clean_arch/page/movie/movie_page.dart';
 import 'package:movieapp_clean_arch/page/profile/profile_page.dart';
 import 'package:movieapp_clean_arch/page/ticket/ticket_page.dart';
-import 'package:movieapp_clean_arch/utils/ext.dart';
+import 'package:movieapp_clean_arch/widget/svg_image.dart';
 
 import '../resource/colors.dart';
 import '../resource/strings.dart';
-import 'home/movie_detail_page.dart';
 
 class NavHostPage extends StatefulWidget {
   const NavHostPage({super.key});
@@ -56,24 +55,24 @@ class _NavHostPageState extends State<NavHostPage> {
 
 List<BottomNavigationBarItem> bottomNavigationMenuItems() {
   return <BottomNavigationBarItem>[
-    BottomNavigationBarItem(
-      icon: "ic_home.svg".toSvgIcon(),
-      activeIcon: "ic_home_selected.svg".toSvgIcon(),
+    const BottomNavigationBarItem(
+      icon: SvgIcon("ic_home.svg"),
+      activeIcon: SvgIcon("ic_home_selected.svg"),
       label: MENU_MOVIE_TEXT,
     ),
-    BottomNavigationBarItem(
-      icon: "ic_ticket.svg".toSvgIcon(),
-      activeIcon: "ic_ticket_selected.svg".toSvgIcon(),
+    const BottomNavigationBarItem(
+      icon: SvgIcon("ic_ticket.svg"),
+      activeIcon: SvgIcon("ic_ticket_selected.svg"),
       label: MENU_CINEMA_TEXT,
     ),
-    BottomNavigationBarItem(
-      icon: "ic_video.svg".toSvgIcon(),
-      activeIcon: "ic_video_selected.svg".toSvgIcon(),
+    const BottomNavigationBarItem(
+      icon: SvgIcon("ic_video.svg"),
+      activeIcon: SvgIcon("ic_video_selected.svg"),
       label: MENU_TICKET_TEXT,
     ),
-    BottomNavigationBarItem(
-      icon: "ic_user.svg".toSvgIcon(),
-      activeIcon: "ic_user_selected.svg".toSvgIcon(),
+    const BottomNavigationBarItem(
+      icon: SvgIcon("ic_user.svg"),
+      activeIcon: SvgIcon("ic_user_selected.svg"),
       label: MENU_PROFILE_TEXT,
     ),
   ];
