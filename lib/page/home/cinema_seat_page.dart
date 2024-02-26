@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
+import 'package:movieapp_clean_arch/page/home/payment_page.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
@@ -97,19 +98,24 @@ class _CinemaBuyTicketSection extends StatelessWidget {
               ),
               Expanded(
                 flex: 1,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: PRIMARY_COLOR,
-                    borderRadius: BorderRadius.circular(RADIUS_XLARGE),
-                  ),
-                  height: BUTTON_COMMON_HEIGHT,
-                  child: const Center(
-                    child: Text(
-                      "Buy Ticket",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: TEXT_REGULAR_2,
-                          fontWeight: FontWeight.w600),
+                child: GestureDetector(
+                  onTap: (){
+                    context.next(PaymentPage());
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: PRIMARY_COLOR,
+                      borderRadius: BorderRadius.circular(RADIUS_XLARGE),
+                    ),
+                    height: BUTTON_COMMON_HEIGHT,
+                    child: const Center(
+                      child: Text(
+                        "Buy Ticket",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: TEXT_REGULAR_2,
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
                 ),
