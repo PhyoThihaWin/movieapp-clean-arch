@@ -6,6 +6,7 @@ import 'package:movieapp_clean_arch/page/home/home_page.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
+import 'package:movieapp_clean_arch/widget/button_view_fullwidth.dart';
 
 class MovieDetailPage extends StatefulWidget {
   const MovieDetailPage({super.key});
@@ -59,43 +60,15 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
               },
             ),
             const SizedBox(height: MARGIN_LARGE),
-            _MovieContinueBtnView(
+            ButtonViewFullWidth(
+              margin: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+              btnText: "Continue",
               onClick: () {
                 context.next(const CinemaSeatPage());
               },
             ),
             const SizedBox(height: MARGIN_LARGE)
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _MovieContinueBtnView extends StatelessWidget {
-  final Function() onClick;
-
-  const _MovieContinueBtnView({required this.onClick});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-      width: double.maxFinite,
-      height: BUTTON_COMMON_HEIGHT,
-      child: TextButton(
-        onPressed: () {
-          onClick();
-        },
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(PRIMARY_COLOR),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(RADIUS_XLARGE),
-                    side: const BorderSide(color: PRIMARY_COLOR)))),
-        child: const Text(
-          "Continue",
-          style: TextStyle(color: Colors.black),
         ),
       ),
     );

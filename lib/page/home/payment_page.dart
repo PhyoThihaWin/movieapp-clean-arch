@@ -6,6 +6,7 @@ import 'package:movieapp_clean_arch/utils/ext.dart';
 import 'package:movieapp_clean_arch/widget/svg_image.dart';
 
 import '../../resource/dimens.dart';
+import '../../widget/button_view_fullwidth.dart';
 
 class PaymentPage extends StatelessWidget {
   const PaymentPage({super.key});
@@ -35,6 +36,7 @@ class PaymentPage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,9 +60,49 @@ class PaymentPage extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => const PaymentListItemView(),
-            )
+            ),
+            const SizedBox(height: MARGIN_MEDIUM_2),
+            const _PaymentCountDownView(),
+            const SizedBox(height: MARGIN_XLARGE),
+            ButtonViewFullWidth(
+              btnText: "Continue",
+              onClick: () {},
+            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _PaymentCountDownView extends StatelessWidget {
+  const _PaymentCountDownView({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(MARGIN_MEDIUM_2),
+      decoration: BoxDecoration(
+          color: SEAT_RESERVED_COLOR,
+          borderRadius: BorderRadius.circular(RADIUS_MEDIUM)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Complete your payment in",
+            style: TextStyle(fontSize: TEXT_REGULAR, color: Colors.white),
+          ),
+          Text(
+            "15:00",
+            style: TextStyle(
+              fontSize: TEXT_REGULAR,
+              color: PRIMARY_COLOR,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }
