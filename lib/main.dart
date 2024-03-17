@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:movieapp_clean_arch/initial_binding.dart';
 import 'package:movieapp_clean_arch/page/nav_host_page.dart';
 
 import 'resource/colors.dart';
@@ -12,12 +14,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return GetMaterialApp(
+      initialRoute: "/",
+      initialBinding: InitialBinding(),
+      title: 'MovieCleanArchitecture',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          // This is the theme of your application.
-          //
           primaryColor: PRIMARY_COLOR,
           primarySwatch: PRIMARY_COLOR_MATERIAL,
           fontFamily: "Poppins"),

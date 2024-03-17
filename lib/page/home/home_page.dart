@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:movieapp_clean_arch/page/home/home_controller.dart';
 import 'package:movieapp_clean_arch/page/home/movie_detail_page.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
@@ -13,6 +15,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeController homeController = Get.find();
+
+    debugPrint("Data: ${homeController.post.value}");
+
     return SafeArea(
       child: Column(
         children: [
@@ -33,11 +39,19 @@ class HomePage extends StatelessWidget {
                       SizedBox(height: MARGIN_20),
                     ]),
                   ),
-                  const CarouselSliderViewSection([
-                    "https://i5.walmartimages.com/asr/65e23347-2ccc-4581-9700-581e0ea9c3a8.a808f8889bfa9e368659fbefc5e5dda4.jpeg",
-                    "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
-                    "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/bohemian-rhapsody-web.jpg"
-                  ]),
+                  Obx(() => CarouselSliderViewSection(
+                        bannerList: [
+                          "https://i5.walmartimages.com/asr/65e23347-2ccc-4581-9700-581e0ea9c3a8.a808f8889bfa9e368659fbefc5e5dda4.jpeg",
+                          "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
+                          "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
+                          "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
+                          "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/bohemian-rhapsody-web.jpg"
+                        ],
+                        testPosition: homeController.position.value,
+                        onMove: (position) {
+                          homeController.position.value = position;
+                        },
+                      )),
                   const SizedBox(height: MARGIN_LARGE),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
@@ -418,8 +432,13 @@ class SectionTitleText extends StatelessWidget {
 
 class CarouselSliderViewSection extends StatefulWidget {
   final List<String> bannerList;
+  final int testPosition;
+  final Function(int position) onMove;
 
-  const CarouselSliderViewSection(this.bannerList, {super.key});
+  CarouselSliderViewSection(
+      {required this.bannerList,
+      required this.testPosition,
+      required this.onMove});
 
   @override
   State<CarouselSliderViewSection> createState() =>
@@ -443,9 +462,11 @@ class _CarouselSliderViewSectionState extends State<CarouselSliderViewSection> {
             enlargeStrategy: CenterPageEnlargeStrategy.scale,
             enlargeFactor: 0.3,
             onPageChanged: (index, reason) {
-              setState(() {
-                _position = index.toDouble();
-              });
+              // setState(() {
+              //   _position = index.toDouble();
+              // });
+
+              widget.onMove(index);
             },
           ),
           items: widget.bannerList
@@ -462,7 +483,7 @@ class _CarouselSliderViewSectionState extends State<CarouselSliderViewSection> {
               .toList(),
         ),
         const SizedBox(height: MARGIN_MEDIUM_2),
-        const SectionTitleText("Avengers - Infinity War"),
+        SectionTitleText("Avengers - Infinity War ${widget.testPosition}"),
         const Text(
           "2h29m • Action, adventure, sci-fi",
           style: TextStyle(color: Colors.white70),
