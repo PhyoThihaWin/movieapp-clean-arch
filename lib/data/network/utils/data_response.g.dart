@@ -25,7 +25,7 @@ DataResponse<T> _$DataResponseFromJson<T>(
     DataResponse<T>(
       json['code'] as int?,
       json['message'] as String?,
-      _$nullableGenericFromJson(json['data'], fromJsonT),
+      _$nullableGenericFromJson(json['results'], fromJsonT),
       json['token'] as String?,
     );
 
@@ -36,7 +36,7 @@ Map<String, dynamic> _$DataResponseToJson<T>(
     <String, dynamic>{
       'code': instance.code,
       'message': instance.message,
-      'data': _$nullableGenericToJson(instance.data, toJsonT),
+      'results': _$nullableGenericToJson(instance.data, toJsonT),
       'token': instance.token,
     };
 

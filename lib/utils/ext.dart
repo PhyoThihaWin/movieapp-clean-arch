@@ -97,6 +97,11 @@ extension ListNullSafetyExtension<T> on List<T?>? {
       this?.where((element) => element != null).toList().cast() ?? [];
 }
 
+/// iterable extension
+extension IterableNullSafetyExtension<T> on Iterable<T>? {
+  List<T> get orEmpty => this?.toList() ?? [];
+}
+
 /// [Color] extension
 extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
@@ -114,4 +119,3 @@ extension HexColor on Color {
       '${green.toRadixString(16).padLeft(2, '0')}'
       '${blue.toRadixString(16).padLeft(2, '0')}';
 }
-

@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:movieapp_clean_arch/domain/entities/MovieVo.dart';
 import 'package:movieapp_clean_arch/page/home/home_controller.dart';
 import 'package:movieapp_clean_arch/page/home/movie_detail_page.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
@@ -16,8 +18,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.find();
-
-    debugPrint("Data: ${homeController.post.value}");
 
     return SafeArea(
       child: Column(
@@ -39,19 +39,14 @@ class HomePage extends StatelessWidget {
                       SizedBox(height: MARGIN_20),
                     ]),
                   ),
-                  Obx(() => CarouselSliderViewSection(
-                        bannerList: [
-                          "https://i5.walmartimages.com/asr/65e23347-2ccc-4581-9700-581e0ea9c3a8.a808f8889bfa9e368659fbefc5e5dda4.jpeg",
-                          "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
-                          "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
-                          "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
-                          "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/bohemian-rhapsody-web.jpg"
-                        ],
-                        testPosition: homeController.position.value,
-                        onMove: (position) {
-                          homeController.position.value = position;
-                        },
-                      )),
+                  Obx(() => homeController
+                          .nowPlayingMovies.value.orEmptyObject.isNotEmpty
+                      ? CarouselSliderViewSection(
+                          list: homeController.nowPlayingMovies.value!
+                              .take(8)
+                              .toList(),
+                        )
+                      : Container()),
                   const SizedBox(height: MARGIN_LARGE),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
@@ -421,6 +416,8 @@ class SectionTitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
       style: const TextStyle(
         fontSize: TEXT_HEADING,
         color: Colors.white,
@@ -430,51 +427,36 @@ class SectionTitleText extends StatelessWidget {
   }
 }
 
-class CarouselSliderViewSection extends StatefulWidget {
-  final List<String> bannerList;
-  final int testPosition;
-  final Function(int position) onMove;
+class CarouselSliderViewSection extends StatelessWidget {
+  final List<MovieVo> list;
 
-  CarouselSliderViewSection(
-      {required this.bannerList,
-      required this.testPosition,
-      required this.onMove});
-
-  @override
-  State<CarouselSliderViewSection> createState() =>
-      _CarouselSliderViewSectionState();
-}
-
-class _CarouselSliderViewSectionState extends State<CarouselSliderViewSection> {
-  var _position = 0.0;
+  const CarouselSliderViewSection({super.key, required this.list});
 
   @override
   Widget build(BuildContext context) {
+    var position = 0.0.obs;
+
     return Column(
       children: [
         CarouselSlider(
           options: CarouselOptions(
             height: MediaQuery.of(context).size.height / 2.50,
-            viewportFraction: 0.8,
+            viewportFraction: 0.7,
             initialPage: 0,
             enableInfiniteScroll: false,
             enlargeCenterPage: true,
             enlargeStrategy: CenterPageEnlargeStrategy.scale,
             enlargeFactor: 0.3,
             onPageChanged: (index, reason) {
-              // setState(() {
-              //   _position = index.toDouble();
-              // });
-
-              widget.onMove(index);
+              position.value = index.toDouble();
             },
           ),
-          items: widget.bannerList
+          items: list
               .map(
-                (banner) => ClipRRect(
+                (item) => ClipRRect(
                   borderRadius: BorderRadius.circular(MARGIN_12),
                   child: Image.network(
-                    banner,
+                    item.posterPath,
                     fit: BoxFit.cover,
                     width: double.maxFinite,
                   ),
@@ -483,32 +465,34 @@ class _CarouselSliderViewSectionState extends State<CarouselSliderViewSection> {
               .toList(),
         ),
         const SizedBox(height: MARGIN_MEDIUM_2),
-        SectionTitleText("Avengers - Infinity War ${widget.testPosition}"),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+          child:
+              Obx(() => SectionTitleText(list[position.value.toInt()].title)),
+        ),
         const Text(
           "2h29m • Action, adventure, sci-fi",
           style: TextStyle(color: Colors.white70),
         ),
         const SizedBox(height: MARGIN_MEDIUM),
-        DotsIndicatorView(position: _position)
+        Obx(() =>
+            DotsIndicatorView(dotsCount: list.length, position: position.value))
       ],
     );
   }
 }
 
 class DotsIndicatorView extends StatelessWidget {
-  const DotsIndicatorView({
-    Key? key,
-    required double position,
-  })  : _position = position,
-        super(key: key);
+  final double position;
+  final int dotsCount;
 
-  final double _position;
+  DotsIndicatorView({required this.position, required this.dotsCount});
 
   @override
   Widget build(BuildContext context) {
     return DotsIndicator(
-      dotsCount: 3,
-      position: _position,
+      dotsCount: dotsCount,
+      position: position,
       decorator: const DotsDecorator(
           color: TEXT_GREY_COLOR,
           activeColor: PRIMARY_COLOR,

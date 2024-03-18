@@ -28,7 +28,7 @@ class DataResponse<T> {
   @JsonKey(name: "message")
   final String? message;
 
-  @JsonKey(name: "data")
+  @JsonKey(name: "results")
   final T? data;
 
   @JsonKey(name: "token")

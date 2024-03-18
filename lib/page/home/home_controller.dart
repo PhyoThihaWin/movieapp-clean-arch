@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:movieapp_clean_arch/domain/entities/MovieVo.dart';
 import 'package:movieapp_clean_arch/domain/repository/home/home_repository.dart';
 
 class HomeController extends GetxController {
@@ -7,20 +8,20 @@ class HomeController extends GetxController {
 
   HomeController(this._homeRepository);
 
-  var post = Rx<String?>(null);
+  var nowPlayingMovies = Rx<List<MovieVo>?>(null);
 
   var position = 0.obs;
 
-  getPosts() async {
-    var data = await _homeRepository.getPosts();
+  getNowPlayingMovies() async {
+    var data = await _homeRepository.getNowPlayingMovies();
     debugPrint("Data: $data");
-    post.value = data;
+    nowPlayingMovies.value = data;
   }
 
   @override
   void onInit() {
     super.onInit();
-    getPosts();
+    getNowPlayingMovies();
   }
 
 }

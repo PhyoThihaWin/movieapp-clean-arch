@@ -1,10 +1,10 @@
 /// Base Url
-const String BASE_URL_DIO = "https://jsonplaceholder.typicode.com";
+const String BASE_URL_DIO = "https://api.themoviedb.org";
+const String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500/";
 
 /// End Points
-const String ENDPOINT_GET_OTP = "/api/v2/get-otp";
-const String ENDPOINT_GET_CITIES = "/api/v2/cities";
-const String ENDPOINT_GET_POSTS = "/posts";
+const String ENDPOINT_GET_NOW_PLAYING = "/3/movie/now_playing";
+const String ENDPOINT_UP_COMING = "/3/movie/upcoming";
 
 
 /// Parameters

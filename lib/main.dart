@@ -1,3 +1,4 @@
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/initial_binding.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       initialBinding: InitialBinding(),
       title: 'MovieCleanArchitecture',
       debugShowCheckedModeBanner: false,
+      navigatorObservers: [ChuckerFlutter.navigatorObserver],
       theme: ThemeData(
           primaryColor: PRIMARY_COLOR,
           primarySwatch: PRIMARY_COLOR_MATERIAL,
