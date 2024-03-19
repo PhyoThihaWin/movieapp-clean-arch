@@ -1,6 +1,6 @@
-import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:movieapp_clean_arch/data/network/dio_client.dart';
 import 'package:movieapp_clean_arch/initial_binding.dart';
 import 'package:movieapp_clean_arch/page/nav_host_page.dart';
 
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       initialBinding: InitialBinding(),
       title: 'MovieCleanArchitecture',
       debugShowCheckedModeBanner: false,
-      navigatorObservers: [ChuckerFlutter.navigatorObserver],
+      navigatorKey: DioClient.chuck.getNavigatorKey(),
       theme: ThemeData(
           primaryColor: PRIMARY_COLOR,
           primarySwatch: PRIMARY_COLOR_MATERIAL,

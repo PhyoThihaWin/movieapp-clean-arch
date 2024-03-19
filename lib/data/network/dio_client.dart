@@ -1,9 +1,12 @@
-import 'package:chucker_flutter/chucker_flutter.dart';
+import 'package:chuck_interceptor/chuck.dart';
 import 'package:dio/dio.dart';
 import 'package:movieapp_clean_arch/data/network/auth_token_interceptor.dart';
 
 class DioClient {
   static Dio? dio;
+  static Chuck chuck = Chuck(
+    showNotification: true,
+  );
 
   static Dio getDio() {
     if (dio == null) {
@@ -13,10 +16,8 @@ class DioClient {
       dio!.interceptors.addAll([
         AuthTokenInterceptor(),
         LogInterceptor(),
-        ChuckerDioInterceptor(),
+        chuck.getDioInterceptor()
       ]);
-
-      ChuckerFlutter.showNotification = true;
     }
     return dio!;
   }

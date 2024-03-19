@@ -4,13 +4,15 @@ import 'package:dart_extensions/dart_extensions.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:movieapp_clean_arch/domain/entities/MovieVo.dart';
+import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
 import 'package:movieapp_clean_arch/page/home/home_controller.dart';
 import 'package:movieapp_clean_arch/page/home/movie_detail_page.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
 
+import '../../domain/entities/actor_vo.dart';
 import '../../resource/colors.dart';
+import '../../widget/my_cached_network_image.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -53,63 +55,65 @@ class HomePage extends StatelessWidget {
                     child: SectionTitleAndSeeAll("Coming soon"),
                   ),
                   const SizedBox(height: MARGIN_MEDIUM_2),
-                  HorizontalListView<int>(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                    itemCount: 10,
-                    itemBuilder: (context, index) =>
-                        const HomeMovieListItemView(),
-                  ),
+                  Obx(() => homeController
+                          .upcomingMovies.value.orEmptyObject.isNotEmpty
+                      ? HorizontalListView<int>(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: MARGIN_MEDIUM_2),
+                          itemCount:
+                              homeController.upcomingMovies.value!.length,
+                          itemBuilder: (context, index) =>
+                              HomeMovieListItemView(
+                                  homeController.upcomingMovies.value![index]),
+                        )
+                      : Container()),
                   const SizedBox(height: MARGIN_LARGE),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
                     child: SectionTitleAndSeeAll("Promo & Discount"),
                   ),
                   const SizedBox(height: MARGIN_MEDIUM_2),
-                  SizedBox(
-                    height: 180,
-                    child: PageView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 10,
-                      itemBuilder: (context, index) => Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: MARGIN_MEDIUM_2),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  Obx(() => homeController
+                          .popularMovies.value.orEmptyObject.isNotEmpty
+                      ? SizedBox(
+                          height: 180,
+                          child: PromoPageViewSection(
+                              homeController.popularMovies.value!),
+                        )
+                      : Container()),
                   const SizedBox(height: MARGIN_LARGE),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                    child: SectionTitleAndSeeAll("Service"),
+                    child: SectionTitleAndSeeAll("Celebrities"),
                   ),
                   const SizedBox(height: MARGIN_MEDIUM_2),
-                  HorizontalListView<int>(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                    itemCount: 10,
-                    itemBuilder: (context, index) =>
-                        const ServiceListItemView(),
-                  ),
+                  Obx(() => homeController
+                          .popularPerson.value.orEmptyObject.isNotEmpty
+                      ? HorizontalListView<int>(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: MARGIN_MEDIUM_2),
+                          itemCount: homeController.popularPerson.value!.length,
+                          itemBuilder: (context, index) => ServiceListItemView(
+                              homeController.popularPerson.value![index]),
+                        )
+                      : Container()),
                   const SizedBox(height: MARGIN_LARGE),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
                     child: SectionTitleAndSeeAll("Movie news"),
                   ),
                   const SizedBox(height: MARGIN_MEDIUM_2),
-                  HorizontalListView<int>(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                    itemCount: 10,
-                    itemBuilder: (context, index) => const MoviesNewsItemView(),
-                  ),
+                  Obx(() => homeController
+                          .nowPlayingMovies.value.orEmptyObject.isNotEmpty
+                      ? HorizontalListView<int>(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: MARGIN_MEDIUM_2),
+                          itemCount:
+                              homeController.nowPlayingMovies.value!.length,
+                          itemBuilder: (context, index) => MoviesNewsItemView(
+                              homeController.nowPlayingMovies.value![index]),
+                        )
+                      : Container()),
                   const SizedBox(height: MARGIN_LARGE),
                 ],
               ),
@@ -121,10 +125,31 @@ class HomePage extends StatelessWidget {
   }
 }
 
+class PromoPageViewSection extends StatelessWidget {
+  final List<MovieVo> movies;
+
+  PromoPageViewSection(this.movies);
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: movies.length,
+      itemBuilder: (context, index) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
+          child: MyCachedNetworkImage(imageUrl: movies[index].backdropPath),
+        ),
+      ),
+    );
+  }
+}
+
 class MoviesNewsItemView extends StatelessWidget {
-  const MoviesNewsItemView({
-    super.key,
-  });
+  final MovieVo movieVo;
+
+  MoviesNewsItemView(this.movieVo);
 
   @override
   Widget build(BuildContext context) {
@@ -135,17 +160,15 @@ class MoviesNewsItemView extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
-            child: CachedNetworkImage(
-              imageUrl:
-                  "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
-              fit: BoxFit.cover,
+            child: MyCachedNetworkImage(
+              imageUrl: movieVo.backdropPath,
               width: double.maxFinite,
-              height: 180,
+              height: 150,
             ),
           ),
           const SizedBox(height: MARGIN_MEDIUM_2),
-          const Text(
-            "When The Batman 2 Starts Filming Reportedly Revealed",
+          Text(
+            movieVo.title,
             style: TextStyle(
                 color: Colors.white,
                 fontSize: TEXT_REGULAR_2,
@@ -158,9 +181,9 @@ class MoviesNewsItemView extends StatelessWidget {
 }
 
 class ServiceListItemView extends StatelessWidget {
-  const ServiceListItemView({
-    super.key,
-  });
+  final ActorVo actor;
+
+  ServiceListItemView(this.actor);
 
   @override
   Widget build(BuildContext context) {
@@ -171,19 +194,18 @@ class ServiceListItemView extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(40),
-            child: CachedNetworkImage(
-              imageUrl:
-                  "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
-              fit: BoxFit.cover,
+            child: MyCachedNetworkImage(
+              imageUrl: actor.profilePath,
               width: 80,
               height: 80,
             ),
           ),
           const SizedBox(height: MARGIN_MEDIUM_2),
-          const Text(
-            "Avatar",
+          Text(
+            actor.name,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
             style: TextStyle(
                 color: Colors.white,
                 fontSize: TEXT_REGULAR_2,
@@ -213,6 +235,7 @@ class HorizontalListView<T> extends StatelessWidget {
       padding: padding,
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: Iterable<int>.generate(itemCount)
             .map((index) => itemBuilder(context, index))
             .toList(),
@@ -222,9 +245,9 @@ class HorizontalListView<T> extends StatelessWidget {
 }
 
 class HomeMovieListItemView extends StatelessWidget {
-  const HomeMovieListItemView({
-    super.key,
-  });
+  final MovieVo movie;
+
+  HomeMovieListItemView(this.movie);
 
   @override
   Widget build(BuildContext context) {
@@ -236,21 +259,21 @@ class HomeMovieListItemView extends StatelessWidget {
         width: 200,
         padding: const EdgeInsets.only(right: MARGIN_MEDIUM_2),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
               child: CachedNetworkImage(
-                imageUrl:
-                    "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
+                imageUrl: movie.posterPath,
                 fit: BoxFit.cover,
                 width: 200,
                 height: 230,
               ),
             ),
             const SizedBox(height: MARGIN_MEDIUM_2),
-            const Text(
-              "Avatar 2: The Way Of Water",
-              style: TextStyle(
+            Text(
+              movie.title,
+              style: const TextStyle(
                   color: PRIMARY_COLOR,
                   fontSize: TEXT_REGULAR_2,
                   fontWeight: FontWeight.w500),
@@ -271,17 +294,18 @@ class HomeMovieListItemView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: MARGIN_SMALL),
-            const Row(
+            Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.calendar_month_outlined,
                   color: Colors.white,
                   size: MARGIN_MEDIUM_2,
                 ),
-                SizedBox(width: MARGIN_MEDIUM),
+                const SizedBox(width: MARGIN_MEDIUM),
                 Text(
-                  "20.12.2022",
-                  style: TextStyle(color: Colors.white, fontSize: TEXT_SMALL),
+                  movie.releaseDate,
+                  style: const TextStyle(
+                      color: Colors.white, fontSize: TEXT_SMALL),
                 ),
               ],
             )
@@ -455,9 +479,8 @@ class CarouselSliderViewSection extends StatelessWidget {
               .map(
                 (item) => ClipRRect(
                   borderRadius: BorderRadius.circular(MARGIN_12),
-                  child: Image.network(
-                    item.posterPath,
-                    fit: BoxFit.cover,
+                  child: MyCachedNetworkImage(
+                    imageUrl: item.posterPath,
                     width: double.maxFinite,
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:movieapp_clean_arch/data/network/home/response/movie_response.dart';
+import 'package:movieapp_clean_arch/data/network/home/response/popular_person_response.dart';
 import 'package:movieapp_clean_arch/data/network/utils/data_response.dart';
 import 'package:retrofit/http.dart';
 
@@ -16,4 +17,10 @@ abstract class HomeService {
 
   @GET(ENDPOINT_UP_COMING)
   Future<DataResponse<List<MovieResponse>>> getUpComingMovies();
+
+  @GET(ENDPOINT_POPULAR_MOVIES)
+  Future<DataResponse<List<MovieResponse>>> getPopularMovies();
+
+  @GET(ENDPOINT_POPULAR_PERSON)
+  Future<DataResponse<List<PopularPersonResponse>>> getPopularPerson();
 }

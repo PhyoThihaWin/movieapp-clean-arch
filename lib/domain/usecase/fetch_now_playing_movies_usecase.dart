@@ -2,12 +2,12 @@ import '../../base/usecases/no_param_usecase.dart';
 import '../repository/home/home_repository.dart';
 
 class FetchNowPlayingMoviesUseCase extends NoParamUseCase {
-  final HomeRepository _repo;
+  final HomeRepository repo;
 
-  FetchNowPlayingMoviesUseCase(this._repo);
+  FetchNowPlayingMoviesUseCase(this.repo);
 
   @override
   Future execute() {
-    return Future(() => _repo.getNowPlayingMovies());
+    return Future(() => repo.getNowPlayingMovies());
   }
 }
