@@ -1,6 +1,6 @@
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:movieapp_clean_arch/base/mapper/unidirection_mapper.dart';
-import 'package:movieapp_clean_arch/data/network/api_constants.dart';
+import 'package:movieapp_clean_arch/data/network/apiclient/api_constants.dart';
 import 'package:movieapp_clean_arch/data/network/home/response/movie_response.dart';
 import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';

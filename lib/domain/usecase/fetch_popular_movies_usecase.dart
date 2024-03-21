@@ -2,13 +2,13 @@ import 'package:movieapp_clean_arch/base/usecases/no_param_usecase.dart';
 
 import '../repository/home/home_repository.dart';
 
-class FetchPopularMovies extends NoParamUseCase {
+class FetchPopularMoviesUseCase extends NoParamUseCase {
   final HomeRepository repo;
 
-  FetchPopularMovies(this.repo);
+  FetchPopularMoviesUseCase(this.repo);
 
   @override
   Future execute() {
-    return repo.getPopularMovies();
+    return repo.getDbPopularMovies().first;
   }
 }

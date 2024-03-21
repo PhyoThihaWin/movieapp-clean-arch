@@ -4,7 +4,7 @@ import 'package:movieapp_clean_arch/data/network/home/response/popular_person_re
 import 'package:movieapp_clean_arch/domain/entities/actor_vo.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
 
-import '../../api_constants.dart';
+import '../../apiclient/api_constants.dart';
 
 class PopularPersonMapper
     extends UnidirectionalMap<PopularPersonResponse?, ActorVo> {

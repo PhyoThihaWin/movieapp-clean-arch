@@ -1,6 +1,6 @@
 import 'package:chuck_interceptor/chuck.dart';
 import 'package:dio/dio.dart';
-import 'package:movieapp_clean_arch/data/network/auth_token_interceptor.dart';
+import 'package:movieapp_clean_arch/data/network/apiclient/auth_token_interceptor.dart';
 
 class DioClient {
   static Dio? dio;

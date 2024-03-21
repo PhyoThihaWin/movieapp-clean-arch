@@ -4,11 +4,19 @@ import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/entities/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
 import 'package:movieapp_clean_arch/domain/repository/home/home_repository.dart';
+import 'package:movieapp_clean_arch/domain/usecase/fetch_now_playing_movies_usecase.dart';
+import 'package:movieapp_clean_arch/domain/usecase/fetch_popular_movies_usecase.dart';
+import 'package:movieapp_clean_arch/domain/usecase/fetch_popular_person_usecase.dart';
+import 'package:movieapp_clean_arch/domain/usecase/fetch_up_coming_movies_usecase.dart';
 
 class HomeController extends GetxController {
-  final HomeRepository _homeRepository;
+  final FetchNowPlayingMoviesUseCase nowPlayingMoviesUseCase;
+  final FetchPopularMoviesUseCase popularMoviesUseCase;
+  final FetchPopularPersonUseCase popularPersonUseCase;
+  final FetchUpComingMoviesUseCase upComingMoviesUseCase;
 
-  HomeController(this._homeRepository);
+  HomeController(this.nowPlayingMoviesUseCase, this.popularMoviesUseCase,
+      this.popularPersonUseCase, this.upComingMoviesUseCase);
 
   var nowPlayingMovies = Rx<ViewState<List<MovieVo>>>(ViewState.idle());
   var upcomingMovies = Rx<ViewState<List<MovieVo>>>(ViewState.idle());
@@ -18,25 +26,26 @@ class HomeController extends GetxController {
   var position = 0.obs;
 
   getNowPlayingMovies() async {
-    var data = await _homeRepository.getNowPlayingMovies();
-    debugPrint("Data: $data");
+    nowPlayingMovies.value = ViewState.loading();
+    var data = await nowPlayingMoviesUseCase.execute();
     nowPlayingMovies.value = ViewState.success(data);
   }
 
   getUpComingMovies() async {
-    var data = await _homeRepository.getUpComingMovies();
+    upcomingMovies.value = ViewState.loading();
+    var data = await upComingMoviesUseCase.execute();
     upcomingMovies.value = ViewState.success(data);
   }
 
   getPopularMovies() async {
-    var data = await _homeRepository.getPopularMovies();
+    popularMovies.value = ViewState.loading();
+    var data = await popularMoviesUseCase.execute();
     popularMovies.value = ViewState.success(data);
   }
 
   getPopularPerson() async {
     popularPerson.value = ViewState.loading();
-
-    var data = await _homeRepository.getPopularPerson();
+    var data = await popularPersonUseCase.execute();
     popularPerson.value = ViewState.success(data);
   }
 
@@ -48,4 +57,5 @@ class HomeController extends GetxController {
     getPopularMovies();
     getPopularPerson();
   }
+
 }

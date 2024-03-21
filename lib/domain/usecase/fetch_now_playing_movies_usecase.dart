@@ -8,6 +8,6 @@ class FetchNowPlayingMoviesUseCase extends NoParamUseCase {
 
   @override
   Future execute() {
-    return Future(() => repo.getNowPlayingMovies());
+    return repo.getDbNowPlayingMovies().first;
   }
 }

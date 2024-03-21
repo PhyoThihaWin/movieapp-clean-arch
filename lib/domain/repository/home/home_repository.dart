@@ -2,11 +2,17 @@ import 'package:movieapp_clean_arch/domain/entities/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
 
 abstract class HomeRepository {
-  Future<List<MovieVo>> getNowPlayingMovies();
+  getNowPlayingMovies();
 
-  Future<List<MovieVo>> getUpComingMovies();
+  getUpComingMovies();
 
-  Future<List<MovieVo>> getPopularMovies();
+  getPopularMovies();
 
   Future<List<ActorVo>> getPopularPerson();
+
+  Stream<List<MovieVo>> getDbNowPlayingMovies();
+
+  Stream<List<MovieVo>> getDbUpComingMovies();
+
+  Stream<List<MovieVo>> getDbPopularMovies();
 }

@@ -4,7 +4,7 @@ import 'package:movieapp_clean_arch/data/network/home/response/popular_person_re
 import 'package:movieapp_clean_arch/data/network/utils/data_response.dart';
 import 'package:retrofit/http.dart';
 
-import '../api_constants.dart';
+import '../apiclient/api_constants.dart';
 
 part 'home_service.g.dart';
 

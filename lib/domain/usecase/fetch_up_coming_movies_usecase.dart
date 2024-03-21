@@ -9,6 +9,6 @@ class FetchUpComingMoviesUseCase extends NoParamUseCase {
 
   @override
   Future execute() {
-    return repo.getUpComingMovies();
+    return repo.getDbUpComingMovies().first;
   }
 }
