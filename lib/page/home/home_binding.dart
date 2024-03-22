@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/data/cache/home/daos/movie_dao_impl.dart';
-import 'package:movieapp_clean_arch/data/cache/home/mapper/movie_entity_mapper.dart';
+import 'package:movieapp_clean_arch/data/cache/home/mapper/actor_entity_mapper.dart';
+import 'package:movieapp_clean_arch/data/cache/home/mapper/actor_vo_mapper.dart';
 import 'package:movieapp_clean_arch/data/cache/home/mapper/movie_vo_mapper.dart';
+import 'package:movieapp_clean_arch/data/cache/home/mapper/movie_entity_mapper.dart';
 import 'package:movieapp_clean_arch/data/network/home/home_service.dart';
 import 'package:movieapp_clean_arch/data/network/home/mapper/now_playing_movies_mapper.dart';
 import 'package:movieapp_clean_arch/data/network/home/mapper/popular_person_mapper.dart';
@@ -19,20 +21,26 @@ class HomeBinding extends Bindings {
   void dependencies() {
     var movieMapper = NowPlayingMoviesMapper();
     var personMapper = PopularPersonMapper();
-    var movieEntityMapper = MovieEntityMapper();
-    var movieVoMapper = MovieVoMapper();
+    var movieEntityMapper = MovieVoMapper();
+    var movieVoMapper = MovieEntityMapper();
+    var actorEntityMapper = ActorEntityMapper();
+    var actorVoMapper = ActorVoMapper();
 
-    Get.lazyPut<HomeRepository>(() => HomeRepositoryImpl(Get.find(), Get.find(),
-        movieMapper, personMapper, movieEntityMapper, movieVoMapper));
+    Get.lazyPut<HomeRepository>(() => HomeRepositoryImpl(
+        Get.find(),
+        Get.find(),
+        Get.find(),
+        movieMapper,
+        personMapper,
+        movieEntityMapper,
+        movieVoMapper,
+        actorEntityMapper,
+        actorVoMapper));
 
-    Get.lazyPut(
-        () => FetchNowPlayingMoviesUseCase(Get.find()));
-    Get.lazyPut(
-        () => FetchPopularMoviesUseCase(Get.find()));
-    Get.lazyPut(
-        () => FetchUpComingMoviesUseCase(Get.find()));
-    Get.lazyPut(
-        () => FetchPopularPersonUseCase(Get.find()));
+    Get.lazyPut(() => FetchNowPlayingMoviesUseCase(Get.find()));
+    Get.lazyPut(() => FetchPopularMoviesUseCase(Get.find()));
+    Get.lazyPut(() => FetchUpComingMoviesUseCase(Get.find()));
+    Get.lazyPut(() => FetchPopularPersonUseCase(Get.find()));
 
     Get.put(HomeController(Get.find(), Get.find(), Get.find(), Get.find()));
   }

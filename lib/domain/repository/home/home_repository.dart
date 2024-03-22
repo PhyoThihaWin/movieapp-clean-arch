@@ -8,11 +8,13 @@ abstract class HomeRepository {
 
   getPopularMovies();
 
-  Future<List<ActorVo>> getPopularPerson();
+  getPopularPerson();
 
   Stream<List<MovieVo>> getDbNowPlayingMovies();
 
   Stream<List<MovieVo>> getDbUpComingMovies();
 
   Stream<List<MovieVo>> getDbPopularMovies();
+
+  Stream<List<ActorVo>> getDbPopularPerson();
 }

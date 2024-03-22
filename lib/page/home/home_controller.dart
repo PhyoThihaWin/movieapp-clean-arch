@@ -25,28 +25,40 @@ class HomeController extends GetxController {
 
   var position = 0.obs;
 
-  getNowPlayingMovies() async {
+  getNowPlayingMovies() {
     nowPlayingMovies.value = ViewState.loading();
-    var data = await nowPlayingMoviesUseCase.execute();
-    nowPlayingMovies.value = ViewState.success(data);
+    nowPlayingMoviesUseCase.execute().listen((event) {
+      if (event.isNotEmpty) {
+        nowPlayingMovies.value = ViewState.success(event);
+      }
+    });
   }
+
+  // getUpComingMovies() async {
+  //   upcomingMovies.value = ViewState.loading();
+  //   var data = await upComingMoviesUseCase.execute();
+  //   upcomingMovies.value = ViewState.success(data);
+  // }
 
   getUpComingMovies() async {
     upcomingMovies.value = ViewState.loading();
-    var data = await upComingMoviesUseCase.execute();
-    upcomingMovies.value = ViewState.success(data);
+    upComingMoviesUseCase.execute().listen((event) {
+      upcomingMovies.value = ViewState.success(event);
+    });
   }
 
   getPopularMovies() async {
     popularMovies.value = ViewState.loading();
-    var data = await popularMoviesUseCase.execute();
-    popularMovies.value = ViewState.success(data);
+    popularMoviesUseCase.execute().listen((event) {
+      popularMovies.value = ViewState.success(event);
+    });
   }
 
   getPopularPerson() async {
     popularPerson.value = ViewState.loading();
-    var data = await popularPersonUseCase.execute();
-    popularPerson.value = ViewState.success(data);
+    popularPersonUseCase.execute().listen((event) {
+      popularPerson.value = ViewState.success(event);
+    });
   }
 
   @override
@@ -57,5 +69,4 @@ class HomeController extends GetxController {
     getPopularMovies();
     getPopularPerson();
   }
-
 }

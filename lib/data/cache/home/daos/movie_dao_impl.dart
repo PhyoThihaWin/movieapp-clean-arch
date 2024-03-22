@@ -1,13 +1,18 @@
 import 'package:hive/hive.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/hive_constants.dart';
 import 'package:movieapp_clean_arch/data/cache/home/daos/movie_dao.dart';
-import 'package:movieapp_clean_arch/data/cache/home/entities/movie_entity.dart';
+import 'package:movieapp_clean_arch/data/cache/hive/entities/movie_entity.dart';
 
 class MovieDaoImpl extends MovieDao {
   var movieBox = Hive.box<MovieEntity>(BOX_NAME_MOVIE);
 
   List<MovieEntity> getAllMovies() {
     return movieBox.values.toList();
+  }
+
+  @override
+  Stream<void> getAllMoviesEventStream() {
+    return movieBox.watch();
   }
 
   @override
@@ -20,20 +25,17 @@ class MovieDaoImpl extends MovieDao {
   }
 
   @override
-  Stream<List<MovieEntity>> getNowPlayingMovies() {
-    return Stream.value(
-        getAllMovies().where((element) => element.isNowPlaying).toList());
+  List<MovieEntity> getNowPlayingMovies() {
+    return getAllMovies().where((element) => element.isNowPlaying).toList();
   }
 
   @override
-  Stream<List<MovieEntity>> getPopularMovies() {
-    return Stream.value(
-        getAllMovies().where((element) => element.isPopular).toList());
+  List<MovieEntity> getPopularMovies() {
+    return getAllMovies().where((element) => element.isPopular).toList();
   }
 
   @override
-  Stream<List<MovieEntity>> getUpComingMovies() {
-    return Stream.value(
-        getAllMovies().where((element) => element.isComingSoon).toList());
+  List<MovieEntity> getUpComingMovies() {
+    return getAllMovies().where((element) => element.isComingSoon).toList();
   }
 }

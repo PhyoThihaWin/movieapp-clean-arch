@@ -1,14 +1,16 @@
 import 'package:movieapp_clean_arch/base/usecases/no_param_usecase.dart';
+import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
 
+import '../../base/usecases/no_param_stream_usecase.dart';
 import '../repository/home/home_repository.dart';
 
-class FetchUpComingMoviesUseCase extends NoParamUseCase {
+class FetchUpComingMoviesUseCase extends NoParamStreamUseCase<List<MovieVo>> {
   final HomeRepository repo;
 
   FetchUpComingMoviesUseCase(this.repo);
 
   @override
-  Future execute() {
-    return repo.getDbUpComingMovies().first;
+  Stream<List<MovieVo>> execute() {
+    return repo.getDbUpComingMovies();
   }
 }

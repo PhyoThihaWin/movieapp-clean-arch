@@ -1,11 +1,11 @@
 import 'package:movieapp_clean_arch/base/mapper/unidirection_mapper.dart';
-import 'package:movieapp_clean_arch/data/cache/home/entities/movie_entity.dart';
+import 'package:movieapp_clean_arch/data/cache/hive/entities/movie_entity.dart';
 import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
 
-class MovieVoMapper extends UnidirectionalMap<MovieVo, MovieEntity> {
+class MovieVoMapper extends UnidirectionalMap<MovieEntity, MovieVo> {
   @override
-  MovieEntity map(MovieVo item) {
-    return MovieEntity(
+  MovieVo map(MovieEntity item) {
+    return MovieVo(
       item.id,
       item.title,
       item.overview,

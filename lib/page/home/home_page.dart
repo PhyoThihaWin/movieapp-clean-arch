@@ -1,6 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dart_extensions/dart_extensions.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +8,7 @@ import 'package:movieapp_clean_arch/page/home/home_controller.dart';
 import 'package:movieapp_clean_arch/page/home/movie_detail_page.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../domain/entities/actor_vo.dart';
 import '../../resource/colors.dart';
@@ -22,6 +21,15 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final HomeController homeController = Get.find();
 
+    RefreshController refreshController =
+        RefreshController(initialRefresh: false);
+
+    void onRefresh() async {
+      homeController.onInit();
+      await Future.delayed(const Duration(milliseconds: 1000));
+      refreshController.refreshToIdle();
+    }
+
     return SafeArea(
       child: Column(
         children: [
@@ -31,89 +39,99 @@ class HomePage extends StatelessWidget {
             child: WelcomeAndNotificationIconSection(),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                    child: Column(children: [
-                      HomeSearchViewSection(),
-                      SectionTitleAndSeeAll("Now Playing"),
-                      SizedBox(height: MARGIN_20),
-                    ]),
-                  ),
-                  Obx(() => homeController.nowPlayingMovies.value.render(
-                        loading: const CircularProgressIndicator(),
-                        success: (data) => CarouselSliderViewSection(
-                          list: data.take(8).toList(),
-                        ),
-                        error: (message) => Container(),
-                      )),
-                  const SizedBox(height: MARGIN_LARGE),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                    child: SectionTitleAndSeeAll("Coming soon"),
-                  ),
-                  const SizedBox(height: MARGIN_MEDIUM_2),
-                  Obx(() => homeController.upcomingMovies.value.render(
-                      loading: const CircularProgressIndicator(),
-                      success: (data) => HorizontalListView<int>(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: MARGIN_MEDIUM_2),
-                            itemCount: data.length,
-                            itemBuilder: (context, index) =>
-                                HomeMovieListItemView(data[index]),
+            child: SmartRefresher(
+              controller: refreshController,
+              header: const WaterDropHeader(),
+              onRefresh: onRefresh,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                      child: Column(children: [
+                        HomeSearchViewSection(),
+                        SectionTitleAndSeeAll("Now Playing"),
+                        SizedBox(height: MARGIN_20),
+                      ]),
+                    ),
+                    Obx(() => homeController.nowPlayingMovies.value.render(
+                          loading: const CircularProgressIndicator(),
+                          success: (data) => CarouselSliderViewSection(
+                            list: data.take(8).toList(),
                           ),
-                      error: (message) => Container())),
-                  const SizedBox(height: MARGIN_LARGE),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                    child: SectionTitleAndSeeAll("Promo & Discount"),
-                  ),
-                  const SizedBox(height: MARGIN_MEDIUM_2),
-                  Obx(() => homeController.popularMovies.value.render(
-                        loading: const CircularProgressIndicator(),
-                        success: (data) => SizedBox(
-                          height: 180,
-                          child: PromoPageViewSection(data),
-                        ),
-                        error: (message) => Container(),
-                      )),
-                  const SizedBox(height: MARGIN_LARGE),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                    child: SectionTitleAndSeeAll("Celebrities"),
-                  ),
-                  const SizedBox(height: MARGIN_MEDIUM_2),
-                  Obx(() => homeController.popularPerson.value.render(
+                          error: (message) => Container(),
+                        )),
+                    const SizedBox(height: MARGIN_LARGE),
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                      child: SectionTitleAndSeeAll("Coming soon"),
+                    ),
+                    const SizedBox(height: MARGIN_MEDIUM_2),
+                    Obx(() => homeController.upcomingMovies.value.render(
                         loading: const CircularProgressIndicator(),
                         success: (data) => HorizontalListView<int>(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: MARGIN_MEDIUM_2),
-                          itemCount: data.length,
-                          itemBuilder: (context, index) =>
-                              ServiceListItemView(data[index]),
-                        ),
-                        error: (message) => Container(),
-                      )),
-                  const SizedBox(height: MARGIN_LARGE),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                    child: SectionTitleAndSeeAll("Movie news"),
-                  ),
-                  const SizedBox(height: MARGIN_MEDIUM_2),
-                  Obx(() => homeController.nowPlayingMovies.value.render(
-                      loading: const CircularProgressIndicator(),
-                      success: (data) => HorizontalListView<int>(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: MARGIN_MEDIUM_2),
+                              itemCount: data.length,
+                              itemBuilder: (context, index) =>
+                                  HomeMovieListItemView(data[index]),
+                            ),
+                        error: (message) => Container())),
+                    const SizedBox(height: MARGIN_LARGE),
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                      child: SectionTitleAndSeeAll("Promo & Discount"),
+                    ),
+                    const SizedBox(height: MARGIN_MEDIUM_2),
+                    Obx(() => homeController.popularMovies.value.render(
+                          loading: const CircularProgressIndicator(),
+                          success: (data) => SizedBox(
+                            height: 180,
+                            child: PromoPageViewSection(data),
+                          ),
+                          error: (message) => Container(),
+                        )),
+                    const SizedBox(height: MARGIN_LARGE),
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                      child: SectionTitleAndSeeAll("Celebrities"),
+                    ),
+                    const SizedBox(height: MARGIN_MEDIUM_2),
+                    Obx(() => homeController.popularPerson.value.render(
+                          loading: const CircularProgressIndicator(),
+                          success: (data) => HorizontalListView<int>(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: MARGIN_MEDIUM_2),
                             itemCount: data.length,
                             itemBuilder: (context, index) =>
-                                MoviesNewsItemView(data[index]),
+                                ServiceListItemView(data[index]),
                           ),
-                      error: (message) => Container())),
-                  const SizedBox(height: MARGIN_LARGE),
-                ],
+                          error: (message) => Container(),
+                        )),
+                    const SizedBox(height: MARGIN_LARGE),
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                      child: SectionTitleAndSeeAll("Movie news"),
+                    ),
+                    const SizedBox(height: MARGIN_MEDIUM_2),
+                    Obx(() => homeController.nowPlayingMovies.value.render(
+                        loading: const CircularProgressIndicator(),
+                        success: (data) => HorizontalListView<int>(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: MARGIN_MEDIUM_2),
+                              itemCount: data.length,
+                              itemBuilder: (context, index) =>
+                                  MoviesNewsItemView(data[index]),
+                            ),
+                        error: (message) => Container())),
+                    const SizedBox(height: MARGIN_LARGE),
+                  ],
+                ),
               ),
             ),
           ),
@@ -261,9 +279,8 @@ class HomeMovieListItemView extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
-              child: CachedNetworkImage(
+              child: MyCachedNetworkImage(
                 imageUrl: movie.posterPath,
-                fit: BoxFit.cover,
                 width: 200,
                 height: 230,
               ),

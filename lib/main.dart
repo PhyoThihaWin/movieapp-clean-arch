@@ -4,21 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:movieapp_clean_arch/data/cache/hive/entities/actor_entity.dart';
 import 'package:movieapp_clean_arch/data/network/apiclient/dio_client.dart';
+import 'package:movieapp_clean_arch/domain/entities/actor_vo.dart';
 import 'package:movieapp_clean_arch/initial_binding.dart';
 import 'package:movieapp_clean_arch/page/nav_host_page.dart';
 
 import 'data/cache/hive/hive_constants.dart';
-import 'data/cache/home/entities/movie_entity.dart';
+import 'data/cache/hive/entities/movie_entity.dart';
 import 'resource/colors.dart';
 
 void main() async {
   await Hive.initFlutter();
 
   Hive
-    ..registerAdapter(MovieEntityAdapter());
+    ..registerAdapter(MovieEntityAdapter())
+    ..registerAdapter(ActorEntityAdapter());
 
   await Hive.openBox<MovieEntity>(BOX_NAME_MOVIE);
+  await Hive.openBox<ActorEntity>(BOX_NAME_ACTOR);
 
   runApp(const MyApp());
 }

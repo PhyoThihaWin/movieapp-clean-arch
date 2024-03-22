@@ -1,11 +1,13 @@
-import 'package:movieapp_clean_arch/data/cache/home/entities/movie_entity.dart';
+import 'package:movieapp_clean_arch/data/cache/hive/entities/movie_entity.dart';
 
 abstract class MovieDao {
   void saveAllMovie(List<MovieEntity> movieList);
 
-  Stream<List<MovieEntity>> getNowPlayingMovies();
+  Stream<void> getAllMoviesEventStream();
 
-  Stream<List<MovieEntity>> getUpComingMovies();
+  List<MovieEntity> getNowPlayingMovies();
 
-  Stream<List<MovieEntity>> getPopularMovies();
+  List<MovieEntity> getUpComingMovies();
+
+  List<MovieEntity> getPopularMovies();
 }
