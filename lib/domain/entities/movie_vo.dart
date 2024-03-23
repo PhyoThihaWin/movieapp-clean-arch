@@ -1,4 +1,5 @@
 class MovieVo {
+  final String key;
   final int id;
   final String title;
   final String overview;
@@ -8,7 +9,10 @@ class MovieVo {
   final double voteAverage;
   final List<int> genreIds;
 
-  const MovieVo(
+  bool isFavorite = false;
+
+  MovieVo(
+    this.key,
     this.id,
     this.title,
     this.overview,

@@ -15,7 +15,7 @@ class DioClient {
 
       dio!.interceptors.addAll([
         AuthTokenInterceptor(),
-        LogInterceptor(),
+        LogInterceptor(responseHeader: false),
         chuck.getDioInterceptor()
       ]);
     }

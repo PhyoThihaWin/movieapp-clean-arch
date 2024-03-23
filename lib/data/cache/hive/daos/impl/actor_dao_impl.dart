@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/entities/actor_entity.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/hive_constants.dart';
-import 'package:movieapp_clean_arch/data/cache/home/daos/actor_dao.dart';
+import 'package:movieapp_clean_arch/data/cache/hive/daos/actor_dao.dart';
 
 class ActorDaoImpl extends ActorDao {
   var actorBox = Hive.box<ActorEntity>(BOX_NAME_ACTOR);

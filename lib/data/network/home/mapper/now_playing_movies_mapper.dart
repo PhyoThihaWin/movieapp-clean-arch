@@ -4,12 +4,14 @@ import 'package:movieapp_clean_arch/data/network/apiclient/api_constants.dart';
 import 'package:movieapp_clean_arch/data/network/home/response/movie_response.dart';
 import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
+import 'package:uuid/uuid.dart';
 
 class NowPlayingMoviesMapper
     extends UnidirectionalMap<MovieResponse?, MovieVo> {
   @override
   MovieVo map(MovieResponse? item) {
     return MovieVo(
+        const Uuid().v1(),
         (item?.id).orZero,
         (item?.title).orEmpty,
         (item?.overview).orEmpty,

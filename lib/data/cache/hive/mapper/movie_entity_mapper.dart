@@ -6,6 +6,7 @@ class MovieEntityMapper extends UnidirectionalMap<MovieVo, MovieEntity> {
   @override
   MovieEntity map(MovieVo item) {
     return MovieEntity(
+      item.key,
       item.id,
       item.title,
       item.overview,

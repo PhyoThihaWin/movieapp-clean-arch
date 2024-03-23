@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
@@ -13,6 +14,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../domain/entities/actor_vo.dart';
 import '../../resource/colors.dart';
+import '../../widget/favorite_icon_view.dart';
 import '../../widget/my_cached_network_image.dart';
 
 class HomePage extends StatelessWidget {
@@ -34,7 +36,7 @@ class HomePage extends StatelessWidget {
     return SafeArea(
       child: SmartRefresher(
         controller: refreshController,
-        header: WaterDropHeader(),
+        header: const WaterDropHeader(),
         onRefresh: onRefresh,
         child: CustomScrollView(
           slivers: [
@@ -81,7 +83,12 @@ class HomePage extends StatelessWidget {
                                 horizontal: MARGIN_MEDIUM_2),
                             itemCount: data.length,
                             itemBuilder: (context, index) =>
-                                HomeMovieListItemView(data[index]),
+                                HomeMovieListItemView(
+                              movie: data[index],
+                              onFavorite: (id) {
+                                homeController.saveFavoriteMovie(id);
+                              },
+                            ),
                           ),
                       error: (message) => Container())),
                   const SizedBox(height: MARGIN_LARGE),
@@ -94,7 +101,12 @@ class HomePage extends StatelessWidget {
                         loading: const CircularProgressIndicator(),
                         success: (data) => SizedBox(
                           height: 180,
-                          child: PromoPageViewSection(data),
+                          child: PromoPageViewSection(
+                            movies: data,
+                            onFavorite: (id) {
+                              homeController.saveFavoriteMovie(id);
+                            },
+                          ),
                         ),
                         error: (message) => Container(),
                       )),
@@ -144,8 +156,9 @@ class HomePage extends StatelessWidget {
 
 class PromoPageViewSection extends StatelessWidget {
   final List<MovieVo> movies;
+  final Function(int id) onFavorite;
 
-  PromoPageViewSection(this.movies);
+  const PromoPageViewSection({required this.movies, required this.onFavorite});
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +169,24 @@ class PromoPageViewSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
-          child: MyCachedNetworkImage(imageUrl: movies[index].backdropPath),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child:
+                    MyCachedNetworkImage(imageUrl: movies[index].backdropPath),
+              ),
+              Positioned(
+                top: MARGIN_MEDIUM,
+                right: MARGIN_MEDIUM,
+                child: FavoriteIconView(
+                  isFavorite: movies[index].isFavorite,
+                  onTap: () {
+                    onFavorite(movies[index].id);
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -263,8 +293,9 @@ class HorizontalListView<T> extends StatelessWidget {
 
 class HomeMovieListItemView extends StatelessWidget {
   final MovieVo movie;
+  final Function(int id) onFavorite;
 
-  HomeMovieListItemView(this.movie);
+  const HomeMovieListItemView({required this.movie, required this.onFavorite});
 
   @override
   Widget build(BuildContext context) {
@@ -278,13 +309,26 @@ class HomeMovieListItemView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
-              child: MyCachedNetworkImage(
-                imageUrl: movie.posterPath,
-                width: 200,
-                height: 230,
-              ),
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
+                  child: MyCachedNetworkImage(
+                    imageUrl: movie.posterPath,
+                    width: 200,
+                    height: 230,
+                  ),
+                ),
+                Positioned(
+                    top: MARGIN_MEDIUM,
+                    right: MARGIN_MEDIUM,
+                    child: FavoriteIconView(
+                      isFavorite: movie.isFavorite,
+                      onTap: () {
+                        onFavorite(movie.id);
+                      },
+                    ))
+              ],
             ),
             const SizedBox(height: MARGIN_MEDIUM_2),
             Text(

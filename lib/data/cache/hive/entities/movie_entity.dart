@@ -6,38 +6,38 @@ part 'movie_entity.g.dart';
 @HiveType(typeId: HIVE_TYPE_ID_MOVIE, adapterName: "MovieEntityAdapter")
 class MovieEntity {
   @HiveField(0)
-  final int id;
+  String? key;
   @HiveField(1)
-  final String title;
+  final int id;
   @HiveField(2)
-  final String overview;
+  final String title;
   @HiveField(3)
-  final String backdropPath;
+  final String overview;
   @HiveField(4)
-  final String posterPath;
+  final String backdropPath;
   @HiveField(5)
-  final String releaseDate;
+  final String posterPath;
   @HiveField(6)
-  final double voteAverage;
+  final String releaseDate;
   @HiveField(7)
+  final double voteAverage;
+  @HiveField(8)
   final List<int> genreIds;
 
-  @HiveField(8)
+  @HiveField(9)
   bool isNowPlaying = false;
 
-  @HiveField(9)
+  @HiveField(10)
   bool isComingSoon = false;
 
-  @HiveField(10)
+  @HiveField(11)
   bool isPopular = false;
 
-  MovieEntity(
-      this.id,
-      this.title,
-      this.overview,
-      this.backdropPath,
-      this.posterPath,
-      this.releaseDate,
-      this.voteAverage,
-      this.genreIds);
+  MovieEntity(this.key, this.id, this.title, this.overview, this.backdropPath,
+      this.posterPath, this.releaseDate, this.voteAverage, this.genreIds);
+
+  @override
+  String toString() {
+    return "$title : ${key.toString()}";
+  }
 }

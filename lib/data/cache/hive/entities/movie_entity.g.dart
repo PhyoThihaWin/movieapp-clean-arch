@@ -17,45 +17,48 @@ class MovieEntityAdapter extends TypeAdapter<MovieEntity> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MovieEntity(
-      fields[0] as int,
-      fields[1] as String,
+      fields[0] as String?,
+      fields[1] as int,
       fields[2] as String,
       fields[3] as String,
       fields[4] as String,
       fields[5] as String,
-      fields[6] as double,
-      (fields[7] as List).cast<int>(),
+      fields[6] as String,
+      fields[7] as double,
+      (fields[8] as List).cast<int>(),
     )
-      ..isNowPlaying = fields[8] as bool
-      ..isComingSoon = fields[9] as bool
-      ..isPopular = fields[10] as bool;
+      ..isNowPlaying = fields[9] as bool
+      ..isComingSoon = fields[10] as bool
+      ..isPopular = fields[11] as bool;
   }
 
   @override
   void write(BinaryWriter writer, MovieEntity obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
-      ..write(obj.id)
+      ..write(obj.key)
       ..writeByte(1)
-      ..write(obj.title)
+      ..write(obj.id)
       ..writeByte(2)
-      ..write(obj.overview)
+      ..write(obj.title)
       ..writeByte(3)
-      ..write(obj.backdropPath)
+      ..write(obj.overview)
       ..writeByte(4)
-      ..write(obj.posterPath)
+      ..write(obj.backdropPath)
       ..writeByte(5)
-      ..write(obj.releaseDate)
+      ..write(obj.posterPath)
       ..writeByte(6)
-      ..write(obj.voteAverage)
+      ..write(obj.releaseDate)
       ..writeByte(7)
-      ..write(obj.genreIds)
+      ..write(obj.voteAverage)
       ..writeByte(8)
-      ..write(obj.isNowPlaying)
+      ..write(obj.genreIds)
       ..writeByte(9)
-      ..write(obj.isComingSoon)
+      ..write(obj.isNowPlaying)
       ..writeByte(10)
+      ..write(obj.isComingSoon)
+      ..writeByte(11)
       ..write(obj.isPopular);
   }
 

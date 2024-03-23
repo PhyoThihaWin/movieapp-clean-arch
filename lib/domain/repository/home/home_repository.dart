@@ -17,4 +17,6 @@ abstract class HomeRepository {
   Stream<List<MovieVo>> getDbPopularMovies();
 
   Stream<List<ActorVo>> getDbPopularPerson();
+
+  saveFavoriteMovie(int id);
 }
