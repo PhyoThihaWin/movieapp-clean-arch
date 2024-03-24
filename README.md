@@ -1,6 +1,28 @@
-# movieapp_clean_arch
+# Movie Booking App (Clean Architecture)
 
-A new Flutter project.
+Here is another movie booking app but rewritten in clean architecture with Flutter.
+
+
+## Tech stack
+- [Clean Architecture](https://medium.com/@samra.sajjad0001/flutter-clean-architecture-5de5e9b8d093)
+- [Dio](https://pub.dev/packages/dio)
+- [Retorfit](https://pub.dev/packages/retrofit)
+- [Hive](https://pub.dev/packages/hive)
+- [GetX](https://pub.dev/packages/get)
+- [Uuid](https://pub.dev/packages/uuid)
+- [Chuck](https://pub.dev/packages/chuck_interceptor)
+- [Stream Transformer](https://pub.dev/packages/stream_transform)
+
+
+## Screenshots
+
+<table>
+  <tr>
+    <td style="padding: 20px"> <img src="./docs/home_page.jpg"> </td>
+    <td style="padding: 20px"> <img src="./docs/detail_page.jpg"> </td>
+    <td style="padding: 20px"> <img src="./docs/cinema_seat_page.jpg"> </td>
+  </tr>
+</table>
 
 ## Getting Started
 
@@ -14,3 +36,4 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
