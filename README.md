@@ -24,6 +24,12 @@ Here is another movie booking app but rewritten in clean architecture with Flutt
   </tr>
 </table>
 
+
+## Resources
+- Movie api (https://developer.themoviedb.org/docs/getting-started)
+- Figma Design (https://www.figma.com/file/ND1Gcjv5qqXrTGmTJReGZU/MBooking---Movie-ticket-booking-app-(Community)?type=design&node-id=87-11&mode=design&t=PWauPjr6BK5a4etK-0)
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
