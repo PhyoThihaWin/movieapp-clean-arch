@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/entities/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
-import 'package:movieapp_clean_arch/domain/repository/home/home_repository.dart';
 import 'package:movieapp_clean_arch/domain/usecase/fetch_now_playing_movies_usecase.dart';
 import 'package:movieapp_clean_arch/domain/usecase/fetch_popular_movies_usecase.dart';
 import 'package:movieapp_clean_arch/domain/usecase/fetch_popular_person_usecase.dart';

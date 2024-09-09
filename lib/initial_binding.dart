@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/data/cache/cache_binding.dart';
-import 'package:movieapp_clean_arch/data/network/apiclient/dio_client.dart';
 import 'package:movieapp_clean_arch/data/network/network_binding.dart';
 import 'package:movieapp_clean_arch/page/home/home_binding.dart';
 

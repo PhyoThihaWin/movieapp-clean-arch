@@ -1,4 +1,3 @@
-import 'package:movieapp_clean_arch/base/usecases/no_param_usecase.dart';
 import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
 
 import '../../base/usecases/no_param_stream_usecase.dart';

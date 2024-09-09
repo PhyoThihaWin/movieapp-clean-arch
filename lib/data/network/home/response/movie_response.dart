@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
 
 part 'movie_response.g.dart';
 

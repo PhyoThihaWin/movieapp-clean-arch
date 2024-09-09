@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
-import 'package:movieapp_clean_arch/page/home/payment_page.dart';
 import 'package:movieapp_clean_arch/page/movie/movie_page.dart';
 import 'package:movieapp_clean_arch/page/profile/profile_page.dart';
 import 'package:movieapp_clean_arch/page/ticket/ticket_page.dart';
@@ -19,7 +18,6 @@ class NavHostPage extends StatefulWidget {
 
 class _NavHostPageState extends State<NavHostPage> {
   int pageIndex = 0;
-  final int _tabIndex = 0;
 
   late final List<Widget> _pageBody = [
     const HomePage(),
