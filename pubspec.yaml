@@ -38,7 +38,7 @@ dependencies:
   intl: ^0.18.1
   dart_extensions: ^2.2.0
   flutter_svg: ^2.0.9
-  carousel_slider: ^4.2.1
+  carousel_slider: ^5.0.0
   dots_indicator: ^2.1.0
   cached_network_image: ^3.3.1
   flutter_rating_bar: ^4.0.1
