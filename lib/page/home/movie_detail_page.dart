@@ -61,7 +61,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
             ),
             const SizedBox(height: MARGIN_LARGE),
             ButtonViewFullWidth(
-              margin: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+              margin: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
               btnText: "Continue",
               onClick: () {
                 context.next(const CinemaSeatPage());
@@ -447,7 +447,7 @@ class MovieDetailInfoSection extends StatelessWidget {
                   color: Colors.amber,
                 ),
                 onRatingUpdate: (rating) {
-                  print(rating);
+                  debugPrint(rating.toString());
                 },
               ),
               Container(

@@ -8,7 +8,7 @@ part of 'data_response.dart';
 
 DataEmptyResponse _$DataEmptyResponseFromJson(Map<String, dynamic> json) =>
     DataEmptyResponse(
-      json['code'] as int?,
+      (json['code'] as num?)?.toInt(),
       json['message'] as String?,
     );
 
@@ -23,7 +23,7 @@ DataResponse<T> _$DataResponseFromJson<T>(
   T Function(Object? json) fromJsonT,
 ) =>
     DataResponse<T>(
-      json['code'] as int?,
+      (json['code'] as num?)?.toInt(),
       json['message'] as String?,
       _$nullableGenericFromJson(json['results'], fromJsonT),
       json['token'] as String?,

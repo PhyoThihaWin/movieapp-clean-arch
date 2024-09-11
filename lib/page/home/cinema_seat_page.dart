@@ -99,7 +99,7 @@ class _CinemaBuyTicketSection extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     context.next(PaymentPage());
                   },
                   child: Container(

@@ -1,8 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
@@ -23,6 +21,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.find();
+    var position = 0.obs;
 
     RefreshController refreshController =
         RefreshController(initialRefresh: false);
@@ -63,14 +62,20 @@ class HomePage extends StatelessWidget {
                       SizedBox(height: MARGIN_20),
                     ]),
                   ),
+
+                  // now playing
                   Obx(() => homeController.nowPlayingMovies.value.render(
                         loading: const CircularProgressIndicator(),
                         success: (data) => CarouselSliderViewSection(
                           list: data.take(8).toList(),
+                          position: position,
+                          onPageChanged: (index) => position.value = index,
                         ),
                         error: (message) => Container(),
                       )),
                   const SizedBox(height: MARGIN_LARGE),
+
+                  // upcoming
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
                     child: SectionTitleAndSeeAll("Coming soon"),
@@ -92,6 +97,8 @@ class HomePage extends StatelessWidget {
                           ),
                       error: (message) => Container())),
                   const SizedBox(height: MARGIN_LARGE),
+
+                  // popular
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
                     child: SectionTitleAndSeeAll("Promo & Discount"),
@@ -111,6 +118,8 @@ class HomePage extends StatelessWidget {
                         error: (message) => Container(),
                       )),
                   const SizedBox(height: MARGIN_LARGE),
+
+                  // celebrities
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
                     child: SectionTitleAndSeeAll("Celebrities"),
@@ -128,6 +137,8 @@ class HomePage extends StatelessWidget {
                         error: (message) => Container(),
                       )),
                   const SizedBox(height: MARGIN_LARGE),
+
+                  // movie news
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
                     child: SectionTitleAndSeeAll("Movie news"),
@@ -158,7 +169,8 @@ class PromoPageViewSection extends StatelessWidget {
   final List<MovieVo> movies;
   final Function(int id) onFavorite;
 
-  const PromoPageViewSection({required this.movies, required this.onFavorite});
+  const PromoPageViewSection(
+      {super.key, required this.movies, required this.onFavorite});
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +208,7 @@ class PromoPageViewSection extends StatelessWidget {
 class MoviesNewsItemView extends StatelessWidget {
   final MovieVo movieVo;
 
-  MoviesNewsItemView(this.movieVo);
+  const MoviesNewsItemView(this.movieVo, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -230,7 +242,7 @@ class MoviesNewsItemView extends StatelessWidget {
 class ServiceListItemView extends StatelessWidget {
   final ActorVo actor;
 
-  ServiceListItemView(this.actor);
+  const ServiceListItemView(this.actor, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -295,7 +307,8 @@ class HomeMovieListItemView extends StatelessWidget {
   final MovieVo movie;
   final Function(int id) onFavorite;
 
-  const HomeMovieListItemView({required this.movie, required this.onFavorite});
+  const HomeMovieListItemView(
+      {super.key, required this.movie, required this.onFavorite});
 
   @override
   Widget build(BuildContext context) {
@@ -513,13 +526,17 @@ class SectionTitleText extends StatelessWidget {
 
 class CarouselSliderViewSection extends StatelessWidget {
   final List<MovieVo> list;
+  final RxInt position;
+  final Function(int position) onPageChanged;
 
-  const CarouselSliderViewSection({super.key, required this.list});
+  const CarouselSliderViewSection(
+      {super.key,
+      required this.list,
+      required this.position,
+      required this.onPageChanged});
 
   @override
   Widget build(BuildContext context) {
-    var position = 0.0.obs;
-
     return Column(
       children: [
         CarouselSlider(
@@ -532,7 +549,7 @@ class CarouselSliderViewSection extends StatelessWidget {
             enlargeStrategy: CenterPageEnlargeStrategy.scale,
             enlargeFactor: 0.3,
             onPageChanged: (index, reason) {
-              position.value = index.toDouble();
+              onPageChanged(index);
             },
           ),
           items: list
@@ -558,8 +575,8 @@ class CarouselSliderViewSection extends StatelessWidget {
           style: TextStyle(color: Colors.white70),
         ),
         const SizedBox(height: MARGIN_MEDIUM),
-        Obx(() =>
-            DotsIndicatorView(dotsCount: list.length, position: position.value))
+        Obx(() => DotsIndicatorView(
+            dotsCount: list.length, position: position.value.toDouble()))
       ],
     );
   }
@@ -569,7 +586,8 @@ class DotsIndicatorView extends StatelessWidget {
   final double position;
   final int dotsCount;
 
-  DotsIndicatorView({required this.position, required this.dotsCount});
+  const DotsIndicatorView(
+      {super.key, required this.position, required this.dotsCount});
 
   @override
   Widget build(BuildContext context) {

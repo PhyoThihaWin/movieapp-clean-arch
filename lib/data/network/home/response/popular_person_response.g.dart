@@ -10,8 +10,8 @@ PopularPersonResponse _$PopularPersonResponseFromJson(
         Map<String, dynamic> json) =>
     PopularPersonResponse(
       adult: json['adult'] as bool?,
-      gender: json['gender'] as int?,
-      id: json['id'] as int?,
+      gender: (json['gender'] as num?)?.toInt(),
+      id: (json['id'] as num?)?.toInt(),
       knownForDepartment: json['known_for_department'] as String?,
       name: json['name'] as String?,
       originalName: json['original_name'] as String?,
@@ -39,19 +39,20 @@ Map<String, dynamic> _$PopularPersonResponseToJson(
 KnownFor _$KnownForFromJson(Map<String, dynamic> json) => KnownFor(
       adult: json['adult'] as bool?,
       backdropPath: json['backdrop_path'] as String?,
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
       originalLanguage: json['original_language'] as String?,
       originalName: json['original_name'] as String?,
       overview: json['overview'] as String?,
       posterPath: json['poster_path'] as String?,
       mediaType: json['media_type'] as String?,
-      genreIds:
-          (json['genre_ids'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      genreIds: (json['genre_ids'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
       popularity: (json['popularity'] as num?)?.toDouble(),
       firstAirDate: json['first_air_date'] as String?,
       voteAverage: (json['vote_average'] as num?)?.toDouble(),
-      voteCount: json['vote_count'] as int?,
+      voteCount: (json['vote_count'] as num?)?.toInt(),
       originCountry: (json['origin_country'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),

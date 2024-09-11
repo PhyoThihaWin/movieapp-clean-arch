@@ -4,7 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/entities/actor_entity.dart';
 import 'package:movieapp_clean_arch/data/network/apiclient/dio_client.dart';
 import 'package:movieapp_clean_arch/initial_binding.dart';
-import 'package:movieapp_clean_arch/page/nav_host_page.dart';
+import 'package:movieapp_clean_arch/page/nav_host/nav_host_page.dart';
 
 import 'data/cache/hive/entities/movie_favorite_entity.dart';
 import 'data/cache/hive/hive_constants.dart';
@@ -31,6 +31,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const cacheSize200Mb = 1000 * 1024 * 1024;
+    PaintingBinding.instance.imageCache.maximumSizeBytes = cacheSize200Mb;
+
     return GetMaterialApp(
       initialRoute: "/",
       initialBinding: InitialBinding(),
