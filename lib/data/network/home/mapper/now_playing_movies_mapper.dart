@@ -19,6 +19,7 @@ class NowPlayingMoviesMapper
         IMAGE_BASE_URL + (item?.posterPath).orEmpty,
         (item?.releaseDate).orEmpty,
         (item?.voteAverage).orZero,
-        (item?.genreIds).orEmptyObject);
+        (item?.genreIds).orEmptyObject,
+        false);
   }
 }

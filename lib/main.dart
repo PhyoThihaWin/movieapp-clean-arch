@@ -6,7 +6,6 @@ import 'package:movieapp_clean_arch/data/network/apiclient/dio_client.dart';
 import 'package:movieapp_clean_arch/initial_binding.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_page.dart';
 
-import 'data/cache/hive/entities/movie_favorite_entity.dart';
 import 'data/cache/hive/hive_constants.dart';
 import 'data/cache/hive/entities/movie_entity.dart';
 import 'resource/colors.dart';
@@ -16,11 +15,9 @@ void main() async {
 
   Hive
     ..registerAdapter(MovieEntityAdapter())
-    ..registerAdapter(MovieFavoriteEntityAdapter())
     ..registerAdapter(ActorEntityAdapter());
 
   await Hive.openBox<MovieEntity>(BOX_NAME_MOVIE);
-  await Hive.openBox<MovieFavoriteEntity>(BOX_NAME_MOVIE_FAVORITE);
   await Hive.openBox<ActorEntity>(BOX_NAME_ACTOR);
 
   runApp(const MyApp());

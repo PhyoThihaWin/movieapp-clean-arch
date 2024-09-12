@@ -29,13 +29,14 @@ class MovieEntityAdapter extends TypeAdapter<MovieEntity> {
     )
       ..isNowPlaying = fields[9] as bool
       ..isComingSoon = fields[10] as bool
-      ..isPopular = fields[11] as bool;
+      ..isPopular = fields[11] as bool
+      ..isFavorite = fields[12] as bool;
   }
 
   @override
   void write(BinaryWriter writer, MovieEntity obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.key)
       ..writeByte(1)
@@ -59,7 +60,9 @@ class MovieEntityAdapter extends TypeAdapter<MovieEntity> {
       ..writeByte(10)
       ..write(obj.isComingSoon)
       ..writeByte(11)
-      ..write(obj.isPopular);
+      ..write(obj.isPopular)
+      ..writeByte(12)
+      ..write(obj.isFavorite);
   }
 
   @override

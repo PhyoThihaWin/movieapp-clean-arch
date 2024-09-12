@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/daos/actor_dao.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/daos/movie_dao.dart';
-import 'package:movieapp_clean_arch/data/cache/hive/daos/movie_favorite_dao.dart';
 import 'package:movieapp_clean_arch/domain/entities/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
 import 'package:movieapp_clean_arch/domain/repository/home/home_repository.dart';
@@ -19,7 +18,6 @@ import '../network/home/mapper/popular_person_mapper.dart';
 class HomeRepositoryImpl extends HomeRepository {
   final HomeService homeService;
   final MovieDao movieDao;
-  final MovieFavoriteDao movieFavoriteDao;
   final ActorDao actorDao;
 
   final NowPlayingMoviesMapper movieMapper;
@@ -34,7 +32,6 @@ class HomeRepositoryImpl extends HomeRepository {
   HomeRepositoryImpl(
       this.homeService,
       this.movieDao,
-      this.movieFavoriteDao,
       this.actorDao,
       this.movieMapper,
       this.personMapper,
@@ -111,20 +108,10 @@ class HomeRepositoryImpl extends HomeRepository {
     getNowPlayingMovies();
     return movieDao.getNowPlayingMovies().asyncMap((event) async {
       var movies = await Future.wait(event.map((e) async {
-        var tmp = movieVoMapper.map(e);
-        tmp.isFavorite = await movieFavoriteDao.isFavoriteMovie(tmp.id);
-        debugPrint("isFavorite: ${tmp.isFavorite}");
-        return tmp;
+        return movieVoMapper.map(e);
       }));
       return movies.toList();
     });
-
-    // return movieDao.getNowPlayingMovies().map((event) => event.map((e) {
-    //       var tmp = movieVoMapper.map(e);
-    //       tmp.isFavorite = movieFavoriteDao.isFavoriteMovie(tmp.id);
-    //       debugPrint("isFavorite: ${tmp.isFavorite}");
-    //       return tmp;
-    //     }).toList());
   }
 
   @override
@@ -132,20 +119,10 @@ class HomeRepositoryImpl extends HomeRepository {
     getPopularMovies();
     return movieDao.getPopularMovies().asyncMap((event) async {
       var movies = await Future.wait(event.map((e) async {
-        var tmp = movieVoMapper.map(e);
-        tmp.isFavorite = await movieFavoriteDao.isFavoriteMovie(tmp.id);
-        debugPrint("isFavorite: ${tmp.isFavorite}");
-        return tmp;
+        return movieVoMapper.map(e);
       }));
       return movies.toList();
     });
-
-    // return movieDao.getPopularMovies().map((event) => event.map((e) {
-    //   var tmp = movieVoMapper.map(e);
-    //   // tmp.isFavorite = movieFavoriteDao.isFavoriteMovie(tmp.id);
-    //   // debugPrint("isFavorite: ${tmp.isFavorite}");
-    //   return tmp;
-    // }).toList());
   }
 
   @override
@@ -153,20 +130,11 @@ class HomeRepositoryImpl extends HomeRepository {
     getUpComingMovies();
     return movieDao.getUpComingMovies().asyncMap((event) async {
       var movies = await Future.wait(event.map((e) async {
-        var tmp = movieVoMapper.map(e);
-        tmp.isFavorite = await movieFavoriteDao.isFavoriteMovie(tmp.id);
-        debugPrint("isFavorite: ${tmp.isFavorite}");
-        return tmp;
+        return movieVoMapper.map(e);
       }));
+      debugPrint("Data: ${movies.map((item) => item.isFavorite).join(", ")}");
       return movies.toList();
     });
-
-    // return movieDao.getUpComingMovies().map((event) => event.map((e) {
-    //       var tmp = movieVoMapper.map(e);
-    //       tmp.isFavorite = movieFavoriteDao.isFavoriteMovie(tmp.id);
-    //       debugPrint("isFavorite: ${tmp.isFavorite}");
-    //       return tmp;
-    //     }).toList());
   }
 
   @override
@@ -181,6 +149,6 @@ class HomeRepositoryImpl extends HomeRepository {
 
   @override
   saveFavoriteMovie(int id) {
-    movieFavoriteDao.favoriteMovie(id);
+    movieDao.updatedFavoriteMovie(id);
   }
 }

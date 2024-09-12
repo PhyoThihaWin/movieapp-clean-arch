@@ -26,12 +26,13 @@ class MovieEntity {
 
   @HiveField(9)
   bool isNowPlaying = false;
-
   @HiveField(10)
   bool isComingSoon = false;
-
   @HiveField(11)
   bool isPopular = false;
+
+  @HiveField(12)
+  bool isFavorite = false;
 
   MovieEntity(this.key, this.id, this.title, this.overview, this.backdropPath,
       this.posterPath, this.releaseDate, this.voteAverage, this.genreIds);

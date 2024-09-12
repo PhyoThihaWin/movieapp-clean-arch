@@ -9,17 +9,17 @@ class MovieVo {
   final double voteAverage;
   final List<int> genreIds;
 
-  bool isFavorite = false;
+  bool isFavorite;
 
   MovieVo(
-    this.key,
-    this.id,
-    this.title,
-    this.overview,
-    this.backdropPath,
-    this.posterPath,
-    this.releaseDate,
-    this.voteAverage,
-    this.genreIds,
-  );
+      this.key,
+      this.id,
+      this.title,
+      this.overview,
+      this.backdropPath,
+      this.posterPath,
+      this.releaseDate,
+      this.voteAverage,
+      this.genreIds,
+      this.isFavorite);
 }

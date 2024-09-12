@@ -6,15 +6,15 @@ class MovieVoMapper extends UnidirectionalMap<MovieEntity, MovieVo> {
   @override
   MovieVo map(MovieEntity item) {
     return MovieVo(
-      item.key.toString(),
-      item.id,
-      item.title,
-      item.overview,
-      item.backdropPath,
-      item.posterPath,
-      item.releaseDate,
-      item.voteAverage,
-      item.genreIds,
-    );
+        item.key.toString(),
+        item.id,
+        item.title,
+        item.overview,
+        item.backdropPath,
+        item.posterPath,
+        item.releaseDate,
+        item.voteAverage,
+        item.genreIds,
+        item.isFavorite);
   }
 }
