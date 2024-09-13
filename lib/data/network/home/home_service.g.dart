@@ -6,12 +6,13 @@ part of 'home_service.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
 class _HomeService implements HomeService {
   _HomeService(
     this._dio, {
     this.baseUrl,
+    this.errorLogger,
   }) {
     baseUrl ??= 'https://api.themoviedb.org';
   }
@@ -20,39 +21,47 @@ class _HomeService implements HomeService {
 
   String? baseUrl;
 
+  final ParseErrorLogger? errorLogger;
+
   @override
   Future<DataResponse<List<MovieResponse>>> getNowPlayingMovies() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DataResponse<List<MovieResponse>>>(Options(
+    final _options = _setStreamType<DataResponse<List<MovieResponse>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/3/movie/now_playing',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = DataResponse<List<MovieResponse>>.fromJson(
-      _result.data!,
-      (json) => json is List<dynamic>
-          ? json
-              .map<MovieResponse>(
-                  (i) => MovieResponse.fromJson(i as Map<String, dynamic>))
-              .toList()
-          : List.empty(),
-    );
-    return value;
+        .compose(
+          _dio.options,
+          '/3/movie/now_playing',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late DataResponse<List<MovieResponse>> _value;
+    try {
+      _value = DataResponse<List<MovieResponse>>.fromJson(
+        _result.data!,
+        (json) => json is List<dynamic>
+            ? json
+                .map<MovieResponse>(
+                    (i) => MovieResponse.fromJson(i as Map<String, dynamic>))
+                .toList()
+            : List.empty(),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   @override
@@ -61,33 +70,39 @@ class _HomeService implements HomeService {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DataResponse<List<MovieResponse>>>(Options(
+    final _options = _setStreamType<DataResponse<List<MovieResponse>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/3/movie/upcoming',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = DataResponse<List<MovieResponse>>.fromJson(
-      _result.data!,
-      (json) => json is List<dynamic>
-          ? json
-              .map<MovieResponse>(
-                  (i) => MovieResponse.fromJson(i as Map<String, dynamic>))
-              .toList()
-          : List.empty(),
-    );
-    return value;
+        .compose(
+          _dio.options,
+          '/3/movie/upcoming',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late DataResponse<List<MovieResponse>> _value;
+    try {
+      _value = DataResponse<List<MovieResponse>>.fromJson(
+        _result.data!,
+        (json) => json is List<dynamic>
+            ? json
+                .map<MovieResponse>(
+                    (i) => MovieResponse.fromJson(i as Map<String, dynamic>))
+                .toList()
+            : List.empty(),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   @override
@@ -96,33 +111,39 @@ class _HomeService implements HomeService {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DataResponse<List<MovieResponse>>>(Options(
+    final _options = _setStreamType<DataResponse<List<MovieResponse>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/3/movie/popular',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = DataResponse<List<MovieResponse>>.fromJson(
-      _result.data!,
-      (json) => json is List<dynamic>
-          ? json
-              .map<MovieResponse>(
-                  (i) => MovieResponse.fromJson(i as Map<String, dynamic>))
-              .toList()
-          : List.empty(),
-    );
-    return value;
+        .compose(
+          _dio.options,
+          '/3/movie/popular',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late DataResponse<List<MovieResponse>> _value;
+    try {
+      _value = DataResponse<List<MovieResponse>>.fromJson(
+        _result.data!,
+        (json) => json is List<dynamic>
+            ? json
+                .map<MovieResponse>(
+                    (i) => MovieResponse.fromJson(i as Map<String, dynamic>))
+                .toList()
+            : List.empty(),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   @override
@@ -131,7 +152,7 @@ class _HomeService implements HomeService {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
+    final _options =
         _setStreamType<DataResponse<List<PopularPersonResponse>>>(Options(
       method: 'GET',
       headers: _headers,
@@ -147,17 +168,24 @@ class _HomeService implements HomeService {
                 baseUrl: _combineBaseUrls(
               _dio.options.baseUrl,
               baseUrl,
-            ))));
-    final value = DataResponse<List<PopularPersonResponse>>.fromJson(
-      _result.data!,
-      (json) => json is List<dynamic>
-          ? json
-              .map<PopularPersonResponse>((i) =>
-                  PopularPersonResponse.fromJson(i as Map<String, dynamic>))
-              .toList()
-          : List.empty(),
-    );
-    return value;
+            )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late DataResponse<List<PopularPersonResponse>> _value;
+    try {
+      _value = DataResponse<List<PopularPersonResponse>>.fromJson(
+        _result.data!,
+        (json) => json is List<dynamic>
+            ? json
+                .map<PopularPersonResponse>((i) =>
+                    PopularPersonResponse.fromJson(i as Map<String, dynamic>))
+                .toList()
+            : List.empty(),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

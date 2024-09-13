@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp_clean_arch/resource/colors.dart';
 
 class FavoriteIconView extends StatelessWidget {
   const FavoriteIconView(
@@ -9,14 +10,19 @@ class FavoriteIconView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         onTap();
       },
-      child: Icon(
-        Icons.favorite,
-        color: isFavorite ? Colors.red : Colors.white,
-      ),
+      child: isFavorite
+          ? const Icon(
+              Icons.favorite,
+              color: PRIMARY_COLOR,
+            )
+          : const Icon(
+              Icons.favorite_border,
+              color: Colors.white,
+            ),
     );
   }
 }

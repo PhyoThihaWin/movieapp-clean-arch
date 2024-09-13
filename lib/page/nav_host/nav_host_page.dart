@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:movieapp_clean_arch/page/favorite/favorite_page.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
 import 'package:movieapp_clean_arch/page/movie/movie_page.dart';
 import 'package:movieapp_clean_arch/page/profile/profile_page.dart';
-import 'package:movieapp_clean_arch/page/ticket/ticket_page.dart';
 import 'package:movieapp_clean_arch/widget/svg_image.dart';
 
 import '../../resource/colors.dart';
@@ -21,7 +21,7 @@ class _NavHostPageState extends State<NavHostPage> {
 
   late final List<Widget> _pageBody = [
     const HomePage(),
-    const TicketPage(),
+    const FavoritePage(),
     const MoviePage(),
     const ProfilePage()
   ];
@@ -71,7 +71,7 @@ List<NavigationDestination> destinationItems() {
     const NavigationDestination(
       icon: SvgIcon("ic_ticket.svg"),
       selectedIcon: SvgIcon("ic_ticket_selected.svg"),
-      label: MENU_CINEMA_TEXT,
+      label: MENU_FAVORITE_TEXT,
     ),
     const NavigationDestination(
       icon: SvgIcon("ic_video.svg"),

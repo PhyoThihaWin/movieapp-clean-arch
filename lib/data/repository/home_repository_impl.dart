@@ -132,7 +132,6 @@ class HomeRepositoryImpl extends HomeRepository {
       var movies = await Future.wait(event.map((e) async {
         return movieVoMapper.map(e);
       }));
-      debugPrint("Data: ${movies.map((item) => item.isFavorite).join(", ")}");
       return movies.toList();
     });
   }

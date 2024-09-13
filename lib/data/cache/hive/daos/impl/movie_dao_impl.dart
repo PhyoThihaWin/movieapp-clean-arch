@@ -40,9 +40,9 @@ class MovieDaoImpl extends MovieDao {
         element.key.toString(): element
     };
 
-    movieBox.deleteAll(oldKeys).then((value) {
-      movieBox.putAll(insertMovies);
-    });
+    await movieBox
+        .putAll(insertMovies)
+        .then((value) => movieBox.deleteAll(oldKeys));
   }
 
   @override

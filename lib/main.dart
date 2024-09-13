@@ -5,12 +5,14 @@ import 'package:movieapp_clean_arch/data/cache/hive/entities/actor_entity.dart';
 import 'package:movieapp_clean_arch/data/network/apiclient/dio_client.dart';
 import 'package:movieapp_clean_arch/initial_binding.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_page.dart';
+import 'package:movieapp_clean_arch/page/nav_host/splash_page.dart';
 
 import 'data/cache/hive/hive_constants.dart';
 import 'data/cache/hive/entities/movie_entity.dart';
 import 'resource/colors.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
 
   Hive

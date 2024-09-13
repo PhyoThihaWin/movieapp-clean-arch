@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:movieapp_clean_arch/data/network/home/response/movie_response.dart';
 import 'package:movieapp_clean_arch/data/network/home/response/popular_person_response.dart';
 import 'package:movieapp_clean_arch/data/network/utils/data_response.dart';
+import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
 import '../apiclient/api_constants.dart';

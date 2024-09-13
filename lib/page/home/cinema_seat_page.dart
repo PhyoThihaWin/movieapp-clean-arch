@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp_clean_arch/page/home/home_page.dart';
 import 'package:movieapp_clean_arch/page/home/payment_page.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
 import 'package:movieapp_clean_arch/widget/svg_image.dart';
+
+import '../../widget/horizontal_singlechild_list_view.dart';
 
 class CinemaSeatPage extends StatelessWidget {
   const CinemaSeatPage({super.key});
@@ -143,7 +144,7 @@ class _SelectCinemaDateTimeSection extends StatelessWidget {
               fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: MARGIN_MEDIUM_2),
-        HorizontalListView(
+        HorizontalSingleChildListView(
           padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
           itemCount: 10,
           itemBuilder: (context, index) => Container(
@@ -182,7 +183,7 @@ class _SelectCinemaDateTimeSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: MARGIN_MEDIUM_2),
-        HorizontalListView(
+        HorizontalSingleChildListView(
           padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
           itemCount: 10,
           itemBuilder: (context, index) => Container(

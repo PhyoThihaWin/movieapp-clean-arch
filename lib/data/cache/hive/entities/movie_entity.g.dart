@@ -30,7 +30,7 @@ class MovieEntityAdapter extends TypeAdapter<MovieEntity> {
       ..isNowPlaying = fields[9] as bool
       ..isComingSoon = fields[10] as bool
       ..isPopular = fields[11] as bool
-      ..isFavorite = fields[12] as bool;
+      ..isFavorite = fields[12] == null ? false : fields[12] as bool;
   }
 
   @override

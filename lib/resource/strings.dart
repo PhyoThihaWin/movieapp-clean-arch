@@ -20,7 +20,7 @@ const SEARCH_YOUR_LOCATION = "Search your location";
 const CITIES_TITLE_TEXT = "Cities";
 
 const MENU_MOVIE_TEXT = "Movies";
-const MENU_CINEMA_TEXT = "Cinema";
+const MENU_FAVORITE_TEXT = "Favorite";
 const MENU_TICKET_TEXT = "Ticket";
 const MENU_PROFILE_TEXT = "Profile";
 

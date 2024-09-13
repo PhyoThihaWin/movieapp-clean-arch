@@ -31,7 +31,7 @@ class MovieEntity {
   @HiveField(11)
   bool isPopular = false;
 
-  @HiveField(12)
+  @HiveField(12, defaultValue: false)
   bool isFavorite = false;
 
   MovieEntity(this.key, this.id, this.title, this.overview, this.backdropPath,

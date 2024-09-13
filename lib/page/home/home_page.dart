@@ -8,11 +8,13 @@ import 'package:movieapp_clean_arch/page/home/home_controller.dart';
 import 'package:movieapp_clean_arch/page/home/movie_detail_page.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
+import 'package:movieapp_clean_arch/widget/horizontal_list_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../domain/entities/actor_vo.dart';
 import '../../resource/colors.dart';
 import '../../widget/favorite_icon_view.dart';
+import '../../widget/horizontal_singlechild_list_view.dart';
 import '../../widget/my_cached_network_image.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,7 +23,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.find();
-    var position = 0.obs;
 
     RefreshController refreshController =
         RefreshController(initialRefresh: false);
@@ -68,8 +69,11 @@ class HomePage extends StatelessWidget {
                         loading: const CircularProgressIndicator(),
                         success: (data) => CarouselSliderViewSection(
                           list: data.take(8).toList(),
-                          position: position,
-                          onPageChanged: (index) => position.value = index,
+                          position: homeController.position,
+                          onPageChanged: (index) =>
+                              homeController.position.value = index,
+                          onFavorite: (id) =>
+                              homeController.saveFavoriteMovie(id),
                         ),
                         error: (message) => Container(),
                       )),
@@ -83,9 +87,10 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: MARGIN_MEDIUM_2),
                   Obx(() => homeController.upcomingMovies.value.render(
                       loading: const CircularProgressIndicator(),
-                      success: (data) => HorizontalListView<int>(
+                      success: (data) => HorizontalListView(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: MARGIN_MEDIUM_2),
+                            height: 350,
                             itemCount: data.length,
                             itemBuilder: (context, index) =>
                                 HomeMovieListItemView(
@@ -127,10 +132,10 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: MARGIN_MEDIUM_2),
                   Obx(() => homeController.popularPerson.value.render(
                         loading: const CircularProgressIndicator(),
-                        success: (data) => HorizontalListView<int>(
+                        success: (data) => HorizontalSingleChildListView(
                           padding: const EdgeInsets.symmetric(
                               horizontal: MARGIN_MEDIUM_2),
-                          itemCount: data.length,
+                          itemCount: data.take(12).length,
                           itemBuilder: (context, index) =>
                               ServiceListItemView(data[index]),
                         ),
@@ -146,15 +151,15 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: MARGIN_MEDIUM_2),
                   Obx(() => homeController.nowPlayingMovies.value.render(
                       loading: const CircularProgressIndicator(),
-                      success: (data) => HorizontalListView<int>(
+                      success: (data) => HorizontalListView(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: MARGIN_MEDIUM_2),
+                            height: 240,
                             itemCount: data.length,
                             itemBuilder: (context, index) =>
                                 MoviesNewsItemView(data[index]),
                           ),
                       error: (message) => Container())),
-                  const SizedBox(height: MARGIN_LARGE),
                 ],
               )
             ]))
@@ -271,33 +276,6 @@ class ServiceListItemView extends StatelessWidget {
                 fontWeight: FontWeight.w500),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class HorizontalListView<T> extends StatelessWidget {
-  final EdgeInsetsGeometry padding;
-  final int itemCount;
-  final Widget Function(BuildContext context, int index) itemBuilder;
-
-  const HorizontalListView(
-      {super.key,
-      required this.padding,
-      required this.itemCount,
-      required this.itemBuilder});
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      padding: padding,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: Iterable<int>.generate(itemCount)
-            .map((index) => itemBuilder(context, index))
-            .toList(),
       ),
     );
   }
@@ -528,12 +506,14 @@ class CarouselSliderViewSection extends StatelessWidget {
   final List<MovieVo> list;
   final RxInt position;
   final Function(int position) onPageChanged;
+  final Function(int id) onFavorite;
 
   const CarouselSliderViewSection(
       {super.key,
       required this.list,
       required this.position,
-      required this.onPageChanged});
+      required this.onPageChanged,
+      required this.onFavorite});
 
   @override
   Widget build(BuildContext context) {
@@ -554,12 +534,25 @@ class CarouselSliderViewSection extends StatelessWidget {
           ),
           items: list
               .map(
-                (item) => ClipRRect(
-                  borderRadius: BorderRadius.circular(MARGIN_12),
-                  child: MyCachedNetworkImage(
-                    imageUrl: item.posterPath,
-                    width: double.maxFinite,
-                  ),
+                (item) => Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(MARGIN_12),
+                      child: MyCachedNetworkImage(
+                        imageUrl: item.posterPath,
+                        width: double.maxFinite,
+                      ),
+                    ),
+                    Positioned(
+                        top: MARGIN_MEDIUM,
+                        right: MARGIN_MEDIUM,
+                        child: FavoriteIconView(
+                          isFavorite: item.isFavorite,
+                          onTap: () {
+                            onFavorite(item.id);
+                          },
+                        ))
+                  ],
                 ),
               )
               .toList(),

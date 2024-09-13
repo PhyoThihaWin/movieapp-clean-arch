@@ -8,6 +8,8 @@ import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
 import 'package:movieapp_clean_arch/widget/button_view_fullwidth.dart';
 
+import '../../widget/horizontal_singlechild_list_view.dart';
+
 class MovieDetailPage extends StatefulWidget {
   const MovieDetailPage({super.key});
 
@@ -175,7 +177,7 @@ class MovieActorListSection extends StatelessWidget {
           child: SectionTitleText("Actor"),
         ),
         const SizedBox(height: MARGIN_12),
-        HorizontalListView(
+        HorizontalSingleChildListView(
           padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
           itemCount: 10,
           itemBuilder: (context, index) => const MovieActorListiItemView(),
@@ -200,7 +202,7 @@ class MovieDirectorListSeciton extends StatelessWidget {
           child: SectionTitleText("Director"),
         ),
         const SizedBox(height: MARGIN_12),
-        HorizontalListView(
+        HorizontalSingleChildListView(
           padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
           itemCount: 10,
           itemBuilder: (context, index) => const MovieActorListiItemView(),
