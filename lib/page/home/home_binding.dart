@@ -54,6 +54,6 @@ class HomeBinding extends Bindings {
     Get.lazyPut(
       () => FavoritePageController(Get.find()),
     );
-    Get.lazyPut(() => MovieDetailPageController(Get.find()));
+    Get.lazyPut(() => MovieDetailPageController(Get.find(), Get.find()));
   }
 }

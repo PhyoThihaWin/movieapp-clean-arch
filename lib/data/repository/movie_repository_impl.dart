@@ -1,3 +1,4 @@
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/daos/actor_dao.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/daos/movie_dao.dart';
 import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
@@ -44,7 +45,8 @@ class MovieRepositoryImpl extends MovieRepository {
   getNowPlayingMovies() {
     var raw = movieApiService.getNowPlayingMovies();
     raw.then((value) {
-      var data = (value.data?.map((e) => movieMapper.map(e))).orEmpty();
+      var data = IterableNullSafetyExtension(
+          value.data?.map((e) => movieMapper.map(e))).orEmpty();
       movieDao.saveAllMovie(data.map(
         (e) {
           var entity = movieEntityMapper.map(e);
@@ -61,7 +63,8 @@ class MovieRepositoryImpl extends MovieRepository {
   getUpComingMovies() {
     var raw = movieApiService.getUpComingMovies();
     raw.then((value) {
-      var data = (value.data?.map((e) => movieMapper.map(e))).orEmpty();
+      var data = IterableNullSafetyExtension(
+          value.data?.map((e) => movieMapper.map(e))).orEmpty();
       movieDao.saveAllMovie(data.map(
         (e) {
           var entity = movieEntityMapper.map(e);
@@ -78,7 +81,8 @@ class MovieRepositoryImpl extends MovieRepository {
   getPopularMovies() {
     var raw = movieApiService.getPopularMovies();
     raw.then((value) {
-      var data = (value.data?.map((e) => movieMapper.map(e))).orEmpty();
+      var data = IterableNullSafetyExtension(
+          value.data?.map((e) => movieMapper.map(e))).orEmpty();
       movieDao.saveAllMovie(data.map(
         (e) {
           var entity = movieEntityMapper.map(e);
@@ -96,7 +100,8 @@ class MovieRepositoryImpl extends MovieRepository {
     var raw = movieApiService.getPopularPerson();
     return raw.then(
       (value) {
-        var data = (value.data?.map((e) => personMapper.map(e))).orEmpty();
+        var data = IterableNullSafetyExtension(
+            value.data?.map((e) => personMapper.map(e))).orEmpty();
         actorDao
             .saveAllActors(data.map((e) => actorEntityMapper.map(e)).toList());
       },
@@ -104,9 +109,11 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<MovieDetailVo> getMovieDetails(int movieId) {
+  Future<MovieDetailVo> getMovieDetails(int movieId) async {
+    var favoriteMovies = await movieDao.getFavoriteMovies().first;
     var raw = movieApiService.getMovieDetail(movieId);
-    return raw.then((onValue) => onValue.toMovieDetailVo());
+    return raw.then((onValue) => onValue.toMovieDetailVo(
+        favoriteMovies.filter((it) => it.id == movieId).isNotEmpty));
   }
 
   @override

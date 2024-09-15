@@ -3,37 +3,37 @@ import 'package:flutter/cupertino.dart';
 abstract class ViewState<T> {
   const ViewState();
 
-  factory ViewState.idle() = Idle;
+  factory ViewState.idle() = ViewStateIdle;
 
-  factory ViewState.loading() = Loading;
+  factory ViewState.loading() = ViewStateLoading;
 
-  factory ViewState.success(T data) = Success;
+  factory ViewState.success(T data) = ViewStateSuccess;
 
-  factory ViewState.error(String message) = Error;
+  factory ViewState.error(String message) = ViewStateError;
 }
 
 /// idle state
-class Idle<T> extends ViewState<T> {
-  const Idle() : super();
+class ViewStateIdle<T> extends ViewState<T> {
+  const ViewStateIdle() : super();
 }
 
 /// loading state
-class Loading<T> extends ViewState<T> {
-  const Loading() : super();
+class ViewStateLoading<T> extends ViewState<T> {
+  const ViewStateLoading() : super();
 }
 
 /// success state
-class Success<T> extends ViewState<T> {
+class ViewStateSuccess<T> extends ViewState<T> {
   final T data;
 
-  const Success(this.data) : super();
+  const ViewStateSuccess(this.data) : super();
 }
 
 /// error state
-class Error<T> extends ViewState<T> {
+class ViewStateError<T> extends ViewState<T> {
   final String message;
 
-  const Error(this.message) : super();
+  const ViewStateError(this.message) : super();
 }
 
 /// extension for ViewState
@@ -42,13 +42,13 @@ extension ViewStateExtension<T> on ViewState<T> {
       {required Widget loading,
       required Widget Function(T data) success,
       required Widget Function(String message) error}) {
-    if (this is Loading) {
+    if (this is ViewStateLoading) {
       return loading;
-    } else if (this is Success) {
-      var state = this as Success<T>;
+    } else if (this is ViewStateSuccess) {
+      var state = this as ViewStateSuccess<T>;
       return success(state.data);
-    } else if (this is Error) {
-      var state = this as Error;
+    } else if (this is ViewStateError) {
+      var state = this as ViewStateError;
       return error(state.message);
     } else {
       return Container();
@@ -72,13 +72,13 @@ class RenderViewState<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (viewState is Loading) {
+    if (viewState is ViewStateLoading) {
       return loading ?? const SizedBox.shrink();
-    } else if (viewState is Success) {
-      var state = viewState as Success<T>;
+    } else if (viewState is ViewStateSuccess) {
+      var state = viewState as ViewStateSuccess<T>;
       return success(state.data);
-    } else if (viewState is Error) {
-      var state = viewState as Error;
+    } else if (viewState is ViewStateError) {
+      var state = viewState as ViewStateError;
       return error?.call(state.message) ?? const SizedBox.shrink();
     } else {
       return const SizedBox.shrink(); // Default fallback if no match

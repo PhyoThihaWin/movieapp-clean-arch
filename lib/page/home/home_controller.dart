@@ -62,7 +62,7 @@ class HomeController extends GetxController {
     });
   }
 
-  saveFavoriteMovie(int id) async {
+  saveFavoriteMovie(int id) {
     _favoriteMovieUseCase.execute(id);
   }
 

@@ -82,25 +82,26 @@ class MovieDetailResponse {
 
   Map<String, dynamic> toJson() => _$MovieDetailResponseToJson(this);
 
-  MovieDetailVo toMovieDetailVo() {
+  MovieDetailVo toMovieDetailVo(bool isFavorite) {
     return MovieDetailVo(
-      id: id.orZero(),
-      adult: adult.orFalse(),
-      title: title.orEmpty(),
-      backdropPath: IMAGE_BASE_URL + backdropPath.orEmpty(),
-      posterPath: IMAGE_BASE_URL + posterPath.orEmpty(),
-      runtime: runtime.orZero(),
-      releaseDate: releaseDate.orEmpty(),
-      voteAverage: voteAverage.orZero(),
-      genres: genres
-          .orEmpty()
-          .map((it) => Genre(id: (it?.id).orZero(), name: (it?.name).orEmpty()))
-          .orEmpty(),
-      originalLanguage: originalLanguage.orEmpty(),
-      overview: overview.orEmpty(),
-      casts: [],
-      crews: [],
-    );
+        id: id.orZero(),
+        adult: adult.orFalse(),
+        title: title.orEmpty(),
+        backdropPath: IMAGE_BASE_URL + backdropPath.orEmpty(),
+        posterPath: IMAGE_BASE_URL + posterPath.orEmpty(),
+        runtime: runtime.orZero(),
+        releaseDate: releaseDate.orEmpty(),
+        voteAverage: voteAverage.orZero(),
+        genres: genres
+            .orEmpty()
+            .map((it) =>
+                Genre(id: (it?.id).orZero(), name: (it?.name).orEmpty()))
+            .orEmpty(),
+        originalLanguage: originalLanguage.orEmpty(),
+        overview: overview.orEmpty(),
+        casts: [],
+        crews: [],
+        isFavorite: isFavorite);
   }
 }
 

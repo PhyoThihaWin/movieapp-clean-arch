@@ -14,7 +14,7 @@ class MovieDetailVo {
   final String overview;
   final List<ActorVo> casts;
   final List<ActorVo> crews;
-  final bool isFavorite;
+  bool isFavorite;
 
   MovieDetailVo({
     required this.id,
@@ -30,7 +30,7 @@ class MovieDetailVo {
     required this.overview,
     required this.casts,
     required this.crews,
-    this.isFavorite = false,
+    required this.isFavorite,
   });
 
   factory MovieDetailVo.fake() {

@@ -11,6 +11,7 @@ import 'package:movieapp_clean_arch/resource/colors.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
 import 'package:movieapp_clean_arch/widget/button_view_fullwidth.dart';
+import 'package:movieapp_clean_arch/widget/favorite_icon_view.dart';
 import 'package:movieapp_clean_arch/widget/my_cached_network_image.dart';
 
 import '../../widget/horizontal_singlechild_list_view.dart';
@@ -52,12 +53,14 @@ class MovieDetailPage extends StatelessWidget {
                         right: Dimens.MARGIN_MEDIUM_2,
                         child: MovieDetailInfoSection(
                           movieDetailVo: data,
+                          onFavorite: (id) =>
+                              movieDetailPageController.saveFavoriteMovie(id),
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: Dimens.MARGIN_LARGE),
-                  const MovieDescriptionsSection(),
+                  MovieDescriptionsSection(movieDetailVo: data),
                   const SizedBox(height: Dimens.MARGIN_LARGE),
                   const MovieStoryLineSection(),
                   const SizedBox(height: Dimens.MARGIN_LARGE),
@@ -297,17 +300,19 @@ class MovieStoryLineSection extends StatelessWidget {
 }
 
 class MovieDescriptionsSection extends StatelessWidget {
+  final MovieDetailVo movieDetailVo;
   const MovieDescriptionsSection({
     super.key,
+    required this.movieDetailVo,
   });
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
         MovieDescTextView(
           desc: "Movie genre:",
-          text: "Action, adventure, sci-fi, Romance, Comedy",
+          text: movieDetailVo.genres.map((item) => item.name).join(", "),
         ),
         SizedBox(height: Dimens.MARGIN_MEDIUM_2),
         MovieDescTextView(
@@ -385,7 +390,9 @@ class MovieLandscapeImageSection extends StatelessWidget {
 
 class MovieDetailInfoSection extends StatelessWidget {
   final MovieDetailVo movieDetailVo;
-  const MovieDetailInfoSection({super.key, required this.movieDetailVo});
+  final Function(int movieId) onFavorite;
+  const MovieDetailInfoSection(
+      {super.key, required this.movieDetailVo, required this.onFavorite});
 
   String minutesToHoursAndMinutes(int totalMinutes) {
     int hours = totalMinutes ~/ 60; // Integer division to get hours
@@ -407,7 +414,18 @@ class MovieDetailInfoSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SectionTitleText(movieDetailVo.title),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SectionTitleText(movieDetailVo.title),
+              FavoriteIconView(
+                  isFavorite: movieDetailVo.isFavorite,
+                  onTap: () {
+                    onFavorite(movieDetailVo.id);
+                  })
+            ],
+          ),
           Text(
             "${minutesToHoursAndMinutes(movieDetailVo.runtime)} • ${movieDetailVo.releaseDate}",
             style: TextStyle(color: Colors.white70),
