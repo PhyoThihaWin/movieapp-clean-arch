@@ -1,7 +1,7 @@
-import '../repository/home/home_repository.dart';
+import '../repository/home/movie_repository.dart';
 
 class FavoriteMovieUseCase {
-  final HomeRepository _repo;
+  final MovieRepository _repo;
 
   FavoriteMovieUseCase(this._repo);
 

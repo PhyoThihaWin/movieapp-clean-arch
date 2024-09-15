@@ -23,7 +23,7 @@ class PaymentPage extends StatelessWidget {
             context.popBack();
           },
           child: const Padding(
-            padding: EdgeInsets.all(MARGIN_MEDIUM),
+            padding: EdgeInsets.all(Dimens.MARGIN_MEDIUM),
             child: Icon(
               Icons.arrow_back,
               color: Colors.white,
@@ -37,33 +37,33 @@ class PaymentPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+        padding: const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const _MovieImageAndInfoSection(),
-            const SizedBox(height: MARGIN_LARGE),
+            const SizedBox(height: Dimens.MARGIN_LARGE),
             const _OrderIdAndSeatSection(),
-            const SizedBox(height: MARGIN_LARGE),
+            const SizedBox(height: Dimens.MARGIN_LARGE),
             const _DiscountCodeApplySection(),
-            const SizedBox(height: MARGIN_MEDIUM_2),
+            const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
             const Divider(
               color: GREY_BOX_COLOR,
             ),
-            const SizedBox(height: MARGIN_MEDIUM),
+            const SizedBox(height: Dimens.MARGIN_MEDIUM),
             const _TotalPaymentAmountRow(),
-            const SizedBox(height: MARGIN_20),
+            const SizedBox(height: Dimens.MARGIN_20),
             const SectionTitleText("Payment Method"),
-            const SizedBox(height: MARGIN_MEDIUM_2),
+            const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
             ListView.builder(
               itemCount: 10,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => const PaymentListItemView(),
             ),
-            const SizedBox(height: MARGIN_MEDIUM_2),
+            const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
             const _PaymentCountDownView(),
-            const SizedBox(height: MARGIN_XLARGE),
+            const SizedBox(height: Dimens.MARGIN_XLARGE),
             ButtonViewFullWidth(
               btnText: "Continue",
               onClick: () {},
@@ -83,21 +83,22 @@ class _PaymentCountDownView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(MARGIN_MEDIUM_2),
+      padding: EdgeInsets.all(Dimens.MARGIN_MEDIUM_2),
       decoration: BoxDecoration(
           color: SEAT_RESERVED_COLOR,
-          borderRadius: BorderRadius.circular(RADIUS_MEDIUM)),
+          borderRadius: BorderRadius.circular(Dimens.RADIUS_MEDIUM)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             "Complete your payment in",
-            style: TextStyle(fontSize: TEXT_REGULAR, color: Colors.white),
+            style:
+                TextStyle(fontSize: Dimens.TEXT_REGULAR, color: Colors.white),
           ),
           Text(
             "15:00",
             style: TextStyle(
-              fontSize: TEXT_REGULAR,
+              fontSize: Dimens.TEXT_REGULAR,
               color: PRIMARY_COLOR,
               fontWeight: FontWeight.w600,
             ),
@@ -117,11 +118,11 @@ class PaymentListItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Container(
-        padding: const EdgeInsets.all(MARGIN_MEDIUM_2),
-        margin: const EdgeInsets.only(bottom: MARGIN_12),
+        padding: const EdgeInsets.all(Dimens.MARGIN_MEDIUM_2),
+        margin: const EdgeInsets.only(bottom: Dimens.MARGIN_12),
         decoration: BoxDecoration(
             color: GREY_BOX_COLOR,
-            borderRadius: BorderRadius.circular(RADIUS_MEDIUM)),
+            borderRadius: BorderRadius.circular(Dimens.RADIUS_MEDIUM)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -133,12 +134,12 @@ class PaymentListItemView extends StatelessWidget {
                     "img_dummy_payment.png".toAssetImage(),
                     width: 50,
                   ),
-                  const SizedBox(width: MARGIN_MEDIUM_2),
+                  const SizedBox(width: Dimens.MARGIN_MEDIUM_2),
                   const Expanded(
                     child: Text(
                       "International payments",
                       style: TextStyle(
-                          color: Colors.white, fontSize: TEXT_REGULAR),
+                          color: Colors.white, fontSize: Dimens.TEXT_REGULAR),
                     ),
                   )
                 ],
@@ -147,7 +148,7 @@ class PaymentListItemView extends StatelessWidget {
             const Icon(
               Icons.arrow_forward_ios,
               color: Colors.white,
-              size: MARGIN_20,
+              size: Dimens.MARGIN_20,
             )
           ],
         ),
@@ -170,7 +171,7 @@ class _TotalPaymentAmountRow extends StatelessWidget {
           "Total",
           style: TextStyle(
             color: Colors.white,
-            fontSize: TEXT_REGULAR,
+            fontSize: Dimens.TEXT_REGULAR,
           ),
         ),
         Text(
@@ -178,7 +179,7 @@ class _TotalPaymentAmountRow extends StatelessWidget {
           style: TextStyle(
             color: PRIMARY_COLOR,
             fontWeight: FontWeight.w700,
-            fontSize: TEXT_HEADING,
+            fontSize: Dimens.TEXT_HEADING,
           ),
         )
       ],
@@ -194,9 +195,9 @@ class _DiscountCodeApplySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: MARGIN_12),
+      padding: const EdgeInsets.only(left: Dimens.MARGIN_12),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
+          borderRadius: BorderRadius.circular(Dimens.MARGIN_MEDIUM),
           color: GREY_BOX_COLOR),
       child: Row(
         children: [
@@ -205,15 +206,16 @@ class _DiscountCodeApplySection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SvgIcon("ic_discount.svg"),
-                SizedBox(width: MARGIN_MEDIUM),
+                SizedBox(width: Dimens.MARGIN_MEDIUM),
                 Expanded(
                     child: TextField(
-                  style: TextStyle(color: Colors.white, fontSize: TEXT_REGULAR),
+                  style: TextStyle(
+                      color: Colors.white, fontSize: Dimens.TEXT_REGULAR),
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "discount code",
                       hintStyle: TextStyle(
-                          color: Colors.grey, fontSize: TEXT_REGULAR)),
+                          color: Colors.grey, fontSize: Dimens.TEXT_REGULAR)),
                 ))
               ],
             ),
@@ -225,10 +227,11 @@ class _DiscountCodeApplySection extends StatelessWidget {
                       MaterialStateProperty.all<Color>(PRIMARY_COLOR),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(RADIUS_MEDIUM),
+                          borderRadius:
+                              BorderRadius.circular(Dimens.RADIUS_MEDIUM),
                           side: const BorderSide(color: PRIMARY_COLOR)))),
               child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM),
+                padding: EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM),
                 child: Text(
                   "Apply",
                   style: TextStyle(color: Colors.black),
@@ -264,7 +267,7 @@ class _OrderIdAndSeatSection extends StatelessWidget {
             )
           ],
         ),
-        SizedBox(height: MARGIN_MEDIUM_2),
+        SizedBox(height: Dimens.MARGIN_MEDIUM_2),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -293,7 +296,7 @@ class _MovieImageAndInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(RADIUS_MEDIUM),
+      borderRadius: BorderRadius.circular(Dimens.RADIUS_MEDIUM),
       child: Container(
         decoration: const BoxDecoration(color: GREY_BOX_COLOR),
         child: IntrinsicHeight(
@@ -312,7 +315,7 @@ class _MovieImageAndInfoSection extends StatelessWidget {
               Flexible(
                 flex: 5,
                 child: Container(
-                  padding: const EdgeInsets.all(MARGIN_MEDIUM_2),
+                  padding: const EdgeInsets.all(Dimens.MARGIN_MEDIUM_2),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -322,10 +325,10 @@ class _MovieImageAndInfoSection extends StatelessWidget {
                         "Avengers: Infinity War",
                         style: TextStyle(
                             color: PRIMARY_COLOR,
-                            fontSize: TEXT_LARGE,
+                            fontSize: Dimens.TEXT_LARGE,
                             fontWeight: FontWeight.w700),
                       ),
-                      const SizedBox(height: MARGIN_MEDIUM_2),
+                      const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -333,12 +336,12 @@ class _MovieImageAndInfoSection extends StatelessWidget {
                             icon: const SvgIcon("ic_video_play.svg"),
                             text: "Acton, adventure, sci-fi",
                           ),
-                          const SizedBox(height: MARGIN_MEDIUM),
+                          const SizedBox(height: Dimens.MARGIN_MEDIUM),
                           _MovieInfoRowView(
                             icon: const SvgIcon("ic_location.svg"),
                             text: "Vincom Ocean Park CGV",
                           ),
-                          const SizedBox(height: MARGIN_MEDIUM),
+                          const SizedBox(height: Dimens.MARGIN_MEDIUM),
                           _MovieInfoRowView(
                             icon: const SvgIcon("ic_clock.svg"),
                             text: "10.12.2022 • 14:15",
@@ -370,11 +373,12 @@ class _MovieInfoRowView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         icon,
-        const SizedBox(width: MARGIN_MEDIUM),
+        const SizedBox(width: Dimens.MARGIN_MEDIUM),
         Flexible(
           child: Text(
             text,
-            style: const TextStyle(color: Colors.white, fontSize: TEXT_SMALL),
+            style: const TextStyle(
+                color: Colors.white, fontSize: Dimens.TEXT_SMALL),
             maxLines: 2,
           ),
         )

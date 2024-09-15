@@ -1,22 +1,22 @@
-import 'package:flutter/material.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/daos/actor_dao.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/daos/movie_dao.dart';
-import 'package:movieapp_clean_arch/domain/entities/actor_vo.dart';
-import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
-import 'package:movieapp_clean_arch/domain/repository/home/home_repository.dart';
+import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
+import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
+import 'package:movieapp_clean_arch/domain/repository/home/movie_repository.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
 import 'package:stream_transform/stream_transform.dart';
 
+import '../../domain/models/movie_detail_vo.dart';
 import '../cache/hive/mapper/actor_entity_mapper.dart';
 import '../cache/hive/mapper/actor_vo_mapper.dart';
 import '../cache/hive/mapper/movie_entity_mapper.dart';
 import '../cache/hive/mapper/movie_vo_mapper.dart';
-import '../network/home/home_service.dart';
-import '../network/home/mapper/now_playing_movies_mapper.dart';
-import '../network/home/mapper/popular_person_mapper.dart';
+import '../network/movie/mapper/now_playing_movies_mapper.dart';
+import '../network/movie/mapper/popular_person_mapper.dart';
+import '../network/movie/movie_service.dart';
 
-class HomeRepositoryImpl extends HomeRepository {
-  final HomeService homeService;
+class MovieRepositoryImpl extends MovieRepository {
+  final MovieApiService movieApiService;
   final MovieDao movieDao;
   final ActorDao actorDao;
 
@@ -29,8 +29,8 @@ class HomeRepositoryImpl extends HomeRepository {
   final ActorEntityMapper actorEntityMapper;
   final ActorVoMapper actorVoMapper;
 
-  HomeRepositoryImpl(
-      this.homeService,
+  MovieRepositoryImpl(
+      this.movieApiService,
       this.movieDao,
       this.actorDao,
       this.movieMapper,
@@ -42,9 +42,9 @@ class HomeRepositoryImpl extends HomeRepository {
 
   @override
   getNowPlayingMovies() {
-    var raw = homeService.getNowPlayingMovies();
+    var raw = movieApiService.getNowPlayingMovies();
     raw.then((value) {
-      var data = (value.data?.map((e) => movieMapper.map(e))).orEmpty;
+      var data = (value.data?.map((e) => movieMapper.map(e))).orEmpty();
       movieDao.saveAllMovie(data.map(
         (e) {
           var entity = movieEntityMapper.map(e);
@@ -59,9 +59,9 @@ class HomeRepositoryImpl extends HomeRepository {
 
   @override
   getUpComingMovies() {
-    var raw = homeService.getUpComingMovies();
+    var raw = movieApiService.getUpComingMovies();
     raw.then((value) {
-      var data = (value.data?.map((e) => movieMapper.map(e))).orEmpty;
+      var data = (value.data?.map((e) => movieMapper.map(e))).orEmpty();
       movieDao.saveAllMovie(data.map(
         (e) {
           var entity = movieEntityMapper.map(e);
@@ -76,9 +76,9 @@ class HomeRepositoryImpl extends HomeRepository {
 
   @override
   getPopularMovies() {
-    var raw = homeService.getPopularMovies();
+    var raw = movieApiService.getPopularMovies();
     raw.then((value) {
-      var data = (value.data?.map((e) => movieMapper.map(e))).orEmpty;
+      var data = (value.data?.map((e) => movieMapper.map(e))).orEmpty();
       movieDao.saveAllMovie(data.map(
         (e) {
           var entity = movieEntityMapper.map(e);
@@ -93,14 +93,20 @@ class HomeRepositoryImpl extends HomeRepository {
 
   @override
   getPopularPerson() {
-    var raw = homeService.getPopularPerson();
+    var raw = movieApiService.getPopularPerson();
     return raw.then(
       (value) {
-        var data = (value.data?.map((e) => personMapper.map(e))).orEmpty;
+        var data = (value.data?.map((e) => personMapper.map(e))).orEmpty();
         actorDao
             .saveAllActors(data.map((e) => actorEntityMapper.map(e)).toList());
       },
     );
+  }
+
+  @override
+  Future<MovieDetailVo> getMovieDetails(int movieId) {
+    var raw = movieApiService.getMovieDetail(movieId);
+    return raw.then((onValue) => onValue.toMovieDetailVo());
   }
 
   @override
@@ -144,6 +150,16 @@ class HomeRepositoryImpl extends HomeRepository {
         .startWith(actorDao.getActors())
         .map((event) =>
             actorDao.getActors().map((e) => actorVoMapper.map(e)).toList());
+  }
+
+  @override
+  Stream<List<MovieVo>> getDbFavoriteMOvies() {
+    return movieDao.getFavoriteMovies().asyncMap((event) async {
+      var movies = await Future.wait(event.map((e) async {
+        return movieVoMapper.map(e);
+      }));
+      return movies.toList();
+    });
   }
 
   @override

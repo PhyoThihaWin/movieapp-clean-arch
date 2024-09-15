@@ -1,17 +1,17 @@
 import 'package:dio/dio.dart';
-import 'package:movieapp_clean_arch/data/network/home/response/movie_response.dart';
-import 'package:movieapp_clean_arch/data/network/home/response/popular_person_response.dart';
+import 'package:movieapp_clean_arch/data/network/movie/response/movie_detail_response.dart';
+import 'package:movieapp_clean_arch/data/network/movie/response/movie_response.dart';
+import 'package:movieapp_clean_arch/data/network/movie/response/popular_person_response.dart';
 import 'package:movieapp_clean_arch/data/network/utils/data_response.dart';
-import 'package:retrofit/error_logger.dart';
-import 'package:retrofit/http.dart';
+import 'package:retrofit/retrofit.dart';
 
 import '../apiclient/api_constants.dart';
 
-part 'home_service.g.dart';
+part 'movie_service.g.dart';
 
 @RestApi(baseUrl: BASE_URL_DIO)
-abstract class HomeService {
-  factory HomeService(Dio dio) = _HomeService;
+abstract class MovieApiService {
+  factory MovieApiService(Dio dio) = _MovieApiService;
 
   @GET(ENDPOINT_GET_NOW_PLAYING)
   Future<DataResponse<List<MovieResponse>>> getNowPlayingMovies();
@@ -24,4 +24,7 @@ abstract class HomeService {
 
   @GET(ENDPOINT_POPULAR_PERSON)
   Future<DataResponse<List<PopularPersonResponse>>> getPopularPerson();
+
+  @GET(ENDPOINT_MOVIE_DETAIL)
+  Future<MovieDetailResponse> getMovieDetail(@Path("id") int movieId);
 }

@@ -16,7 +16,7 @@ class ButtonViewFullWidth extends StatelessWidget {
     return Container(
       margin: margin,
       width: double.maxFinite,
-      height: BUTTON_COMMON_HEIGHT,
+      height: Dimens.BUTTON_COMMON_HEIGHT,
       child: TextButton(
         onPressed: () {
           onClick();
@@ -25,7 +25,7 @@ class ButtonViewFullWidth extends StatelessWidget {
             backgroundColor: MaterialStateProperty.all<Color>(PRIMARY_COLOR),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(RADIUS_XLARGE),
+                    borderRadius: BorderRadius.circular(Dimens.RADIUS_XLARGE),
                     side: const BorderSide(color: PRIMARY_COLOR)))),
         child: Text(
           btnText,

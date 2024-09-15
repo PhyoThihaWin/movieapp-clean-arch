@@ -3,15 +3,15 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
-import 'package:movieapp_clean_arch/domain/entities/movie_vo.dart';
+import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 import 'package:movieapp_clean_arch/page/home/home_controller.dart';
-import 'package:movieapp_clean_arch/page/home/movie_detail_page.dart';
+import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
 import 'package:movieapp_clean_arch/widget/horizontal_list_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../domain/entities/actor_vo.dart';
+import '../../domain/models/actor_vo.dart';
 import '../../resource/colors.dart';
 import '../../widget/favorite_icon_view.dart';
 import '../../widget/horizontal_singlechild_list_view.dart';
@@ -45,9 +45,9 @@ class HomePage extends StatelessWidget {
               backgroundColor: Colors.black,
               flexibleSpace: Padding(
                 padding: EdgeInsets.only(
-                    left: MARGIN_MEDIUM_2,
-                    right: MARGIN_MEDIUM_2,
-                    top: MARGIN_MEDIUM),
+                    left: Dimens.MARGIN_MEDIUM_2,
+                    right: Dimens.MARGIN_MEDIUM_2,
+                    top: Dimens.MARGIN_MEDIUM),
                 child: WelcomeAndNotificationIconSection(),
               ),
             ),
@@ -56,11 +56,12 @@ class HomePage extends StatelessWidget {
               Column(
                 children: [
                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Dimens.MARGIN_MEDIUM_2),
                     child: Column(children: [
                       HomeSearchViewSection(),
                       SectionTitleAndSeeAll("Now Playing"),
-                      SizedBox(height: MARGIN_20),
+                      SizedBox(height: Dimens.MARGIN_20),
                     ]),
                   ),
 
@@ -77,19 +78,20 @@ class HomePage extends StatelessWidget {
                         ),
                         error: (message) => Container(),
                       )),
-                  const SizedBox(height: MARGIN_LARGE),
+                  const SizedBox(height: Dimens.MARGIN_LARGE),
 
                   // upcoming
                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Dimens.MARGIN_MEDIUM_2),
                     child: SectionTitleAndSeeAll("Coming soon"),
                   ),
-                  const SizedBox(height: MARGIN_MEDIUM_2),
+                  const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                   Obx(() => homeController.upcomingMovies.value.render(
                       loading: const CircularProgressIndicator(),
                       success: (data) => HorizontalListView(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: MARGIN_MEDIUM_2),
+                                horizontal: Dimens.MARGIN_MEDIUM_2),
                             height: 350,
                             itemCount: data.length,
                             itemBuilder: (context, index) =>
@@ -101,14 +103,15 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                       error: (message) => Container())),
-                  const SizedBox(height: MARGIN_LARGE),
+                  const SizedBox(height: Dimens.MARGIN_LARGE),
 
                   // popular
                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Dimens.MARGIN_MEDIUM_2),
                     child: SectionTitleAndSeeAll("Promo & Discount"),
                   ),
-                  const SizedBox(height: MARGIN_MEDIUM_2),
+                  const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                   Obx(() => homeController.popularMovies.value.render(
                         loading: const CircularProgressIndicator(),
                         success: (data) => SizedBox(
@@ -122,38 +125,40 @@ class HomePage extends StatelessWidget {
                         ),
                         error: (message) => Container(),
                       )),
-                  const SizedBox(height: MARGIN_LARGE),
+                  const SizedBox(height: Dimens.MARGIN_LARGE),
 
                   // celebrities
                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Dimens.MARGIN_MEDIUM_2),
                     child: SectionTitleAndSeeAll("Celebrities"),
                   ),
-                  const SizedBox(height: MARGIN_MEDIUM_2),
+                  const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                   Obx(() => homeController.popularPerson.value.render(
                         loading: const CircularProgressIndicator(),
                         success: (data) => HorizontalSingleChildListView(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: MARGIN_MEDIUM_2),
+                              horizontal: Dimens.MARGIN_MEDIUM_2),
                           itemCount: data.take(12).length,
                           itemBuilder: (context, index) =>
                               ServiceListItemView(data[index]),
                         ),
                         error: (message) => Container(),
                       )),
-                  const SizedBox(height: MARGIN_LARGE),
+                  const SizedBox(height: Dimens.MARGIN_LARGE),
 
                   // movie news
                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Dimens.MARGIN_MEDIUM_2),
                     child: SectionTitleAndSeeAll("Movie news"),
                   ),
-                  const SizedBox(height: MARGIN_MEDIUM_2),
+                  const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                   Obx(() => homeController.nowPlayingMovies.value.render(
                       loading: const CircularProgressIndicator(),
                       success: (data) => HorizontalListView(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: MARGIN_MEDIUM_2),
+                                horizontal: Dimens.MARGIN_MEDIUM_2),
                             height: 240,
                             itemCount: data.length,
                             itemBuilder: (context, index) =>
@@ -183,9 +188,9 @@ class PromoPageViewSection extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       itemCount: movies.length,
       itemBuilder: (context, index) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+        padding: const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
+          borderRadius: BorderRadius.circular(Dimens.MARGIN_MEDIUM),
           child: Stack(
             children: [
               Positioned.fill(
@@ -193,8 +198,8 @@ class PromoPageViewSection extends StatelessWidget {
                     MyCachedNetworkImage(imageUrl: movies[index].backdropPath),
               ),
               Positioned(
-                top: MARGIN_MEDIUM,
-                right: MARGIN_MEDIUM,
+                top: Dimens.MARGIN_MEDIUM,
+                right: Dimens.MARGIN_MEDIUM,
                 child: FavoriteIconView(
                   isFavorite: movies[index].isFavorite,
                   onTap: () {
@@ -219,23 +224,23 @@ class MoviesNewsItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 300,
-      padding: const EdgeInsets.only(right: MARGIN_MEDIUM_2),
+      padding: const EdgeInsets.only(right: Dimens.MARGIN_MEDIUM_2),
       child: Column(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
+            borderRadius: BorderRadius.circular(Dimens.MARGIN_MEDIUM),
             child: MyCachedNetworkImage(
               imageUrl: movieVo.backdropPath,
               width: double.maxFinite,
               height: 150,
             ),
           ),
-          const SizedBox(height: MARGIN_MEDIUM_2),
+          const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
           Text(
             movieVo.title,
             style: const TextStyle(
                 color: Colors.white,
-                fontSize: TEXT_REGULAR_2,
+                fontSize: Dimens.TEXT_REGULAR_2,
                 fontWeight: FontWeight.w500),
           ),
         ],
@@ -253,7 +258,7 @@ class ServiceListItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 90,
-      margin: const EdgeInsets.only(right: MARGIN_MEDIUM),
+      margin: const EdgeInsets.only(right: Dimens.MARGIN_MEDIUM),
       child: Column(
         children: [
           ClipRRect(
@@ -264,7 +269,7 @@ class ServiceListItemView extends StatelessWidget {
               height: 80,
             ),
           ),
-          const SizedBox(height: MARGIN_MEDIUM_2),
+          const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
           Text(
             actor.name,
             maxLines: 2,
@@ -272,7 +277,7 @@ class ServiceListItemView extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
                 color: Colors.white,
-                fontSize: TEXT_REGULAR_2,
+                fontSize: Dimens.TEXT_REGULAR_2,
                 fontWeight: FontWeight.w500),
           ),
         ],
@@ -292,18 +297,20 @@ class HomeMovieListItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.next(const MovieDetailPage());
+        context.next(MovieDetailPage(
+          movieId: movie.id,
+        ));
       },
       child: Container(
         width: 200,
-        padding: const EdgeInsets.only(right: MARGIN_MEDIUM_2),
+        padding: const EdgeInsets.only(right: Dimens.MARGIN_MEDIUM_2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
+                  borderRadius: BorderRadius.circular(Dimens.MARGIN_MEDIUM),
                   child: MyCachedNetworkImage(
                     imageUrl: movie.posterPath,
                     width: 200,
@@ -311,8 +318,8 @@ class HomeMovieListItemView extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                    top: MARGIN_MEDIUM,
-                    right: MARGIN_MEDIUM,
+                    top: Dimens.MARGIN_MEDIUM,
+                    right: Dimens.MARGIN_MEDIUM,
                     child: FavoriteIconView(
                       isFavorite: movie.isFavorite,
                       onTap: () {
@@ -321,42 +328,43 @@ class HomeMovieListItemView extends StatelessWidget {
                     ))
               ],
             ),
-            const SizedBox(height: MARGIN_MEDIUM_2),
+            const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
             Text(
               movie.title,
               style: const TextStyle(
                   color: PRIMARY_COLOR,
-                  fontSize: TEXT_REGULAR_2,
+                  fontSize: Dimens.TEXT_REGULAR_2,
                   fontWeight: FontWeight.w500),
             ),
-            const SizedBox(height: MARGIN_10),
+            const SizedBox(height: Dimens.MARGIN_10),
             const Row(
               children: [
                 Icon(
                   Icons.videocam_outlined,
                   color: Colors.white,
-                  size: MARGIN_MEDIUM_2,
+                  size: Dimens.MARGIN_MEDIUM_2,
                 ),
-                SizedBox(width: MARGIN_MEDIUM),
+                SizedBox(width: Dimens.MARGIN_MEDIUM),
                 Text(
                   "Adventure, Sci-fi",
-                  style: TextStyle(color: Colors.white, fontSize: TEXT_SMALL),
+                  style: TextStyle(
+                      color: Colors.white, fontSize: Dimens.TEXT_SMALL),
                 ),
               ],
             ),
-            const SizedBox(height: MARGIN_SMALL),
+            const SizedBox(height: Dimens.MARGIN_SMALL),
             Row(
               children: [
                 const Icon(
                   Icons.calendar_month_outlined,
                   color: Colors.white,
-                  size: MARGIN_MEDIUM_2,
+                  size: Dimens.MARGIN_MEDIUM_2,
                 ),
-                const SizedBox(width: MARGIN_MEDIUM),
+                const SizedBox(width: Dimens.MARGIN_MEDIUM),
                 Text(
                   movie.releaseDate,
                   style: const TextStyle(
-                      color: Colors.white, fontSize: TEXT_SMALL),
+                      color: Colors.white, fontSize: Dimens.TEXT_SMALL),
                 ),
               ],
             )
@@ -397,7 +405,7 @@ class SeeAllText extends StatelessWidget {
         Text(
           "See all",
           style: TextStyle(
-            fontSize: TEXT_REGULAR,
+            fontSize: Dimens.TEXT_REGULAR,
             color: PRIMARY_COLOR,
             fontWeight: FontWeight.w400,
           ),
@@ -419,11 +427,11 @@ class HomeSearchViewSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: MARGIN_MEDIUM_2),
-      padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+      margin: const EdgeInsets.symmetric(vertical: Dimens.MARGIN_MEDIUM_2),
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
       decoration: const BoxDecoration(
         color: SEARCH_BOX_COLOR,
-        borderRadius: BorderRadius.all(Radius.circular(MARGIN_MEDIUM)),
+        borderRadius: BorderRadius.all(Radius.circular(Dimens.MARGIN_MEDIUM)),
       ),
       child: const Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -433,7 +441,7 @@ class HomeSearchViewSection extends StatelessWidget {
             color: Colors.white,
           ),
           SizedBox(
-            width: MARGIN_MEDIUM,
+            width: Dimens.MARGIN_MEDIUM,
           ),
           Flexible(
             child: TextField(
@@ -444,7 +452,7 @@ class HomeSearchViewSection extends StatelessWidget {
                   hintStyle: TextStyle(
                       color: Colors.white38,
                       fontWeight: FontWeight.w300,
-                      fontSize: TEXT_REGULAR_2)),
+                      fontSize: Dimens.TEXT_REGULAR_2)),
             ),
           )
         ],
@@ -484,8 +492,10 @@ class WelcomeAndNotificationIconSection extends StatelessWidget {
 
 class SectionTitleText extends StatelessWidget {
   final String text;
+  final double fontSize;
 
-  const SectionTitleText(this.text, {super.key});
+  const SectionTitleText(this.text,
+      {super.key, this.fontSize = Dimens.TEXT_HEADING});
 
   @override
   Widget build(BuildContext context) {
@@ -493,8 +503,8 @@ class SectionTitleText extends StatelessWidget {
       text,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: const TextStyle(
-        fontSize: TEXT_HEADING,
+      style: TextStyle(
+        fontSize: fontSize,
         color: Colors.white,
         fontWeight: FontWeight.w600,
       ),
@@ -537,15 +547,15 @@ class CarouselSliderViewSection extends StatelessWidget {
                 (item) => Stack(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(MARGIN_12),
+                      borderRadius: BorderRadius.circular(Dimens.MARGIN_12),
                       child: MyCachedNetworkImage(
                         imageUrl: item.posterPath,
                         width: double.maxFinite,
                       ),
                     ),
                     Positioned(
-                        top: MARGIN_MEDIUM,
-                        right: MARGIN_MEDIUM,
+                        top: Dimens.MARGIN_MEDIUM,
+                        right: Dimens.MARGIN_MEDIUM,
                         child: FavoriteIconView(
                           isFavorite: item.isFavorite,
                           onTap: () {
@@ -557,9 +567,10 @@ class CarouselSliderViewSection extends StatelessWidget {
               )
               .toList(),
         ),
-        const SizedBox(height: MARGIN_MEDIUM_2),
+        const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+          padding:
+              const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
           child:
               Obx(() => SectionTitleText(list[position.value.toInt()].title)),
         ),
@@ -567,7 +578,7 @@ class CarouselSliderViewSection extends StatelessWidget {
           "2h29m • Action, adventure, sci-fi",
           style: TextStyle(color: Colors.white70),
         ),
-        const SizedBox(height: MARGIN_MEDIUM),
+        const SizedBox(height: Dimens.MARGIN_MEDIUM),
         Obx(() => DotsIndicatorView(
             dotsCount: list.length, position: position.value.toDouble()))
       ],
@@ -590,8 +601,8 @@ class DotsIndicatorView extends StatelessWidget {
       decorator: const DotsDecorator(
           color: TEXT_GREY_COLOR,
           activeColor: PRIMARY_COLOR,
-          size: Size(MARGIN_6, MARGIN_6),
-          activeSize: Size(MARGIN_MEDIUM, MARGIN_MEDIUM)),
+          size: Size(Dimens.MARGIN_6, Dimens.MARGIN_6),
+          activeSize: Size(Dimens.MARGIN_MEDIUM, Dimens.MARGIN_MEDIUM)),
     );
   }
 }

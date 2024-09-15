@@ -75,10 +75,14 @@ class MovieDaoImpl extends MovieDao {
   @override
   Stream<List<MovieEntity>> getFavoriteMovies() {
     return getAllMoviesEventStream()
-        .startWith(
-            _getAllMovies().where((element) => element.isFavorite).toList())
-        .map((event) =>
-            _getAllMovies().where((element) => element.isFavorite).toList());
+        .startWith(_getAllMovies()
+            .where((element) => element.isFavorite)
+            .distinctBy((predicate) => predicate.id)
+            .toList())
+        .map((event) => _getAllMovies()
+            .where((element) => element.isFavorite)
+            .distinctBy((predicate) => predicate.id)
+            .toList());
   }
 
   @override

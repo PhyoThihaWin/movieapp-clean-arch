@@ -22,7 +22,7 @@ class CinemaSeatPage extends StatelessWidget {
             context.popBack();
           },
           child: const Padding(
-            padding: EdgeInsets.all(MARGIN_MEDIUM),
+            padding: EdgeInsets.all(Dimens.MARGIN_MEDIUM),
             child: Icon(
               Icons.arrow_back,
               color: Colors.white,
@@ -40,13 +40,13 @@ class CinemaSeatPage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(height: MARGIN_LARGE),
+                  SizedBox(height: Dimens.MARGIN_LARGE),
                   SvgImage("cinema_tv_screen.svg"),
-                  SizedBox(height: MARGIN_MEDIUM),
+                  SizedBox(height: Dimens.MARGIN_MEDIUM),
                   CinemaSeatGridView(),
-                  SizedBox(height: MARGIN_18),
+                  SizedBox(height: Dimens.MARGIN_18),
                   _SeatInfoRowSection(),
-                  SizedBox(height: MARGIN_XLARGE),
+                  SizedBox(height: Dimens.MARGIN_XLARGE),
                   _SelectCinemaDateTimeSection()
                 ],
               ),
@@ -71,10 +71,11 @@ class _CinemaBuyTicketSection extends StatelessWidget {
           height: 1,
           thickness: 1,
         ),
-        const SizedBox(height: MARGIN_MEDIUM),
+        const SizedBox(height: Dimens.MARGIN_MEDIUM),
         Padding(
           padding: const EdgeInsets.symmetric(
-              horizontal: MARGIN_MEDIUM_2, vertical: MARGIN_MEDIUM),
+              horizontal: Dimens.MARGIN_MEDIUM_2,
+              vertical: Dimens.MARGIN_MEDIUM),
           child: Row(
             children: [
               const Expanded(
@@ -84,14 +85,14 @@ class _CinemaBuyTicketSection extends StatelessWidget {
                   children: [
                     Text(
                       "Total",
-                      style:
-                          TextStyle(color: Colors.white, fontSize: TEXT_SMALL),
+                      style: TextStyle(
+                          color: Colors.white, fontSize: Dimens.TEXT_SMALL),
                     ),
                     Text(
                       "210.000 VND",
                       style: TextStyle(
                           color: PRIMARY_COLOR,
-                          fontSize: TEXT_XLARGE,
+                          fontSize: Dimens.TEXT_XLARGE,
                           fontWeight: FontWeight.w700),
                     )
                   ],
@@ -106,15 +107,15 @@ class _CinemaBuyTicketSection extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       color: PRIMARY_COLOR,
-                      borderRadius: BorderRadius.circular(RADIUS_XLARGE),
+                      borderRadius: BorderRadius.circular(Dimens.RADIUS_XLARGE),
                     ),
-                    height: BUTTON_COMMON_HEIGHT,
+                    height: Dimens.BUTTON_COMMON_HEIGHT,
                     child: const Center(
                       child: Text(
                         "Buy Ticket",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: TEXT_REGULAR_2,
+                            fontSize: Dimens.TEXT_REGULAR_2,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -140,30 +141,31 @@ class _SelectCinemaDateTimeSection extends StatelessWidget {
           "Select Date & Time",
           style: TextStyle(
               color: Colors.white,
-              fontSize: TEXT_REGULAR_3,
+              fontSize: Dimens.TEXT_REGULAR_3,
               fontWeight: FontWeight.w500),
         ),
-        const SizedBox(height: MARGIN_MEDIUM_2),
+        const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
         HorizontalSingleChildListView(
-          padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+          padding:
+              const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
           itemCount: 10,
           itemBuilder: (context, index) => Container(
             padding: const EdgeInsets.only(
-                top: MARGIN_MEDIUM_2,
-                left: MARGIN_SMALL,
-                right: MARGIN_SMALL,
-                bottom: MARGIN_SMALL),
-            margin: const EdgeInsets.only(right: MARGIN_10),
+                top: Dimens.MARGIN_MEDIUM_2,
+                left: Dimens.MARGIN_SMALL,
+                right: Dimens.MARGIN_SMALL,
+                bottom: Dimens.MARGIN_SMALL),
+            margin: const EdgeInsets.only(right: Dimens.MARGIN_10),
             decoration: BoxDecoration(
                 color: PRIMARY_COLOR, borderRadius: BorderRadius.circular(100)),
             child: Column(
               children: [
                 const Text(
                   "Dec",
-                  style:
-                      TextStyle(color: Colors.black, fontSize: TEXT_REGULAR_2),
+                  style: TextStyle(
+                      color: Colors.black, fontSize: Dimens.TEXT_REGULAR_2),
                 ),
-                const SizedBox(height: MARGIN_MEDIUM_2),
+                const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                 Container(
                   height: 40,
                   width: 40,
@@ -182,24 +184,26 @@ class _SelectCinemaDateTimeSection extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: MARGIN_MEDIUM_2),
+        const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
         HorizontalSingleChildListView(
-          padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+          padding:
+              const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
           itemCount: 10,
           itemBuilder: (context, index) => Container(
-            margin: const EdgeInsets.only(right: MARGIN_MEDIUM),
+            margin: const EdgeInsets.only(right: Dimens.MARGIN_MEDIUM),
             padding: const EdgeInsets.symmetric(
-                horizontal: MARGIN_MEDIUM_2, vertical: MARGIN_MEDIUM),
+                horizontal: Dimens.MARGIN_MEDIUM_2,
+                vertical: Dimens.MARGIN_MEDIUM),
             decoration: BoxDecoration(
                 color: GREY_BOX_COLOR,
-                borderRadius: BorderRadius.circular(RADIUS_LARGE)),
+                borderRadius: BorderRadius.circular(Dimens.RADIUS_LARGE)),
             child: Text(
               "14:15",
               style: TextStyle(color: Colors.white.withOpacity(0.7)),
             ),
           ),
         ),
-        const SizedBox(height: MARGIN_XLARGE),
+        const SizedBox(height: Dimens.MARGIN_XLARGE),
       ],
     );
   }
@@ -241,12 +245,13 @@ class SeatInfoView extends StatelessWidget {
     return Row(
       children: [
         Container(
-          height: MARGIN_LARGE,
-          width: MARGIN_LARGE,
+          height: Dimens.MARGIN_LARGE,
+          width: Dimens.MARGIN_LARGE,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(RADIUS_SMALL), color: color),
+              borderRadius: BorderRadius.circular(Dimens.RADIUS_SMALL),
+              color: color),
         ),
-        const SizedBox(width: MARGIN_MEDIUM),
+        const SizedBox(width: Dimens.MARGIN_MEDIUM),
         Text(
           text,
           style: const TextStyle(color: Colors.white),
@@ -266,21 +271,21 @@ class CinemaSeatGridView extends StatelessWidget {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 10, // number of items in each row
-        mainAxisSpacing: MARGIN_6, // spacing between rows
-        crossAxisSpacing: MARGIN_6, // spacing between columns
+        mainAxisSpacing: Dimens.MARGIN_6, // spacing between rows
+        crossAxisSpacing: Dimens.MARGIN_6, // spacing between columns
       ),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: MARGIN_SMALL),
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_SMALL),
       itemCount: 110,
       itemBuilder: (context, index) => Container(
         decoration: BoxDecoration(
             color: GREY_BOX_COLOR,
-            borderRadius: BorderRadius.circular(RADIUS_SMALL)),
+            borderRadius: BorderRadius.circular(Dimens.RADIUS_SMALL)),
         child: const Center(
           child: Text(
             "A2",
-            style: TextStyle(color: Colors.white, fontSize: TEXT_SMALL),
+            style: TextStyle(color: Colors.white, fontSize: Dimens.TEXT_SMALL),
           ),
         ),
       ),

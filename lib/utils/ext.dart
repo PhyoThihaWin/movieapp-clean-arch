@@ -38,7 +38,7 @@ extension PageNavigator on BuildContext {
           const CircularProgressIndicator(),
           Container(
               margin: const EdgeInsets.only(
-                left: MARGIN_LARGE,
+                left: Dimens.MARGIN_LARGE,
               ),
               child: const Text("Loading...")),
         ],
@@ -70,36 +70,38 @@ extension StringFormat on String {
   }
 }
 
+extension NullStringExtension on String? {
+  String orEmpty() => this ?? "";
+}
+
 /// integer extension
 extension NullIntExtension on int? {
-  int get orZero => this ?? 0;
-
-  int get toMMK => (this ?? 0) * 2100;
+  int orZero() => this ?? 0;
 }
 
 /// double extension
 extension NullDoubleExtension on double? {
-  double get orZero => this ?? 0;
+  double orZero() => this ?? 0;
 }
 
 /// boolean extension
 extension NullBoolExtension on bool? {
-  bool get orTrue => this ?? true;
+  bool orTrue() => this ?? true;
 
-  bool get orFalse => this ?? false;
+  bool orFalse() => this ?? false;
 }
 
 /// list extension
 extension ListNullSafetyExtension<T> on List<T?>? {
-  List<T?> get orEmpty => this ?? [];
+  List<T?> orEmpty() => this ?? [];
 
-  List<T> get orEmptyObject =>
+  List<T> orEmptyObject() =>
       this?.where((element) => element != null).toList().cast() ?? [];
 }
 
 /// iterable extension
 extension IterableNullSafetyExtension<T> on Iterable<T>? {
-  List<T> get orEmpty => this?.toList() ?? [];
+  List<T> orEmpty() => this?.toList() ?? [];
 }
 
 /// [Color] extension

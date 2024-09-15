@@ -1,78 +1,90 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
+import 'package:movieapp_clean_arch/base/view_state.dart';
+import 'package:movieapp_clean_arch/domain/models/movie_detail_vo.dart';
 import 'package:movieapp_clean_arch/page/home/cinema_seat_page.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
+import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page_controller.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
 import 'package:movieapp_clean_arch/widget/button_view_fullwidth.dart';
+import 'package:movieapp_clean_arch/widget/my_cached_network_image.dart';
 
 import '../../widget/horizontal_singlechild_list_view.dart';
 
-class MovieDetailPage extends StatefulWidget {
-  const MovieDetailPage({super.key});
-
-  @override
-  State<MovieDetailPage> createState() => _MovieDetailPageState();
-}
-
-class _MovieDetailPageState extends State<MovieDetailPage> {
-  int cinemaIndex = -1;
+class MovieDetailPage extends StatelessWidget {
+  final int movieId;
+  const MovieDetailPage({super.key, required this.movieId});
 
   @override
   Widget build(BuildContext context) {
+    MovieDetailPageController movieDetailPageController = Get.find();
+    movieDetailPageController.getMovieDetail(movieId);
+
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Stack(
-              clipBehavior: Clip.none,
-              children: [
-                MovieLandscapeImageSection(),
-                Positioned(
-                    left: MARGIN_MEDIUM_2,
-                    top: MARGIN_XLARGE,
-                    child: PageBackIconView()),
-                Positioned(
-                  bottom: 0,
-                  left: MARGIN_MEDIUM_2,
-                  right: MARGIN_MEDIUM_2,
-                  child: MovieDetailInfoSection(),
-                ),
-              ],
+      backgroundColor: HOME_SCREEN_BACKGROUND_COLOR,
+      body: Obx(() => RenderViewState(
+            viewState: movieDetailPageController.movieDetails.value,
+            loading: const Center(child: CircularProgressIndicator()),
+            success: (data) => SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      MovieLandscapeImageSection(imageUrl: data.backdropPath),
+                      Positioned(
+                          left: Dimens.MARGIN_MEDIUM_2,
+                          top: Dimens.MARGIN_XLARGE,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const PageBackIconView(),
+                          )),
+                      Positioned(
+                        bottom: 0,
+                        left: Dimens.MARGIN_MEDIUM_2,
+                        right: Dimens.MARGIN_MEDIUM_2,
+                        child: MovieDetailInfoSection(
+                          movieDetailVo: data,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: Dimens.MARGIN_LARGE),
+                  const MovieDescriptionsSection(),
+                  const SizedBox(height: Dimens.MARGIN_LARGE),
+                  const MovieStoryLineSection(),
+                  const SizedBox(height: Dimens.MARGIN_LARGE),
+                  const MovieDirectorListSeciton(),
+                  const SizedBox(height: Dimens.MARGIN_LARGE),
+                  const MovieActorListSection(),
+                  const SizedBox(height: Dimens.MARGIN_LARGE),
+                  MovieDetailCinemaSection(
+                    cinemaIndex: movieDetailPageController.cinemaIndex.value,
+                    select: (index) {
+                      movieDetailPageController.cinemaIndex.value = index;
+                    },
+                  ),
+                  const SizedBox(height: Dimens.MARGIN_LARGE),
+                  ButtonViewFullWidth(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: Dimens.MARGIN_MEDIUM_2),
+                    btnText: "Continue",
+                    onClick: () {
+                      context.next(const CinemaSeatPage());
+                    },
+                  ),
+                  const SizedBox(height: Dimens.MARGIN_LARGE)
+                ],
+              ),
             ),
-            const SizedBox(height: MARGIN_LARGE),
-            const MovieDescriptionsSection(),
-            const SizedBox(height: MARGIN_LARGE),
-            const MovieStoryLineSection(),
-            const SizedBox(height: MARGIN_LARGE),
-            const MovieDirectorListSeciton(),
-            const SizedBox(height: MARGIN_LARGE),
-            const MovieActorListSection(),
-            const SizedBox(height: MARGIN_LARGE),
-            MovieDetailCinemaSection(
-              cinemaIndex: cinemaIndex,
-              select: (index) {
-                setState(() {
-                  cinemaIndex = index;
-                });
-              },
-            ),
-            const SizedBox(height: MARGIN_LARGE),
-            ButtonViewFullWidth(
-              margin: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-              btnText: "Continue",
-              onClick: () {
-                context.next(const CinemaSeatPage());
-              },
-            ),
-            const SizedBox(height: MARGIN_LARGE)
-          ],
-        ),
-      ),
+          )),
     );
   }
 }
@@ -90,10 +102,10 @@ class MovieDetailCinemaSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+          padding: EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
           child: SectionTitleText("Cinema"),
         ),
-        const SizedBox(height: MARGIN_12),
+        const SizedBox(height: Dimens.MARGIN_12),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -103,11 +115,11 @@ class MovieDetailCinemaSection extends StatelessWidget {
               select(index);
             },
             child: Container(
-              padding: const EdgeInsets.all(MARGIN_MEDIUM_2),
+              padding: const EdgeInsets.all(Dimens.MARGIN_MEDIUM_2),
               margin: const EdgeInsets.only(
-                  left: MARGIN_MEDIUM_2,
-                  right: MARGIN_MEDIUM_2,
-                  bottom: MARGIN_MEDIUM_2),
+                  left: Dimens.MARGIN_MEDIUM_2,
+                  right: Dimens.MARGIN_MEDIUM_2,
+                  bottom: Dimens.MARGIN_MEDIUM_2),
               decoration: BoxDecoration(
                   border: Border.all(
                       color:
@@ -116,7 +128,7 @@ class MovieDetailCinemaSection extends StatelessWidget {
                   color: index == cinemaIndex
                       ? PRIMARY_COLOR.withOpacity(0.3)
                       : GREY_BOX_COLOR,
-                  borderRadius: BorderRadius.circular(MARGIN_10)),
+                  borderRadius: BorderRadius.circular(Dimens.MARGIN_10)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -128,28 +140,29 @@ class MovieDetailCinemaSection extends StatelessWidget {
                       const Text(
                         "Vincom Ocean Park CGV",
                         style: TextStyle(
-                            fontSize: TEXT_REGULAR_3,
+                            fontSize: Dimens.TEXT_REGULAR_3,
                             fontWeight: FontWeight.w600,
                             color: Colors.white),
                       ),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(MARGIN_SMALL),
+                        borderRadius:
+                            BorderRadius.circular(Dimens.MARGIN_SMALL),
                         child: CachedNetworkImage(
                           imageUrl:
                               "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
                           fit: BoxFit.cover,
-                          height: MARGIN_MEDIUM_2,
-                          width: MARGIN_XLARGE,
+                          height: Dimens.MARGIN_MEDIUM_2,
+                          width: Dimens.MARGIN_XLARGE,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: MARGIN_6),
+                  const SizedBox(height: Dimens.MARGIN_6),
                   const Text(
                     "9.32 km | 27 Co Linh, Long Bien, Ha Noi",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: TEXT_SMALL,
+                      fontSize: Dimens.TEXT_SMALL,
                     ),
                   )
                 ],
@@ -173,12 +186,13 @@ class MovieActorListSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.only(left: MARGIN_MEDIUM_2),
+          padding: EdgeInsets.only(left: Dimens.MARGIN_MEDIUM_2),
           child: SectionTitleText("Actor"),
         ),
-        const SizedBox(height: MARGIN_12),
+        const SizedBox(height: Dimens.MARGIN_12),
         HorizontalSingleChildListView(
-          padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+          padding:
+              const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
           itemCount: 10,
           itemBuilder: (context, index) => const MovieActorListiItemView(),
         )
@@ -198,12 +212,13 @@ class MovieDirectorListSeciton extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.only(left: MARGIN_MEDIUM_2),
+          padding: EdgeInsets.only(left: Dimens.MARGIN_MEDIUM_2),
           child: SectionTitleText("Director"),
         ),
-        const SizedBox(height: MARGIN_12),
+        const SizedBox(height: Dimens.MARGIN_12),
         HorizontalSingleChildListView(
-          padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+          padding:
+              const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
           itemCount: 10,
           itemBuilder: (context, index) => const MovieActorListiItemView(),
         )
@@ -221,12 +236,12 @@ class MovieActorListiItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(RADIUS_MEDIUM),
+          borderRadius: BorderRadius.circular(Dimens.RADIUS_MEDIUM),
           color: GREY_BOX_COLOR),
       width: 140,
       padding: const EdgeInsets.symmetric(
-          vertical: MARGIN_MEDIUM, horizontal: MARGIN_MEDIUM_2),
-      margin: const EdgeInsets.only(right: MARGIN_12),
+          vertical: Dimens.MARGIN_MEDIUM, horizontal: Dimens.MARGIN_MEDIUM_2),
+      margin: const EdgeInsets.only(right: Dimens.MARGIN_12),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -241,7 +256,7 @@ class MovieActorListiItemView extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            width: MARGIN_MEDIUM,
+            width: Dimens.MARGIN_MEDIUM,
           ),
           const Flexible(
             child: Text(
@@ -265,12 +280,12 @@ class MovieStoryLineSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+      padding: EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionTitleText("Storyline"),
-          SizedBox(height: MARGIN_12),
+          SizedBox(height: Dimens.MARGIN_12),
           Text(
             "As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos.... See more",
             style: TextStyle(color: Colors.white),
@@ -294,12 +309,12 @@ class MovieDescriptionsSection extends StatelessWidget {
           desc: "Movie genre:",
           text: "Action, adventure, sci-fi, Romance, Comedy",
         ),
-        SizedBox(height: MARGIN_MEDIUM_2),
+        SizedBox(height: Dimens.MARGIN_MEDIUM_2),
         MovieDescTextView(
           desc: "Censorship:",
           text: "13+",
         ),
-        SizedBox(height: MARGIN_MEDIUM_2),
+        SizedBox(height: Dimens.MARGIN_MEDIUM_2),
         MovieDescTextView(
           desc: "Language:",
           text: "English",
@@ -318,7 +333,7 @@ class MovieDescTextView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -344,8 +359,10 @@ class MovieDescTextView extends StatelessWidget {
 }
 
 class MovieLandscapeImageSection extends StatelessWidget {
+  final String imageUrl;
   const MovieLandscapeImageSection({
     super.key,
+    required this.imageUrl,
   });
 
   @override
@@ -356,10 +373,8 @@ class MovieLandscapeImageSection extends StatelessWidget {
         SizedBox(
           height: context.getScreenHeightBy(3.5),
           width: double.maxFinite,
-          child: CachedNetworkImage(
-            imageUrl:
-                "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
-            fit: BoxFit.cover,
+          child: MyCachedNetworkImage(
+            imageUrl: imageUrl,
           ),
         ),
         const SizedBox(height: 100)
@@ -369,7 +384,14 @@ class MovieLandscapeImageSection extends StatelessWidget {
 }
 
 class MovieDetailInfoSection extends StatelessWidget {
-  const MovieDetailInfoSection({super.key});
+  final MovieDetailVo movieDetailVo;
+  const MovieDetailInfoSection({super.key, required this.movieDetailVo});
+
+  String minutesToHoursAndMinutes(int totalMinutes) {
+    int hours = totalMinutes ~/ 60; // Integer division to get hours
+    int minutes = totalMinutes % 60; // Remainder to get remaining minutes
+    return '${hours}h ${minutes}m'; // Format the string
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -377,17 +399,17 @@ class MovieDetailInfoSection extends StatelessWidget {
       width: double.maxFinite,
       decoration: BoxDecoration(
         color: GREY_BOX_COLOR,
-        borderRadius: BorderRadius.circular(MARGIN_10),
+        borderRadius: BorderRadius.circular(Dimens.MARGIN_10),
       ),
       padding: const EdgeInsets.symmetric(
-          horizontal: MARGIN_20, vertical: MARGIN_10),
+          horizontal: Dimens.MARGIN_20, vertical: Dimens.MARGIN_10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SectionTitleText("Avengers: Infinity War"),
-          const Text(
-            "2h29m • 16.12.2022",
+          SectionTitleText(movieDetailVo.title),
+          Text(
+            "${minutesToHoursAndMinutes(movieDetailVo.runtime)} • ${movieDetailVo.releaseDate}",
             style: TextStyle(color: Colors.white70),
           ),
           const SizedBox(
@@ -401,15 +423,15 @@ class MovieDetailInfoSection extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
-                    fontSize: TEXT_REGULAR_2,
+                    fontSize: Dimens.TEXT_REGULAR_2,
                   )),
-              SizedBox(width: MARGIN_MEDIUM),
+              SizedBox(width: Dimens.MARGIN_MEDIUM),
               Icon(
                 Icons.star,
                 color: Colors.amber,
-                size: MARGIN_20,
+                size: Dimens.MARGIN_20,
               ),
-              SizedBox(width: MARGIN_MEDIUM),
+              SizedBox(width: Dimens.MARGIN_MEDIUM),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -417,22 +439,22 @@ class MovieDetailInfoSection extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
-                        fontSize: TEXT_REGULAR_2,
+                        fontSize: Dimens.TEXT_REGULAR_2,
                       )),
-                  SizedBox(width: MARGIN_SMALL),
+                  SizedBox(width: Dimens.MARGIN_SMALL),
                   Text(
                     "(1.222)",
                     style: TextStyle(
                         height: 1.7,
                         color: Colors.white70,
-                        fontSize: TEXT_SMALL),
+                        fontSize: Dimens.TEXT_SMALL),
                   ),
                 ],
               )
             ],
           ),
           const SizedBox(
-            height: MARGIN_10,
+            height: Dimens.MARGIN_10,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -443,7 +465,7 @@ class MovieDetailInfoSection extends StatelessWidget {
                 direction: Axis.horizontal,
                 allowHalfRating: false,
                 itemCount: 5,
-                itemSize: MARGIN_XLARGE,
+                itemSize: Dimens.MARGIN_XLARGE,
                 itemBuilder: (context, _) => const Icon(
                   Icons.star,
                   color: Colors.amber,
@@ -454,9 +476,10 @@ class MovieDetailInfoSection extends StatelessWidget {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: MARGIN_MEDIUM, vertical: MARGIN_6),
+                    horizontal: Dimens.MARGIN_MEDIUM,
+                    vertical: Dimens.MARGIN_6),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(MARGIN_SMALL),
+                    borderRadius: BorderRadius.circular(Dimens.MARGIN_SMALL),
                     border: Border.all(color: Colors.grey)),
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
@@ -464,19 +487,19 @@ class MovieDetailInfoSection extends StatelessWidget {
                     Icon(
                       Icons.play_arrow,
                       color: Colors.grey,
-                      size: MARGIN_MEDIUM_2,
+                      size: Dimens.MARGIN_MEDIUM_2,
                     ),
                     Text(
                       "Watch trailer",
-                      style:
-                          TextStyle(color: Colors.grey, fontSize: TEXT_SMALL),
+                      style: TextStyle(
+                          color: Colors.grey, fontSize: Dimens.TEXT_SMALL),
                     )
                   ],
                 ),
               )
             ],
           ),
-          const SizedBox(height: MARGIN_MEDIUM)
+          const SizedBox(height: Dimens.MARGIN_MEDIUM)
         ],
       ),
     );
@@ -493,8 +516,8 @@ class PageBackIconView extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: Colors.black.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(MARGIN_MEDIUM)),
-      padding: const EdgeInsets.all(MARGIN_MEDIUM),
+          borderRadius: BorderRadius.circular(Dimens.MARGIN_MEDIUM)),
+      padding: const EdgeInsets.all(Dimens.MARGIN_MEDIUM),
       child: const Icon(
         Icons.arrow_back,
         color: Colors.white,
