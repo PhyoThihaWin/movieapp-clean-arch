@@ -112,8 +112,11 @@ class MovieRepositoryImpl extends MovieRepository {
   Future<MovieDetailVo> getMovieDetails(int movieId) async {
     var favoriteMovies = await movieDao.getFavoriteMovies().first;
     var raw = movieApiService.getMovieDetail(movieId);
+    var raw2 = await movieApiService.getMovieDetailCredits(movieId);
     return raw.then((onValue) => onValue.toMovieDetailVo(
-        favoriteMovies.filter((it) => it.id == movieId).isNotEmpty));
+        isFavorite: favoriteMovies.filter((it) => it.id == movieId).isNotEmpty,
+        casts: raw2.getCasts(),
+        crews: raw2.getCrews()));
   }
 
   @override

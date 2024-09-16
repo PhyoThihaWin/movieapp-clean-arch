@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
+import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_detail_vo.dart';
 import 'package:movieapp_clean_arch/page/home/cinema_seat_page.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
@@ -39,14 +40,11 @@ class MovieDetailPage extends StatelessWidget {
                     children: [
                       MovieLandscapeImageSection(imageUrl: data.backdropPath),
                       Positioned(
-                          left: Dimens.MARGIN_MEDIUM_2,
-                          top: Dimens.MARGIN_XLARGE,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const PageBackIconView(),
-                          )),
+                        left: Dimens.MARGIN_MEDIUM_2,
+                        top: 50,
+                        child: PageBackIconView(
+                            onBack: () => Navigator.of(context).pop()),
+                      ),
                       Positioned(
                         bottom: 0,
                         left: Dimens.MARGIN_MEDIUM_2,
@@ -62,11 +60,11 @@ class MovieDetailPage extends StatelessWidget {
                   const SizedBox(height: Dimens.MARGIN_LARGE),
                   MovieDescriptionsSection(movieDetailVo: data),
                   const SizedBox(height: Dimens.MARGIN_LARGE),
-                  const MovieStoryLineSection(),
+                  MovieStoryLineSection(movieDetailVo: data),
                   const SizedBox(height: Dimens.MARGIN_LARGE),
-                  const MovieDirectorListSeciton(),
+                  MovieCastsListSeciton(actors: data.casts),
                   const SizedBox(height: Dimens.MARGIN_LARGE),
-                  const MovieActorListSection(),
+                  MovieCrewsListSection(actors: data.crews),
                   const SizedBox(height: Dimens.MARGIN_LARGE),
                   MovieDetailCinemaSection(
                     cinemaIndex: movieDetailPageController.cinemaIndex.value,
@@ -178,10 +176,9 @@ class MovieDetailCinemaSection extends StatelessWidget {
   }
 }
 
-class MovieActorListSection extends StatelessWidget {
-  const MovieActorListSection({
-    super.key,
-  });
+class MovieCrewsListSection extends StatelessWidget {
+  final List<ActorVo> actors;
+  const MovieCrewsListSection({super.key, required this.actors});
 
   @override
   Widget build(BuildContext context) {
@@ -190,24 +187,24 @@ class MovieActorListSection extends StatelessWidget {
       children: [
         const Padding(
           padding: EdgeInsets.only(left: Dimens.MARGIN_MEDIUM_2),
-          child: SectionTitleText("Actor"),
+          child: SectionTitleText("Crews"),
         ),
         const SizedBox(height: Dimens.MARGIN_12),
         HorizontalSingleChildListView(
           padding:
               const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
           itemCount: 10,
-          itemBuilder: (context, index) => const MovieActorListiItemView(),
+          itemBuilder: (context, index) =>
+              MovieActorListiItemView(actorVo: actors[index]),
         )
       ],
     );
   }
 }
 
-class MovieDirectorListSeciton extends StatelessWidget {
-  const MovieDirectorListSeciton({
-    super.key,
-  });
+class MovieCastsListSeciton extends StatelessWidget {
+  final List<ActorVo> actors;
+  const MovieCastsListSeciton({super.key, required this.actors});
 
   @override
   Widget build(BuildContext context) {
@@ -216,14 +213,15 @@ class MovieDirectorListSeciton extends StatelessWidget {
       children: [
         const Padding(
           padding: EdgeInsets.only(left: Dimens.MARGIN_MEDIUM_2),
-          child: SectionTitleText("Director"),
+          child: SectionTitleText("Cast"),
         ),
         const SizedBox(height: Dimens.MARGIN_12),
         HorizontalSingleChildListView(
-          padding:
-              const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
+          padding: EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
           itemCount: 10,
-          itemBuilder: (context, index) => const MovieActorListiItemView(),
+          itemBuilder: (context, index) => MovieActorListiItemView(
+            actorVo: actors[index],
+          ),
         )
       ],
     );
@@ -231,9 +229,8 @@ class MovieDirectorListSeciton extends StatelessWidget {
 }
 
 class MovieActorListiItemView extends StatelessWidget {
-  const MovieActorListiItemView({
-    super.key,
-  });
+  final ActorVo actorVo;
+  const MovieActorListiItemView({super.key, required this.actorVo});
 
   @override
   Widget build(BuildContext context) {
@@ -250,10 +247,8 @@ class MovieActorListiItemView extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
-            child: CachedNetworkImage(
-              imageUrl:
-                  "https://s.yimg.com/ny/api/res/1.2/ZzAHlDHi8a2xdBRRbruaYQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTkyOA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d05a3f087fa57f6d41b865d53a42a5f5",
-              fit: BoxFit.cover,
+            child: MyCachedNetworkImage(
+              imageUrl: actorVo.profilePath,
               height: 30,
               width: 30,
             ),
@@ -261,9 +256,9 @@ class MovieActorListiItemView extends StatelessWidget {
           const SizedBox(
             width: Dimens.MARGIN_MEDIUM,
           ),
-          const Flexible(
+          Flexible(
             child: Text(
-              "Anthony Russo",
+              actorVo.name,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
               style: TextStyle(color: Colors.white),
@@ -276,22 +271,24 @@ class MovieActorListiItemView extends StatelessWidget {
 }
 
 class MovieStoryLineSection extends StatelessWidget {
+  final MovieDetailVo movieDetailVo;
   const MovieStoryLineSection({
     super.key,
+    required this.movieDetailVo,
   });
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionTitleText("Storyline"),
-          SizedBox(height: Dimens.MARGIN_12),
+          const SectionTitleText("Storyline"),
+          const SizedBox(height: Dimens.MARGIN_12),
           Text(
-            "As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos.... See more",
-            style: TextStyle(color: Colors.white),
+            movieDetailVo.overview,
+            style: const TextStyle(color: Colors.white),
           ),
         ],
       ),
@@ -314,13 +311,13 @@ class MovieDescriptionsSection extends StatelessWidget {
           desc: "Movie genre:",
           text: movieDetailVo.genres.map((item) => item.name).join(", "),
         ),
-        SizedBox(height: Dimens.MARGIN_MEDIUM_2),
-        MovieDescTextView(
+        const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
+        const MovieDescTextView(
           desc: "Censorship:",
           text: "13+",
         ),
-        SizedBox(height: Dimens.MARGIN_MEDIUM_2),
-        MovieDescTextView(
+        const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
+        const MovieDescTextView(
           desc: "Language:",
           text: "English",
         ),
@@ -365,10 +362,7 @@ class MovieDescTextView extends StatelessWidget {
 
 class MovieLandscapeImageSection extends StatelessWidget {
   final String imageUrl;
-  const MovieLandscapeImageSection({
-    super.key,
-    required this.imageUrl,
-  });
+  const MovieLandscapeImageSection({super.key, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -376,7 +370,7 @@ class MovieLandscapeImageSection extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          height: context.getScreenHeightBy(3.5),
+          height: context.getScreenHeightBy(3.0),
           width: double.maxFinite,
           child: MyCachedNetworkImage(
             imageUrl: imageUrl,
@@ -428,7 +422,7 @@ class MovieDetailInfoSection extends StatelessWidget {
           ),
           Text(
             "${minutesToHoursAndMinutes(movieDetailVo.runtime)} • ${movieDetailVo.releaseDate}",
-            style: TextStyle(color: Colors.white70),
+            style: const TextStyle(color: Colors.white70),
           ),
           const SizedBox(
             height: 30,
@@ -525,20 +519,22 @@ class MovieDetailInfoSection extends StatelessWidget {
 }
 
 class PageBackIconView extends StatelessWidget {
-  const PageBackIconView({
-    super.key,
-  });
+  final Function() onBack;
+  const PageBackIconView({super.key, required this.onBack});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(Dimens.MARGIN_MEDIUM)),
-      padding: const EdgeInsets.all(Dimens.MARGIN_MEDIUM),
-      child: const Icon(
-        Icons.arrow_back,
-        color: Colors.white,
+    return GestureDetector(
+      onTap: onBack,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(Dimens.MARGIN_MEDIUM)),
+        padding: const EdgeInsets.all(Dimens.MARGIN_MEDIUM),
+        child: const Icon(
+          Icons.arrow_back,
+          color: Colors.white,
+        ),
       ),
     );
   }

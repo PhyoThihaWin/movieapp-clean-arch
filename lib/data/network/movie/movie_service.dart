@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:movieapp_clean_arch/data/network/movie/response/movie_detail_credits_response.dart';
 import 'package:movieapp_clean_arch/data/network/movie/response/movie_detail_response.dart';
 import 'package:movieapp_clean_arch/data/network/movie/response/movie_response.dart';
 import 'package:movieapp_clean_arch/data/network/movie/response/popular_person_response.dart';
@@ -27,4 +28,8 @@ abstract class MovieApiService {
 
   @GET(ENDPOINT_MOVIE_DETAIL)
   Future<MovieDetailResponse> getMovieDetail(@Path("id") int movieId);
+
+  @GET(ENDPOINT_MOVIE_DETAIL_CREDITS)
+  Future<MovieDetailCreditsResponse> getMovieDetailCredits(
+      @Path("id") int movieId);
 }

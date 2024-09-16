@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_detail_vo.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
 
@@ -82,7 +83,10 @@ class MovieDetailResponse {
 
   Map<String, dynamic> toJson() => _$MovieDetailResponseToJson(this);
 
-  MovieDetailVo toMovieDetailVo(bool isFavorite) {
+  MovieDetailVo toMovieDetailVo(
+      {required isFavorite,
+      required List<ActorVo> casts,
+      required List<ActorVo> crews}) {
     return MovieDetailVo(
         id: id.orZero(),
         adult: adult.orFalse(),
@@ -99,8 +103,8 @@ class MovieDetailResponse {
             .orEmpty(),
         originalLanguage: originalLanguage.orEmpty(),
         overview: overview.orEmpty(),
-        casts: [],
-        crews: [],
+        casts: casts,
+        crews: crews,
         isFavorite: isFavorite);
   }
 }
