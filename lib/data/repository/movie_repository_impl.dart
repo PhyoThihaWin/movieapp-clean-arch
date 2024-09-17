@@ -121,7 +121,6 @@ class MovieRepositoryImpl extends MovieRepository {
 
   @override
   Stream<List<MovieVo>> getDbNowPlayingMovies() {
-    getNowPlayingMovies();
     return movieDao.getNowPlayingMovies().asyncMap((event) async {
       var movies = await Future.wait(event.map((e) async {
         return movieVoMapper.map(e);
@@ -131,9 +130,8 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Stream<List<MovieVo>> getDbPopularMovies() {
-    getPopularMovies();
-    return movieDao.getPopularMovies().asyncMap((event) async {
+  Stream<List<MovieVo>> getDbUpComingMovies() {
+    return movieDao.getUpComingMovies().asyncMap((event) async {
       var movies = await Future.wait(event.map((e) async {
         return movieVoMapper.map(e);
       }));
@@ -142,9 +140,8 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Stream<List<MovieVo>> getDbUpComingMovies() {
-    getUpComingMovies();
-    return movieDao.getUpComingMovies().asyncMap((event) async {
+  Stream<List<MovieVo>> getDbPopularMovies() {
+    return movieDao.getPopularMovies().asyncMap((event) async {
       var movies = await Future.wait(event.map((e) async {
         return movieVoMapper.map(e);
       }));

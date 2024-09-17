@@ -15,13 +15,19 @@ abstract class MovieApiService {
   factory MovieApiService(Dio dio) = _MovieApiService;
 
   @GET(ENDPOINT_GET_NOW_PLAYING)
-  Future<DataResponse<List<MovieResponse>>> getNowPlayingMovies();
+  Future<DataResponse<List<MovieResponse>>> getNowPlayingMovies({
+    @Query(PARAM_PAGE) int page = 1,
+  });
 
   @GET(ENDPOINT_UP_COMING)
-  Future<DataResponse<List<MovieResponse>>> getUpComingMovies();
+  Future<DataResponse<List<MovieResponse>>> getUpComingMovies({
+    @Query(PARAM_PAGE) int page = 1,
+  });
 
   @GET(ENDPOINT_POPULAR_MOVIES)
-  Future<DataResponse<List<MovieResponse>>> getPopularMovies();
+  Future<DataResponse<List<MovieResponse>>> getPopularMovies({
+    @Query(PARAM_PAGE) int page = 1,
+  });
 
   @GET(ENDPOINT_POPULAR_PERSON)
   Future<DataResponse<List<PopularPersonResponse>>> getPopularPerson();

@@ -24,9 +24,10 @@ class _MovieApiService implements MovieApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<DataResponse<List<MovieResponse>>> getNowPlayingMovies() async {
+  Future<DataResponse<List<MovieResponse>>> getNowPlayingMovies(
+      {int page = 1}) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<DataResponse<List<MovieResponse>>>(Options(
@@ -65,9 +66,10 @@ class _MovieApiService implements MovieApiService {
   }
 
   @override
-  Future<DataResponse<List<MovieResponse>>> getUpComingMovies() async {
+  Future<DataResponse<List<MovieResponse>>> getUpComingMovies(
+      {int page = 1}) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<DataResponse<List<MovieResponse>>>(Options(
@@ -106,9 +108,10 @@ class _MovieApiService implements MovieApiService {
   }
 
   @override
-  Future<DataResponse<List<MovieResponse>>> getPopularMovies() async {
+  Future<DataResponse<List<MovieResponse>>> getPopularMovies(
+      {int page = 1}) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<DataResponse<List<MovieResponse>>>(Options(

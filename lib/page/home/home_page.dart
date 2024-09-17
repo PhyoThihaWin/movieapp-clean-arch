@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
-import 'package:movieapp_clean_arch/page/home/home_controller.dart';
+import 'package:movieapp_clean_arch/page/home/home_page_controller.dart';
 import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page.dart';
+import 'package:movieapp_clean_arch/page/movielist/movie_listing_page.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
 import 'package:movieapp_clean_arch/widget/horizontal_list_view.dart';
@@ -22,14 +23,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HomeController homeController = Get.find();
+    final HomePageController homeController = Get.find();
 
     RefreshController refreshController =
         RefreshController(initialRefresh: false);
 
     void onRefresh() async {
-      homeController.onInit();
-      await Future.delayed(const Duration(milliseconds: 1000));
+      await homeController.fetchHomeMovies();
       refreshController.refreshCompleted();
     }
 
@@ -55,17 +55,19 @@ class HomePage extends StatelessWidget {
                 delegate: SliverChildListDelegate([
               Column(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
                         horizontal: Dimens.MARGIN_MEDIUM_2),
                     child: Column(children: [
-                      HomeSearchViewSection(),
-                      SectionTitleAndSeeAll("Now Playing"),
-                      SizedBox(height: Dimens.MARGIN_20),
+                      const HomeSearchViewSection(),
+                      SectionTitleAndSeeAll("Now Playing", onClick: () {
+                        context.next(MovieListingPage());
+                      }),
+                      const SizedBox(height: Dimens.MARGIN_20),
                     ]),
                   ),
 
-                  // now playing
+                  // Now playing
                   Obx(() => homeController.nowPlayingMovies.value.render(
                         loading: const CircularProgressIndicator(),
                         success: (data) => CarouselSliderViewSection(
@@ -80,11 +82,11 @@ class HomePage extends StatelessWidget {
                       )),
                   const SizedBox(height: Dimens.MARGIN_LARGE),
 
-                  // upcoming
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
+                  // Upcoming
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
                         horizontal: Dimens.MARGIN_MEDIUM_2),
-                    child: SectionTitleAndSeeAll("Coming soon"),
+                    child: SectionTitleAndSeeAll("Coming soon", onClick: () {}),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                   Obx(() => homeController.upcomingMovies.value.render(
@@ -106,10 +108,13 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: Dimens.MARGIN_LARGE),
 
                   // popular
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
                         horizontal: Dimens.MARGIN_MEDIUM_2),
-                    child: SectionTitleAndSeeAll("Promo & Discount"),
+                    child: SectionTitleAndSeeAll(
+                      "Promo & Discount",
+                      onClick: () {},
+                    ),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                   Obx(() => homeController.popularMovies.value.render(
@@ -128,10 +133,13 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: Dimens.MARGIN_LARGE),
 
                   // celebrities
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
                         horizontal: Dimens.MARGIN_MEDIUM_2),
-                    child: SectionTitleAndSeeAll("Celebrities"),
+                    child: SectionTitleAndSeeAll(
+                      "Celebrities",
+                      onClick: () {},
+                    ),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                   Obx(() => homeController.popularPerson.value.render(
@@ -148,10 +156,10 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: Dimens.MARGIN_LARGE),
 
                   // movie news
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
                         horizontal: Dimens.MARGIN_MEDIUM_2),
-                    child: SectionTitleAndSeeAll("Movie news"),
+                    child: SectionTitleAndSeeAll("Movie news", onClick: () {}),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                   Obx(() => homeController.nowPlayingMovies.value.render(
@@ -377,8 +385,9 @@ class HomeMovieListItemView extends StatelessWidget {
 
 class SectionTitleAndSeeAll extends StatelessWidget {
   final String title;
+  final Function() onClick;
 
-  const SectionTitleAndSeeAll(this.title, {super.key});
+  const SectionTitleAndSeeAll(this.title, {super.key, required this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -387,7 +396,12 @@ class SectionTitleAndSeeAll extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SectionTitleText(title),
-        const SeeAllText(),
+        InkWell(
+            onTap: onClick,
+            customBorder: const RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.all(Radius.circular(Dimens.MARGIN_MEDIUM))),
+            child: const SeeAllText()),
       ],
     );
   }
@@ -400,21 +414,24 @@ class SeeAllText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      children: [
-        Text(
-          "See all",
-          style: TextStyle(
-            fontSize: Dimens.TEXT_REGULAR,
-            color: PRIMARY_COLOR,
-            fontWeight: FontWeight.w400,
+    return const Padding(
+      padding: EdgeInsets.all(Dimens.MARGIN_MEDIUM),
+      child: Row(
+        children: [
+          Text(
+            "See all",
+            style: TextStyle(
+              fontSize: Dimens.TEXT_REGULAR,
+              color: PRIMARY_COLOR,
+              fontWeight: FontWeight.w400,
+            ),
           ),
-        ),
-        Icon(
-          Icons.keyboard_arrow_right,
-          color: PRIMARY_COLOR,
-        )
-      ],
+          Icon(
+            Icons.keyboard_arrow_right,
+            color: PRIMARY_COLOR,
+          )
+        ],
+      ),
     );
   }
 }
@@ -544,25 +561,32 @@ class CarouselSliderViewSection extends StatelessWidget {
           ),
           items: list
               .map(
-                (item) => Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(Dimens.MARGIN_12),
-                      child: MyCachedNetworkImage(
-                        imageUrl: item.posterPath,
-                        width: double.maxFinite,
+                (item) => GestureDetector(
+                  onTap: () {
+                    context.next(MovieDetailPage(
+                      movieId: item.id,
+                    ));
+                  },
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(Dimens.MARGIN_12),
+                        child: MyCachedNetworkImage(
+                          imageUrl: item.posterPath,
+                          width: double.maxFinite,
+                        ),
                       ),
-                    ),
-                    Positioned(
-                        top: Dimens.MARGIN_MEDIUM,
-                        right: Dimens.MARGIN_MEDIUM,
-                        child: FavoriteIconView(
-                          isFavorite: item.isFavorite,
-                          onTap: () {
-                            onFavorite(item.id);
-                          },
-                        ))
-                  ],
+                      Positioned(
+                          top: Dimens.MARGIN_MEDIUM,
+                          right: Dimens.MARGIN_MEDIUM,
+                          child: FavoriteIconView(
+                            isFavorite: item.isFavorite,
+                            onTap: () {
+                              onFavorite(item.id);
+                            },
+                          ))
+                    ],
+                  ),
                 ),
               )
               .toList(),

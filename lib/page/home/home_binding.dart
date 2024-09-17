@@ -5,6 +5,7 @@ import 'package:movieapp_clean_arch/data/cache/hive/mapper/movie_vo_mapper.dart'
 import 'package:movieapp_clean_arch/data/network/movie/mapper/now_playing_movies_mapper.dart';
 import 'package:movieapp_clean_arch/data/network/movie/mapper/popular_person_mapper.dart';
 import 'package:movieapp_clean_arch/data/repository/movie_repository_impl.dart';
+import 'package:movieapp_clean_arch/domain/home/fetch_home_movies_usecase.dart';
 import 'package:movieapp_clean_arch/domain/repository/home/movie_repository.dart';
 import 'package:movieapp_clean_arch/domain/usecase/favorite_movie_usecase.dart';
 import 'package:movieapp_clean_arch/domain/usecase/fetch_now_playing_movies_usecase.dart';
@@ -14,8 +15,9 @@ import 'package:movieapp_clean_arch/domain/usecase/fetch_up_coming_movies_usecas
 import 'package:movieapp_clean_arch/domain/usecase/get_favorite_movies_usecase.dart';
 import 'package:movieapp_clean_arch/domain/usecase/get_movie_detail_usecase.dart';
 import 'package:movieapp_clean_arch/page/favorite/favorite_page_controller.dart';
-import 'package:movieapp_clean_arch/page/home/home_controller.dart';
+import 'package:movieapp_clean_arch/page/home/home_page_controller.dart';
 import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page_controller.dart';
+import 'package:movieapp_clean_arch/page/movielist/movie_listing_page_controller.dart';
 
 import '../../data/cache/hive/mapper/actor_vo_mapper.dart';
 
@@ -40,6 +42,7 @@ class HomeBinding extends Bindings {
         actorEntityMapper,
         actorVoMapper));
 
+    Get.lazyPut(() => FetchHomeMoviesUsecase(Get.find()));
     Get.lazyPut(() => FetchNowPlayingMoviesUseCase(Get.find()));
     Get.lazyPut(() => FetchPopularMoviesUseCase(Get.find()));
     Get.lazyPut(() => FetchUpComingMoviesUseCase(Get.find()));
@@ -49,11 +52,23 @@ class HomeBinding extends Bindings {
     Get.lazyPut(() => GetFavoriteMoviesUsecase(Get.find()));
     Get.lazyPut(() => GetMovieDetailUsecase(Get.find()));
 
-    Get.lazyPut(() => HomeController(
+    Get.lazyPut(() => HomePageController(
+          Get.find(),
+          Get.find(),
+          Get.find(),
+          Get.find(),
+          Get.find(),
+          Get.find(),
+        ));
+    Get.lazyPut(() => FavoritePageController(
+          Get.find(),
+        ));
+    Get.lazyPut(() => MovieDetailPageController(
+          Get.find(),
+          Get.find(),
+        ));
+
+    Get.lazyPut(() => MovieListingPageController(
         Get.find(), Get.find(), Get.find(), Get.find(), Get.find()));
-    Get.lazyPut(
-      () => FavoritePageController(Get.find()),
-    );
-    Get.lazyPut(() => MovieDetailPageController(Get.find(), Get.find()));
   }
 }

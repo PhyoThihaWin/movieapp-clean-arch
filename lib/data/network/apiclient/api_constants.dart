@@ -12,3 +12,8 @@ const String ENDPOINT_MOVIE_DETAIL_CREDITS = "/3/movie/{id}/credits";
 
 /// Parameters
 const String PARAM_MOVIE_CURRENT = "current";
+const String PARAM_PAGE = "page";
+const String PARAM_QUERY = "query";
+
+/// constants
+const pageSize = 20;

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
+import 'package:movieapp_clean_arch/domain/home/fetch_home_movies_usecase.dart';
 import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 import 'package:movieapp_clean_arch/domain/usecase/fetch_now_playing_movies_usecase.dart';
@@ -10,14 +11,16 @@ import 'package:movieapp_clean_arch/domain/usecase/fetch_up_coming_movies_usecas
 
 import '../../domain/usecase/favorite_movie_usecase.dart';
 
-class HomeController extends GetxController {
+class HomePageController extends GetxController {
+  final FetchHomeMoviesUsecase _fetchHomeMoviesUsecase;
   final FetchNowPlayingMoviesUseCase _nowPlayingMoviesUseCase;
   final FetchPopularMoviesUseCase _popularMoviesUseCase;
   final FetchPopularPersonUseCase _popularPersonUseCase;
   final FetchUpComingMoviesUseCase _upComingMoviesUseCase;
   final FavoriteMovieUseCase _favoriteMovieUseCase;
 
-  HomeController(
+  HomePageController(
+      this._fetchHomeMoviesUsecase,
       this._nowPlayingMoviesUseCase,
       this._popularMoviesUseCase,
       this._popularPersonUseCase,
@@ -30,6 +33,8 @@ class HomeController extends GetxController {
   var popularPerson = Rx<ViewState<List<ActorVo>>>(ViewState.idle());
 
   var position = 0.obs;
+
+  Future fetchHomeMovies() => _fetchHomeMoviesUsecase();
 
   getNowPlayingMovies() {
     nowPlayingMovies.value = ViewState.loading();
@@ -73,5 +78,7 @@ class HomeController extends GetxController {
     getUpComingMovies();
     getPopularMovies();
     getPopularPerson();
+
+    fetchHomeMovies();
   }
 }

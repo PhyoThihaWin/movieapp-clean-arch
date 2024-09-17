@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_detail_vo.dart';
 import 'package:movieapp_clean_arch/domain/usecase/get_movie_detail_usecase.dart';
