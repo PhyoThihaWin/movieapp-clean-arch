@@ -1,45 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 
-import '../../data/network/apiclient/api_constants.dart';
 import '../../domain/usecase/favorite_movie_usecase.dart';
-import '../../domain/usecase/fetch_now_playing_movies_usecase.dart';
-import '../../domain/usecase/fetch_popular_movies_usecase.dart';
-import '../../domain/usecase/fetch_popular_person_usecase.dart';
-import '../../domain/usecase/fetch_up_coming_movies_usecase.dart';
+import '../../domain/usecase/get_nowplaying_paging_usecase.dart';
+import '../../domain/usecase/get_up_coming_movies_usecase.dart';
 
 class MovieListingPageController extends GetxController {
-  final FetchNowPlayingMoviesUseCase _nowPlayingMoviesUseCase;
-  final FetchPopularMoviesUseCase _popularMoviesUseCase;
-  final FetchPopularPersonUseCase _popularPersonUseCase;
-  final FetchUpComingMoviesUseCase _upComingMoviesUseCase;
+  final GetNowplayingPagingUsecase _nowPlayingMoviesUseCase;
+  final GetUpComingMoviesUseCase _upComingMoviesUseCase;
   final FavoriteMovieUseCase _favoriteMovieUseCase;
 
-  MovieListingPageController(
-      this._nowPlayingMoviesUseCase,
-      this._popularMoviesUseCase,
-      this._popularPersonUseCase,
-      this._upComingMoviesUseCase,
-      this._favoriteMovieUseCase);
+  MovieListingPageController(this._nowPlayingMoviesUseCase,
+      this._upComingMoviesUseCase, this._favoriteMovieUseCase);
 
-  final PagingController<int, String> pagingController =
+  // paging controller
+  final PagingController<int, MovieVo> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 15);
 
-  Future<void> _fetchPage(int pageKey) async {
+  void _fetchPage(int pageKey) async {
     try {
-      debugPrint("Reached Fetch ${pageKey}");
-      final newItems = List.generate(20, (index) => 'Item $index');
-      await Future.delayed(Duration(seconds: 1));
-
-      final isLastPage = newItems.length < pageSize;
+      debugPrint("Reached Fetch $pageKey");
+      final newItems = await _nowPlayingMoviesUseCase(pageKey);
+      await Future.delayed(Duration(seconds: 3));
+      final isLastPage = newItems.isEmpty;
       if (isLastPage) {
         pagingController.appendLastPage(newItems);
       } else {
-        final nextPageKey = pageKey + newItems.length;
-        pagingController.appendPage(newItems, nextPageKey);
+        pagingController.appendPage(newItems, pageKey);
       }
     } catch (error) {
+      error.printInfo();
       pagingController.error = error;
     }
   }
@@ -48,13 +40,14 @@ class MovieListingPageController extends GetxController {
   void onInit() {
     super.onInit();
     pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
+      _fetchPage(pageKey + 1);
     });
   }
 
   @override
   void onClose() {
     pagingController.dispose();
+    debugPrint("ListPage Controller disposed");
     super.onClose();
   }
 }

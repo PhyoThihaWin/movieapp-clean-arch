@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_detail_vo.dart';
 import 'package:movieapp_clean_arch/domain/usecase/get_movie_detail_usecase.dart';
@@ -32,5 +33,17 @@ class MovieDetailPageController extends GetxController {
       newDetail.data.isFavorite = !newDetail.data.isFavorite;
       movieDetails.value = ViewState.success(newDetail.data);
     }
+  }
+
+  @override
+  void dispose() {
+    debugPrint("DetailPage Controller disposed");
+    super.dispose();
+  }
+
+  @override
+  void onClose() {
+    debugPrint("DetailPage Controller onClose");
+    super.onClose();
   }
 }

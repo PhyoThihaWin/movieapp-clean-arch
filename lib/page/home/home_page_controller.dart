@@ -4,19 +4,19 @@ import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/home/fetch_home_movies_usecase.dart';
 import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
-import 'package:movieapp_clean_arch/domain/usecase/fetch_now_playing_movies_usecase.dart';
-import 'package:movieapp_clean_arch/domain/usecase/fetch_popular_movies_usecase.dart';
+import 'package:movieapp_clean_arch/domain/usecase/get_now_playing_movies_usecase.dart';
+import 'package:movieapp_clean_arch/domain/usecase/get_popular_movies_usecase.dart';
 import 'package:movieapp_clean_arch/domain/usecase/fetch_popular_person_usecase.dart';
-import 'package:movieapp_clean_arch/domain/usecase/fetch_up_coming_movies_usecase.dart';
+import 'package:movieapp_clean_arch/domain/usecase/get_up_coming_movies_usecase.dart';
 
 import '../../domain/usecase/favorite_movie_usecase.dart';
 
 class HomePageController extends GetxController {
   final FetchHomeMoviesUsecase _fetchHomeMoviesUsecase;
-  final FetchNowPlayingMoviesUseCase _nowPlayingMoviesUseCase;
-  final FetchPopularMoviesUseCase _popularMoviesUseCase;
+  final GetNowPlayingMoviesUseCase _nowPlayingMoviesUseCase;
+  final GetPopularMoviesUseCase _popularMoviesUseCase;
   final FetchPopularPersonUseCase _popularPersonUseCase;
-  final FetchUpComingMoviesUseCase _upComingMoviesUseCase;
+  final GetUpComingMoviesUseCase _upComingMoviesUseCase;
   final FavoriteMovieUseCase _favoriteMovieUseCase;
 
   HomePageController(

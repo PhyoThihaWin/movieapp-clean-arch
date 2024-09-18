@@ -173,4 +173,18 @@ class MovieRepositoryImpl extends MovieRepository {
   saveFavoriteMovie(int id) {
     movieDao.updatedFavoriteMovie(id);
   }
+
+  @override
+  Future<List<MovieVo>> getNowPlayingMoviesPaging({int page = 1}) async {
+    var raw = await movieApiService.getNowPlayingMovies(page: page);
+    return IterableNullSafetyExtension(raw.data?.map((e) => movieMapper.map(e)))
+        .orEmpty();
+  }
+
+  @override
+  Future<List<MovieVo>> getUpComingMoviesPaging({int page = 1}) async {
+    var raw = await movieApiService.getUpComingMovies(page: page);
+    return IterableNullSafetyExtension(raw.data?.map((e) => movieMapper.map(e)))
+        .orEmpty();
+  }
 }
