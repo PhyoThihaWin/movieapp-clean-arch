@@ -1,5 +1,8 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/hive_constants.dart';
+import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
+
+import '../../../network/apiclient/api_constants.dart';
 
 part 'actor_entity.g.dart';
 
@@ -24,4 +27,15 @@ class ActorEntity {
 
   ActorEntity(this.adult, this.gender, this.id, this.knownForDepartment,
       this.name, this.originalName, this.popularity, this.profilePath);
+
+  ActorVo toActorVo() => ActorVo(
+        adult,
+        gender,
+        id,
+        knownForDepartment,
+        name,
+        originalName,
+        popularity,
+        IMAGE_BASE_URL + profilePath,
+      );
 }

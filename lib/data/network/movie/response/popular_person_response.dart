@@ -1,4 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:movieapp_clean_arch/data/cache/hive/entities/actor_entity.dart';
+import 'package:movieapp_clean_arch/utils/ext.dart';
+
+import '../../apiclient/api_constants.dart';
 
 part 'popular_person_response.g.dart';
 
@@ -34,6 +38,16 @@ class PopularPersonResponse {
       _$PopularPersonResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$PopularPersonResponseToJson(this);
+
+  ActorEntity toActorEntity() => ActorEntity(
+      adult.orFalse(),
+      gender.orZero(),
+      id.orZero(),
+      knownForDepartment.orEmpty(),
+      name.orEmpty(),
+      originalName.orEmpty(),
+      popularity.orZero(),
+      IMAGE_BASE_URL + profilePath.orEmpty());
 }
 
 @JsonSerializable()

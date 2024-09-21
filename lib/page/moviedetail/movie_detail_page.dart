@@ -28,7 +28,7 @@ class MovieDetailPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: HOME_SCREEN_BACKGROUND_COLOR,
-      body: Obx(() => RenderViewState(
+      body: Obx(() => ViewStateRender(
             viewState: movieDetailPageController.movieDetails.value,
             loading: const Center(child: CircularProgressIndicator()),
             success: (data) => SingleChildScrollView(

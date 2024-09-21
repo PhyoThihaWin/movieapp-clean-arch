@@ -14,7 +14,7 @@ class MovieDetailPageController extends GetxController {
       this.getMovieDetailUsecase, this._favoriteMovieUseCase);
 
   var cinemaIndex = 0.obs;
-  var movieDetails = Rx<ViewState<MovieDetailVo>>(ViewState.idle());
+  var movieDetails = Rx<ViewState<MovieDetailVo>>(ViewStateLoading());
 
   getMovieDetail(int movieId) {
     movieDetails.value = ViewState.loading();

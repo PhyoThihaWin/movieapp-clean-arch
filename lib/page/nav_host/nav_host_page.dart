@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:movieapp_clean_arch/page/favorite/favorite_page.dart';
-import 'package:movieapp_clean_arch/page/home/home_page.dart';
-import 'package:movieapp_clean_arch/page/movie/movie_page.dart';
-import 'package:movieapp_clean_arch/page/profile/profile_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movieapp_clean_arch/widget/svg_image.dart';
 
 import '../../resource/colors.dart';
 import '../../resource/strings.dart';
 
 class NavHostPage extends StatefulWidget {
-  const NavHostPage({super.key});
+  final StatefulNavigationShell child;
+  const NavHostPage({super.key, required this.child});
 
   @override
   State<NavHostPage> createState() => _NavHostPageState();
@@ -19,13 +17,6 @@ class NavHostPage extends StatefulWidget {
 class _NavHostPageState extends State<NavHostPage> {
   int pageIndex = 0;
 
-  late final List<Widget> _pageBody = [
-    const HomePage(),
-    const FavoritePage(),
-    const MoviePage(),
-    const ProfilePage()
-  ];
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
@@ -33,10 +24,7 @@ class _NavHostPageState extends State<NavHostPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
-        body: IndexedStack(
-          index: pageIndex,
-          children: _pageBody,
-        ),
+        body: widget.child,
         bottomNavigationBar: NavigationBarTheme(
           data: NavigationBarThemeData(
             labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>(
@@ -52,6 +40,10 @@ class _NavHostPageState extends State<NavHostPage> {
               onDestinationSelected: (index) {
                 setState(() {
                   pageIndex = index;
+                  widget.child.goBranch(
+                    index,
+                    initialLocation: index == widget.child.currentIndex,
+                  );
                 });
               },
               destinations: destinationItems()),
@@ -85,6 +77,7 @@ List<NavigationDestination> destinationItems() {
     ),
   ];
 }
+
 
 /* BottomNavigationBar(
         backgroundColor: HOME_SCREEN_BACKGROUND_COLOR,

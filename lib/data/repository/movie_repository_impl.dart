@@ -4,8 +4,6 @@ import 'package:movieapp_clean_arch/data/cache/hive/daos/movie_dao.dart';
 import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 import 'package:movieapp_clean_arch/domain/repository/home/movie_repository.dart';
-import 'package:movieapp_clean_arch/utils/ext.dart';
-import 'package:stream_transform/stream_transform.dart';
 
 import '../../domain/models/movie_detail_vo.dart';
 import '../cache/hive/mapper/actor_entity_mapper.dart';
@@ -45,17 +43,15 @@ class MovieRepositoryImpl extends MovieRepository {
   getNowPlayingMovies() {
     var raw = movieApiService.getNowPlayingMovies();
     raw.then((value) {
-      var data = IterableNullSafetyExtension(
-          value.data?.map((e) => movieMapper.map(e))).orEmpty();
-      movieDao.saveAllMovie(data.map(
-        (e) {
-          var entity = movieEntityMapper.map(e);
-          entity.isNowPlaying = true;
-          entity.isComingSoon = false;
-          entity.isPopular = false;
-          return entity;
-        },
-      ).toList());
+      var entity = value.data?.map((value) {
+            var item = value.toMovieEntity();
+            item.isNowPlaying = true;
+            item.isComingSoon = false;
+            item.isPopular = false;
+            return item;
+          }) ??
+          [];
+      movieDao.saveAllMovie(entity.toList());
     });
   }
 
@@ -63,17 +59,15 @@ class MovieRepositoryImpl extends MovieRepository {
   getUpComingMovies() {
     var raw = movieApiService.getUpComingMovies();
     raw.then((value) {
-      var data = IterableNullSafetyExtension(
-          value.data?.map((e) => movieMapper.map(e))).orEmpty();
-      movieDao.saveAllMovie(data.map(
-        (e) {
-          var entity = movieEntityMapper.map(e);
-          entity.isNowPlaying = false;
-          entity.isComingSoon = true;
-          entity.isPopular = false;
-          return entity;
-        },
-      ).toList());
+      var entity = value.data?.map((value) {
+            var item = value.toMovieEntity();
+            item.isNowPlaying = false;
+            item.isComingSoon = true;
+            item.isPopular = false;
+            return item;
+          }) ??
+          [];
+      movieDao.saveAllMovie(entity.toList());
     });
   }
 
@@ -81,17 +75,15 @@ class MovieRepositoryImpl extends MovieRepository {
   getPopularMovies() {
     var raw = movieApiService.getPopularMovies();
     raw.then((value) {
-      var data = IterableNullSafetyExtension(
-          value.data?.map((e) => movieMapper.map(e))).orEmpty();
-      movieDao.saveAllMovie(data.map(
-        (e) {
-          var entity = movieEntityMapper.map(e);
-          entity.isNowPlaying = false;
-          entity.isComingSoon = false;
-          entity.isPopular = true;
-          return entity;
-        },
-      ).toList());
+      var entity = value.data?.map((value) {
+            var item = value.toMovieEntity();
+            item.isNowPlaying = false;
+            item.isComingSoon = false;
+            item.isPopular = true;
+            return item;
+          }) ??
+          [];
+      movieDao.saveAllMovie(entity.toList());
     });
   }
 
@@ -99,12 +91,8 @@ class MovieRepositoryImpl extends MovieRepository {
   getPopularPerson() {
     var raw = movieApiService.getPopularPerson();
     return raw.then(
-      (value) {
-        var data = IterableNullSafetyExtension(
-            value.data?.map((e) => personMapper.map(e))).orEmpty();
-        actorDao
-            .saveAllActors(data.map((e) => actorEntityMapper.map(e)).toList());
-      },
+      (value) => actorDao.saveAllActors(
+          value.data?.map((value) => value.toActorEntity()).toList() ?? []),
     );
   }
 
@@ -121,52 +109,38 @@ class MovieRepositoryImpl extends MovieRepository {
 
   @override
   Stream<List<MovieVo>> getDbNowPlayingMovies() {
-    return movieDao.getNowPlayingMovies().asyncMap((event) async {
-      var movies = await Future.wait(event.map((e) async {
-        return movieVoMapper.map(e);
-      }));
-      return movies.toList();
-    });
+    return movieDao
+        .getNowPlayingMovies()
+        .asyncMap((event) => event.map((value) => value.toMovieVo()).toList());
   }
 
   @override
   Stream<List<MovieVo>> getDbUpComingMovies() {
-    return movieDao.getUpComingMovies().asyncMap((event) async {
-      var movies = await Future.wait(event.map((e) async {
-        return movieVoMapper.map(e);
-      }));
-      return movies.toList();
-    });
+    return movieDao
+        .getUpComingMovies()
+        .asyncMap((event) => event.map((value) => value.toMovieVo()).toList());
   }
 
   @override
   Stream<List<MovieVo>> getDbPopularMovies() {
-    return movieDao.getPopularMovies().asyncMap((event) async {
-      var movies = await Future.wait(event.map((e) async {
-        return movieVoMapper.map(e);
-      }));
-      return movies.toList();
-    });
+    return movieDao
+        .getPopularMovies()
+        .asyncMap((event) => event.map((value) => value.toMovieVo()).toList());
   }
 
   @override
   Stream<List<ActorVo>> getDbPopularPerson() {
     getPopularPerson();
     return actorDao
-        .getAllActorsEventStream()
-        .startWith(actorDao.getActors())
-        .map((event) =>
-            actorDao.getActors().map((e) => actorVoMapper.map(e)).toList());
+        .getActors()
+        .asyncMap((event) => event.map((value) => value.toActorVo()).toList());
   }
 
   @override
   Stream<List<MovieVo>> getDbFavoriteMOvies() {
-    return movieDao.getFavoriteMovies().asyncMap((event) async {
-      var movies = await Future.wait(event.map((e) async {
-        return movieVoMapper.map(e);
-      }));
-      return movies.toList();
-    });
+    return movieDao
+        .getFavoriteMovies()
+        .asyncMap((event) => event.map((value) => value.toMovieVo()).toList());
   }
 
   @override
@@ -177,14 +151,12 @@ class MovieRepositoryImpl extends MovieRepository {
   @override
   Future<List<MovieVo>> getNowPlayingMoviesPaging({int page = 1}) async {
     var raw = await movieApiService.getNowPlayingMovies(page: page);
-    return IterableNullSafetyExtension(raw.data?.map((e) => movieMapper.map(e)))
-        .orEmpty();
+    return raw.data?.map((e) => e.toMovieVo(false)).toList() ?? [];
   }
 
   @override
   Future<List<MovieVo>> getUpComingMoviesPaging({int page = 1}) async {
     var raw = await movieApiService.getUpComingMovies(page: page);
-    return IterableNullSafetyExtension(raw.data?.map((e) => movieMapper.map(e)))
-        .orEmpty();
+    return raw.data?.map((e) => e.toMovieVo(false)).toList() ?? [];
   }
 }

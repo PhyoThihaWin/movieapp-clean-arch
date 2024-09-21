@@ -94,7 +94,6 @@ extension NullBoolExtension on bool? {
 /// list extension
 extension ListNullSafetyExtension<T> on List<T?>? {
   List<T?> orEmpty() => this ?? [];
-
   List<T> orEmptyObject() =>
       this?.where((element) => element != null).toList().cast() ?? [];
 }

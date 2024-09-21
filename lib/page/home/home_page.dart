@@ -1,12 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 import 'package:movieapp_clean_arch/page/home/home_page_controller.dart';
 import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page.dart';
 import 'package:movieapp_clean_arch/page/movielist/movie_listing_page.dart';
+import 'package:movieapp_clean_arch/page/nav_host/custom_nav_helper.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
 import 'package:movieapp_clean_arch/widget/horizontal_list_view.dart';
@@ -61,14 +64,17 @@ class HomePage extends StatelessWidget {
                     child: Column(children: [
                       const HomeSearchViewSection(),
                       SectionTitleAndSeeAll("Now Playing", onClick: () {
-                        context.next(MovieListingPage());
+                        kIsWeb
+                            ? context.go(CustomNavigationHelper.listingPath)
+                            : context.push(CustomNavigationHelper.listingPath);
                       }),
                       const SizedBox(height: Dimens.MARGIN_20),
                     ]),
                   ),
 
                   // Now playing
-                  Obx(() => homeController.nowPlayingMovies.value.render(
+                  Obx(() => ViewStateRender(
+                        viewState: homeController.nowPlayingMovies.value,
                         loading: const CircularProgressIndicator(),
                         success: (data) => CarouselSliderViewSection(
                           list: data.take(8).toList(),
@@ -89,7 +95,8 @@ class HomePage extends StatelessWidget {
                     child: SectionTitleAndSeeAll("Coming soon", onClick: () {}),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
-                  Obx(() => homeController.upcomingMovies.value.render(
+                  Obx(() => ViewStateRender(
+                      viewState: homeController.upcomingMovies.value,
                       loading: const CircularProgressIndicator(),
                       success: (data) => HorizontalListView(
                             padding: const EdgeInsets.symmetric(
@@ -117,7 +124,8 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
-                  Obx(() => homeController.popularMovies.value.render(
+                  Obx(() => ViewStateRender(
+                        viewState: homeController.popularMovies.value,
                         loading: const CircularProgressIndicator(),
                         success: (data) => SizedBox(
                           height: 180,
@@ -142,7 +150,8 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
-                  Obx(() => homeController.popularPerson.value.render(
+                  Obx(() => ViewStateRender(
+                        viewState: homeController.popularPerson.value,
                         loading: const CircularProgressIndicator(),
                         success: (data) => HorizontalSingleChildListView(
                           padding: const EdgeInsets.symmetric(
@@ -162,7 +171,8 @@ class HomePage extends StatelessWidget {
                     child: SectionTitleAndSeeAll("Movie news", onClick: () {}),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
-                  Obx(() => homeController.nowPlayingMovies.value.render(
+                  Obx(() => ViewStateRender(
+                      viewState: homeController.nowPlayingMovies.value,
                       loading: const CircularProgressIndicator(),
                       success: (data) => HorizontalListView(
                             padding: const EdgeInsets.symmetric(

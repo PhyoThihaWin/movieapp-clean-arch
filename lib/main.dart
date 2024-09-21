@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/entities/actor_entity.dart';
-import 'package:movieapp_clean_arch/data/network/apiclient/dio_client.dart';
 import 'package:movieapp_clean_arch/initial_binding.dart';
-import 'package:movieapp_clean_arch/page/nav_host/nav_host_page.dart';
-import 'data/cache/hive/hive_constants.dart';
+
 import 'data/cache/hive/entities/movie_entity.dart';
+import 'data/cache/hive/hive_constants.dart';
+import 'page/nav_host/custom_nav_helper.dart';
 import 'resource/colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  CustomNavigationHelper.instance;
+
   await Hive.initFlutter();
 
   Hive
@@ -31,17 +33,19 @@ class MyApp extends StatelessWidget {
     const cacheSize200Mb = 1000 * 1024 * 1024;
     PaintingBinding.instance.imageCache.maximumSizeBytes = cacheSize200Mb;
 
-    return GetMaterialApp(
-      initialRoute: "/",
+    return GetMaterialApp.router(
       initialBinding: InitialBinding(),
       title: 'MovieCleanArchitecture',
       debugShowCheckedModeBanner: false,
-      navigatorKey: DioClient.chuck.getNavigatorKey(),
       theme: ThemeData(
           primaryColor: PRIMARY_COLOR,
           primarySwatch: PRIMARY_COLOR_MATERIAL,
           fontFamily: "Poppins"),
-      home: const NavHostPage(),
+      routerDelegate: CustomNavigationHelper.router.routerDelegate,
+      routeInformationParser:
+          CustomNavigationHelper.router.routeInformationParser,
+      routeInformationProvider:
+          CustomNavigationHelper.router.routeInformationProvider,
     );
   }
 }
