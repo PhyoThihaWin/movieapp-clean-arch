@@ -72,7 +72,7 @@ class MovieGridItemView extends StatelessWidget {
               height: 240,
             ),
           ),
-          SizedBox(height: Dimens.MARGIN_MEDIUM),
+          const SizedBox(height: Dimens.MARGIN_MEDIUM),
           Text(
             movie.title,
             maxLines: 2,

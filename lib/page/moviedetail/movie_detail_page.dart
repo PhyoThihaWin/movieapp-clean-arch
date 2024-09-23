@@ -225,7 +225,8 @@ class MovieCastsListSeciton extends StatelessWidget {
         ),
         const SizedBox(height: Dimens.MARGIN_12),
         HorizontalSingleChildListView(
-          padding: EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
+          padding:
+              const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
           itemCount: 10,
           itemBuilder: (context, index) => MovieActorListiItemView(
             actorVo: actors[index],
@@ -269,7 +270,7 @@ class MovieActorListiItemView extends StatelessWidget {
               actorVo.name,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           )
         ],

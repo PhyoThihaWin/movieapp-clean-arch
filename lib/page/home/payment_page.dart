@@ -36,7 +36,7 @@ class PaymentPage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,18 +76,16 @@ class PaymentPage extends StatelessWidget {
 }
 
 class _PaymentCountDownView extends StatelessWidget {
-  const _PaymentCountDownView({
-    super.key,
-  });
+  const _PaymentCountDownView();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(Dimens.MARGIN_MEDIUM_2),
+      padding: const EdgeInsets.all(Dimens.MARGIN_MEDIUM_2),
       decoration: BoxDecoration(
           color: SEAT_RESERVED_COLOR,
           borderRadius: BorderRadius.circular(Dimens.RADIUS_MEDIUM)),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
@@ -158,9 +156,7 @@ class PaymentListItemView extends StatelessWidget {
 }
 
 class _TotalPaymentAmountRow extends StatelessWidget {
-  const _TotalPaymentAmountRow({
-    super.key,
-  });
+  const _TotalPaymentAmountRow();
 
   @override
   Widget build(BuildContext context) {
@@ -188,9 +184,7 @@ class _TotalPaymentAmountRow extends StatelessWidget {
 }
 
 class _DiscountCodeApplySection extends StatelessWidget {
-  const _DiscountCodeApplySection({
-    super.key,
-  });
+  const _DiscountCodeApplySection();
 
   @override
   Widget build(BuildContext context) {
@@ -224,8 +218,8 @@ class _DiscountCodeApplySection extends StatelessWidget {
               onPressed: null,
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(PRIMARY_COLOR),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      WidgetStateProperty.all<Color>(PRIMARY_COLOR),
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(Dimens.RADIUS_MEDIUM),
@@ -244,9 +238,7 @@ class _DiscountCodeApplySection extends StatelessWidget {
 }
 
 class _OrderIdAndSeatSection extends StatelessWidget {
-  const _OrderIdAndSeatSection({
-    super.key,
-  });
+  const _OrderIdAndSeatSection();
 
   @override
   Widget build(BuildContext context) {
@@ -289,9 +281,7 @@ class _OrderIdAndSeatSection extends StatelessWidget {
 }
 
 class _MovieImageAndInfoSection extends StatelessWidget {
-  const _MovieImageAndInfoSection({
-    super.key,
-  });
+  const _MovieImageAndInfoSection();
 
   @override
   Widget build(BuildContext context) {
@@ -364,7 +354,7 @@ class _MovieInfoRowView extends StatelessWidget {
   final Widget icon;
   final String text;
 
-  _MovieInfoRowView({required this.icon, required this.text});
+  const _MovieInfoRowView({required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {

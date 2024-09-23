@@ -21,7 +21,7 @@ class MovieListingPageController extends GetxController {
     try {
       debugPrint("Reached Fetch $pageKey");
       final newItems = await _nowPlayingMoviesUseCase(pageKey);
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
       final isLastPage = newItems.isEmpty;
       if (isLastPage) {
         pagingController.appendLastPage(newItems);

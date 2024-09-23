@@ -7,10 +7,7 @@ class MyCachedNetworkImage extends StatelessWidget {
   final double? height;
 
   const MyCachedNetworkImage(
-      {required this.imageUrl,
-      super.key,
-      this.width = null,
-      this.height = null});
+      {required this.imageUrl, super.key, this.width, this.height});
 
   @override
   Widget build(BuildContext context) {

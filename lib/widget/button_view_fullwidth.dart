@@ -8,8 +8,8 @@ class ButtonViewFullWidth extends StatelessWidget {
   final String btnText;
   final EdgeInsetsGeometry? margin;
 
-  ButtonViewFullWidth(
-      {required this.onClick, required this.btnText, this.margin});
+  const ButtonViewFullWidth(
+      {super.key, required this.onClick, required this.btnText, this.margin});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,8 @@ class ButtonViewFullWidth extends StatelessWidget {
           onClick();
         },
         style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(PRIMARY_COLOR),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            backgroundColor: WidgetStateProperty.all<Color>(PRIMARY_COLOR),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(Dimens.RADIUS_XLARGE),
                     side: const BorderSide(color: PRIMARY_COLOR)))),
