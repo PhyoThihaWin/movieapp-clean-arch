@@ -306,34 +306,34 @@ class _MovieImageAndInfoSection extends StatelessWidget {
                 flex: 5,
                 child: Container(
                   padding: const EdgeInsets.all(Dimens.MARGIN_MEDIUM_2),
-                  child: Column(
+                  child: const Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         "Avengers: Infinity War",
                         style: TextStyle(
                             color: PRIMARY_COLOR,
                             fontSize: Dimens.TEXT_LARGE,
                             fontWeight: FontWeight.w700),
                       ),
-                      const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
+                      SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _MovieInfoRowView(
-                            icon: const SvgIcon("ic_video_play.svg"),
+                            icon: SvgIcon("ic_video_play.svg"),
                             text: "Acton, adventure, sci-fi",
                           ),
-                          const SizedBox(height: Dimens.MARGIN_MEDIUM),
+                          SizedBox(height: Dimens.MARGIN_MEDIUM),
                           _MovieInfoRowView(
-                            icon: const SvgIcon("ic_location.svg"),
+                            icon: SvgIcon("ic_location.svg"),
                             text: "Vincom Ocean Park CGV",
                           ),
-                          const SizedBox(height: Dimens.MARGIN_MEDIUM),
+                          SizedBox(height: Dimens.MARGIN_MEDIUM),
                           _MovieInfoRowView(
-                            icon: const SvgIcon("ic_clock.svg"),
+                            icon: SvgIcon("ic_clock.svg"),
                             text: "10.12.2022 • 14:15",
                           ),
                         ],

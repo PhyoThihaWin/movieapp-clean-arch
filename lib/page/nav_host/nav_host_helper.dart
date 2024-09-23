@@ -142,12 +142,13 @@ class NavHostHelper {
         },
       ),
       GoRoute(
-        path: listingPath,
+        path: "$listingPath/:movieType",
         onExit: (context, state) => MovieListingBinding().dispose(),
         pageBuilder: (context, state) {
           MovieListingBinding().dependencies();
+          var movieType = state.pathParameters["movieType"] ?? "";
           return getPage(
-            child: const MovieListingPage(),
+            child: MovieListingPage(movieType),
             state: state,
           );
         },
@@ -166,6 +167,7 @@ class NavHostHelper {
     required GoRouterState state,
   }) {
     return MaterialPage(
+      allowSnapshotting: false,
       key: state.pageKey,
       child: child,
     );

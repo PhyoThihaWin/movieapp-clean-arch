@@ -41,9 +41,9 @@ class MoviePage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                   horizontal: Dimens.MARGIN_MEDIUM_2,
                   vertical: Dimens.MARGIN_LARGE),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisSpacing: Dimens.MARGIN_MEDIUM_2,
-                childAspectRatio: 0.48,
+                mainAxisExtent: MediaQuery.of(context).size.height / 2.4,
                 crossAxisCount: 2,
               ),
               pagingController: moviePageController.pagingController,

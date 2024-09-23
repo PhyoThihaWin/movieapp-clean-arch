@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 import 'package:movieapp_clean_arch/page/home/home_page_controller.dart';
+import 'package:movieapp_clean_arch/page/movielist/movie_listing_page.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
@@ -60,7 +61,8 @@ class HomePage extends StatelessWidget {
                     child: Column(children: [
                       const HomeSearchViewSection(),
                       SectionTitleAndSeeAll("Now Playing", onClick: () {
-                        context.navigate(NavHostHelper.listingPath);
+                        context.navigate(
+                            "${NavHostHelper.listingPath}/${MovieType.nowPlaying.name}");
                       }),
                       const SizedBox(height: Dimens.MARGIN_20),
                     ]),
@@ -87,7 +89,8 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: Dimens.MARGIN_MEDIUM_2),
                     child: SectionTitleAndSeeAll("Coming soon", onClick: () {
-                      context.navigate(NavHostHelper.listingPath);
+                      context.navigate(
+                          "${NavHostHelper.listingPath}/${MovieType.upComing.name}");
                     }),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),

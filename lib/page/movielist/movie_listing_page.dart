@@ -1,3 +1,4 @@
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
@@ -11,13 +12,29 @@ import 'package:movieapp_clean_arch/widget/my_cached_network_image.dart';
 import '../../resource/colors.dart';
 import '../home/home_page.dart';
 
-class MovieListingPage extends StatelessWidget {
-  const MovieListingPage({super.key});
+enum MovieType { nowPlaying, upComing, popular }
+
+class MovieListingPage extends StatefulWidget {
+  final String movieType;
+  MovieListingPage(this.movieType, {super.key});
+  MovieListingPageController movieListingPageController = Get.find();
+
+  @override
+  State<MovieListingPage> createState() => _MovieListingPageState();
+}
+
+class _MovieListingPageState extends State<MovieListingPage> {
+  @override
+  void initState() {
+    super.initState();
+    var movieType =
+        MovieType.values.find((value) => value.name == widget.movieType) ??
+            MovieType.nowPlaying;
+    widget.movieListingPageController.fetchMovies(movieType);
+  }
 
   @override
   Widget build(BuildContext context) {
-    MovieListingPageController movieListingPageController = Get.find();
-
     return SafeArea(
       bottom: false,
       child: Scaffold(
@@ -33,12 +50,12 @@ class MovieListingPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
               horizontal: Dimens.MARGIN_MEDIUM_2,
               vertical: Dimens.MARGIN_MEDIUM_2),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisSpacing: Dimens.MARGIN_MEDIUM_2,
-            childAspectRatio: 0.48,
+            mainAxisExtent: MediaQuery.of(context).size.height / 2.4,
             crossAxisCount: 2,
           ),
-          pagingController: movieListingPageController.pagingController,
+          pagingController: widget.movieListingPageController.pagingController,
           showNewPageProgressIndicatorAsGridChild: false,
           builderDelegate: PagedChildBuilderDelegate<MovieVo>(
             itemBuilder: (context, item, index) => MovieGridItemView(item),
@@ -69,7 +86,7 @@ class MovieGridItemView extends StatelessWidget {
             child: MyCachedNetworkImage(
               imageUrl: movie.posterPath,
               width: double.maxFinite,
-              height: 240,
+              height: MediaQuery.of(context).size.height / 3.6,
             ),
           ),
           const SizedBox(height: Dimens.MARGIN_MEDIUM),
