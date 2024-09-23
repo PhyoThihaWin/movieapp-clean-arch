@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/data/cache/cache_binding.dart';
 import 'package:movieapp_clean_arch/data/network/network_binding.dart';
-import 'package:movieapp_clean_arch/page/home/home_binding.dart';
+import 'package:movieapp_clean_arch/data/repository_binding.dart';
 
 class InitialBinding implements Bindings {
   @override
@@ -12,7 +12,7 @@ class InitialBinding implements Bindings {
     /// Cache layer binding
     CacheBinding().dependencies();
 
-    /// page binding
-    HomeBinding().dependencies();
+    /// Repository binding
+    RepositoryBinding().dependencies();
   }
 }

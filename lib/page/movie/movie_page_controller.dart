@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 
+import '../../domain/models/movie_vo.dart';
 import '../../domain/usecase/favorite_movie_usecase.dart';
 import '../../domain/usecase/get_nowplaying_paging_usecase.dart';
 
-class MovieListingPageController extends GetxController {
+class MoviePageController extends GetxController {
   final GetNowplayingPagingUsecase _nowPlayingMoviesUseCase;
   final FavoriteMovieUseCase _favoriteMovieUseCase;
 
-  MovieListingPageController(
+  MoviePageController(
       this._nowPlayingMoviesUseCase, this._favoriteMovieUseCase);
 
   // paging controller
@@ -21,7 +21,6 @@ class MovieListingPageController extends GetxController {
     try {
       debugPrint("Reached Fetch $pageKey");
       final newItems = await _nowPlayingMoviesUseCase(pageKey);
-      await Future.delayed(Duration(seconds: 1));
       final isLastPage = newItems.isEmpty;
       if (isLastPage) {
         pagingController.appendLastPage(newItems);

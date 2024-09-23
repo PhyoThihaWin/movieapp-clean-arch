@@ -6,12 +6,12 @@ import 'package:movieapp_clean_arch/initial_binding.dart';
 
 import 'data/cache/hive/entities/movie_entity.dart';
 import 'data/cache/hive/hive_constants.dart';
-import 'page/nav_host/custom_nav_helper.dart';
+import 'page/nav_host/nav_host_helper.dart';
 import 'resource/colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  CustomNavigationHelper.instance;
+  NavHostHelper.instance;
 
   await Hive.initFlutter();
 
@@ -41,11 +41,9 @@ class MyApp extends StatelessWidget {
           primaryColor: PRIMARY_COLOR,
           primarySwatch: PRIMARY_COLOR_MATERIAL,
           fontFamily: "Poppins"),
-      routerDelegate: CustomNavigationHelper.router.routerDelegate,
-      routeInformationParser:
-          CustomNavigationHelper.router.routeInformationParser,
-      routeInformationProvider:
-          CustomNavigationHelper.router.routeInformationProvider,
+      routerDelegate: NavHostHelper.router.routerDelegate,
+      routeInformationParser: NavHostHelper.router.routeInformationParser,
+      routeInformationProvider: NavHostHelper.router.routeInformationProvider,
     );
   }
 }

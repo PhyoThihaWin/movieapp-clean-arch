@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../page/nav_host/nav_host_helper.dart';
 import '../resource/dimens.dart';
 
 /// Context Extension
@@ -51,6 +54,11 @@ extension PageNavigator on BuildContext {
         return alert;
       },
     );
+  }
+
+  // go_router
+  void navigate(String location, {Object? extra}) {
+    kIsWeb ? go(location, extra: extra) : push(location, extra: extra);
   }
 }
 

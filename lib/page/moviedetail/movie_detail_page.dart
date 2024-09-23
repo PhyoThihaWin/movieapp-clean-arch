@@ -1,13 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_detail_vo.dart';
 import 'package:movieapp_clean_arch/page/home/cinema_seat_page.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
 import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page_controller.dart';
+import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
@@ -19,11 +22,11 @@ import '../../widget/horizontal_singlechild_list_view.dart';
 
 class MovieDetailPage extends StatelessWidget {
   final int movieId;
-  const MovieDetailPage({super.key, required this.movieId});
+  MovieDetailPage({super.key, required this.movieId});
+  MovieDetailPageController movieDetailPageController = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    MovieDetailPageController movieDetailPageController = Get.find();
     movieDetailPageController.getMovieDetail(movieId);
 
     return Scaffold(
@@ -42,8 +45,13 @@ class MovieDetailPage extends StatelessWidget {
                       Positioned(
                         left: Dimens.MARGIN_MEDIUM_2,
                         top: 50,
-                        child: PageBackIconView(
-                            onBack: () => Navigator.of(context).pop()),
+                        child: PageBackIconView(onBack: () {
+                          if (kIsWeb) {
+                            context.go(NavHostHelper.homePath);
+                          } else {
+                            context.popBack();
+                          }
+                        }),
                       ),
                       Positioned(
                         bottom: 0,

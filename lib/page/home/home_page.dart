@@ -8,8 +8,7 @@ import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 import 'package:movieapp_clean_arch/page/home/home_page_controller.dart';
 import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page.dart';
-import 'package:movieapp_clean_arch/page/movielist/movie_listing_page.dart';
-import 'package:movieapp_clean_arch/page/nav_host/custom_nav_helper.dart';
+import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/ext.dart';
 import 'package:movieapp_clean_arch/widget/horizontal_list_view.dart';
@@ -64,9 +63,7 @@ class HomePage extends StatelessWidget {
                     child: Column(children: [
                       const HomeSearchViewSection(),
                       SectionTitleAndSeeAll("Now Playing", onClick: () {
-                        kIsWeb
-                            ? context.go(CustomNavigationHelper.listingPath)
-                            : context.push(CustomNavigationHelper.listingPath);
+                        context.navigate(NavHostHelper.listingPath);
                       }),
                       const SizedBox(height: Dimens.MARGIN_20),
                     ]),
@@ -92,7 +89,9 @@ class HomePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: Dimens.MARGIN_MEDIUM_2),
-                    child: SectionTitleAndSeeAll("Coming soon", onClick: () {}),
+                    child: SectionTitleAndSeeAll("Coming soon", onClick: () {
+                      context.navigate(NavHostHelper.listingPath);
+                    }),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                   Obx(() => ViewStateRender(
@@ -315,9 +314,7 @@ class HomeMovieListItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.next(MovieDetailPage(
-          movieId: movie.id,
-        ));
+        context.navigate("${NavHostHelper.detailPath}/${movie.id}");
       },
       child: Container(
         width: 200,
@@ -573,9 +570,7 @@ class CarouselSliderViewSection extends StatelessWidget {
               .map(
                 (item) => GestureDetector(
                   onTap: () {
-                    context.next(MovieDetailPage(
-                      movieId: item.id,
-                    ));
+                    context.navigate("${NavHostHelper.detailPath}/${item.id}");
                   },
                   child: Stack(
                     children: [

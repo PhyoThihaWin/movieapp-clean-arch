@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:movieapp_clean_arch/page/favorite/favorite_page.dart';
+import 'package:movieapp_clean_arch/page/favorite/favorite_page_binding.dart';
+import 'package:movieapp_clean_arch/page/home/home_binding.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
 import 'package:movieapp_clean_arch/page/movie/movie_page.dart';
+import 'package:movieapp_clean_arch/page/movie/movie_page_binding.dart';
+import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_binding.dart';
 import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page.dart';
+import 'package:movieapp_clean_arch/page/movielist/movie_listing_binding.dart';
 import 'package:movieapp_clean_arch/page/movielist/movie_listing_page.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_page.dart';
 import 'package:movieapp_clean_arch/page/profile/profile_page.dart';
 
-class CustomNavigationHelper {
-  static final CustomNavigationHelper _instance =
-      CustomNavigationHelper._internal();
+class NavHostHelper {
+  static final NavHostHelper _instance = NavHostHelper._internal();
 
-  static CustomNavigationHelper get instance => _instance;
+  static NavHostHelper get instance => _instance;
 
-  factory CustomNavigationHelper() {
+  factory NavHostHelper() {
     return _instance;
   }
 
@@ -47,7 +52,7 @@ class CustomNavigationHelper {
   static const String detailPath = '/detail';
   static const String listingPath = '/listing';
 
-  CustomNavigationHelper._internal() {
+  NavHostHelper._internal() {
     final routes = [
       StatefulShellRoute.indexedStack(
         parentNavigatorKey: parentNavigatorKey,
@@ -58,6 +63,7 @@ class CustomNavigationHelper {
               GoRoute(
                 path: homePath,
                 pageBuilder: (context, GoRouterState state) {
+                  HomeBinding().dependencies();
                   return getPage(
                     child: const HomePage(),
                     state: state,
@@ -72,6 +78,7 @@ class CustomNavigationHelper {
               GoRoute(
                 path: favoritePath,
                 pageBuilder: (context, state) {
+                  FavoritePageBinding().dependencies();
                   return getPage(
                     child: const FavoritePage(),
                     state: state,
@@ -86,6 +93,7 @@ class CustomNavigationHelper {
               GoRoute(
                 path: moviePath,
                 pageBuilder: (context, state) {
+                  MoviePageBinding().dependencies();
                   return getPage(
                     child: const MoviePage(),
                     state: state,
@@ -122,19 +130,22 @@ class CustomNavigationHelper {
       ),
       GoRoute(
         parentNavigatorKey: parentNavigatorKey,
-        path: detailPath,
+        path: "$detailPath/:id",
+        onExit: (context, state) => MovieDetailBinding().dispose(),
         pageBuilder: (context, state) {
+          MovieDetailBinding().dependencies();
+          var id = state.pathParameters['id'].toIntOrNull() ?? 0;
           return getPage(
-            child: const MovieDetailPage(
-              movieId: 0,
-            ),
+            child: MovieDetailPage(movieId: id),
             state: state,
           );
         },
       ),
       GoRoute(
         path: listingPath,
+        onExit: (context, state) => MovieListingBinding().dispose(),
         pageBuilder: (context, state) {
+          MovieListingBinding().dependencies();
           return getPage(
             child: const MovieListingPage(),
             state: state,

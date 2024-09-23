@@ -22,6 +22,7 @@ class FavoritePage extends StatelessWidget {
       ),
       body: StreamBuilder(
           stream: favoritePageController.getFavoriteMovies(),
+          initialData: [],
           builder: (context, snapshot) => ListView.builder(
                 padding: const EdgeInsets.all(Dimens.MARGIN_MEDIUM),
                 itemCount: snapshot.requireData.length,

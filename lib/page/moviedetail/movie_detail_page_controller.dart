@@ -19,7 +19,6 @@ class MovieDetailPageController extends GetxController {
   getMovieDetail(int movieId) {
     movieDetails.value = ViewState.loading();
     getMovieDetailUsecase(movieId).then((onValue) async {
-      await Future.delayed(Duration(seconds: 1));
       movieDetails.value = ViewState.success(onValue);
     }).onError((error, stackTrace) {
       movieDetails.value = ViewState.error("Something went wrong");
@@ -33,6 +32,12 @@ class MovieDetailPageController extends GetxController {
       newDetail.data.isFavorite = !newDetail.data.isFavorite;
       movieDetails.value = ViewState.success(newDetail.data);
     }
+  }
+
+  @override
+  void onInit() {
+    debugPrint("DetailPage Controller onInit");
+    super.onInit();
   }
 
   @override

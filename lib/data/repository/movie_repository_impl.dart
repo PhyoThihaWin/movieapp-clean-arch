@@ -6,12 +6,6 @@ import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 import 'package:movieapp_clean_arch/domain/repository/home/movie_repository.dart';
 
 import '../../domain/models/movie_detail_vo.dart';
-import '../cache/hive/mapper/actor_entity_mapper.dart';
-import '../cache/hive/mapper/actor_vo_mapper.dart';
-import '../cache/hive/mapper/movie_entity_mapper.dart';
-import '../cache/hive/mapper/movie_vo_mapper.dart';
-import '../network/movie/mapper/now_playing_movies_mapper.dart';
-import '../network/movie/mapper/popular_person_mapper.dart';
 import '../network/movie/movie_service.dart';
 
 class MovieRepositoryImpl extends MovieRepository {
@@ -19,25 +13,11 @@ class MovieRepositoryImpl extends MovieRepository {
   final MovieDao movieDao;
   final ActorDao actorDao;
 
-  final NowPlayingMoviesMapper movieMapper;
-  final PopularPersonMapper personMapper;
-
-  final MovieVoMapper movieVoMapper;
-  final MovieEntityMapper movieEntityMapper;
-
-  final ActorEntityMapper actorEntityMapper;
-  final ActorVoMapper actorVoMapper;
-
   MovieRepositoryImpl(
-      this.movieApiService,
-      this.movieDao,
-      this.actorDao,
-      this.movieMapper,
-      this.personMapper,
-      this.movieVoMapper,
-      this.movieEntityMapper,
-      this.actorEntityMapper,
-      this.actorVoMapper);
+    this.movieApiService,
+    this.movieDao,
+    this.actorDao,
+  );
 
   @override
   getNowPlayingMovies() {
