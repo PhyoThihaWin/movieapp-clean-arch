@@ -22,48 +22,25 @@ class MoviePage extends StatelessWidget {
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
-              SliverAppBar(
-                backgroundColor: Colors.black,
-                automaticallyImplyLeading: false,
-                title: Container(
-                  height: 50,
-                  padding: const EdgeInsets.all(Dimens.MARGIN_SMALL),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade800,
-                    borderRadius: BorderRadius.circular(
-                      25.0,
-                    ),
-                  ),
-                  child: DefaultTabController(
-                    length: 2,
-                    child: TabBar(
-                      dividerHeight: 0,
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      indicator: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          25.0,
-                        ),
-                        color: PRIMARY_COLOR,
-                      ),
-                      labelColor: Colors.black,
-                      unselectedLabelColor: Colors.white,
-                      tabs: const [
-                        Tab(text: 'Now Playing'),
-                        Tab(text: 'Coming Soon'),
-                      ],
-                    ),
+              SliverPadding(
+                padding: const EdgeInsets.only(top: Dimens.MARGIN_MEDIUM),
+                sliver: SliverAppBar(
+                  backgroundColor: Colors.black,
+                  automaticallyImplyLeading: false,
+                  centerTitle: true,
+                  pinned: false,
+                  floating: true,
+                  title: MovieTabarView(
+                    moviePageController: moviePageController,
                   ),
                 ),
-                centerTitle: true,
-                pinned: false,
-                floating: true,
               ),
             ];
           },
           body: PagedGridView<int, MovieVo>(
               padding: const EdgeInsets.symmetric(
                   horizontal: Dimens.MARGIN_MEDIUM_2,
-                  vertical: Dimens.MARGIN_MEDIUM_2),
+                  vertical: Dimens.MARGIN_LARGE),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisSpacing: Dimens.MARGIN_MEDIUM_2,
                 childAspectRatio: 0.48,
@@ -74,6 +51,49 @@ class MoviePage extends StatelessWidget {
               builderDelegate: PagedChildBuilderDelegate<MovieVo>(
                 itemBuilder: (context, item, index) => MovieGridItemView(item),
               )),
+        ),
+      ),
+    );
+  }
+}
+
+class MovieTabarView extends StatelessWidget {
+  const MovieTabarView({
+    super.key,
+    required this.moviePageController,
+  });
+
+  final MoviePageController moviePageController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      padding: const EdgeInsets.all(Dimens.MARGIN_SMALL),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade800,
+        borderRadius: BorderRadius.circular(
+          25.0,
+        ),
+      ),
+      child: DefaultTabController(
+        length: 2,
+        child: TabBar(
+          onTap: (index) => moviePageController.changeTab(index),
+          dividerHeight: 0,
+          indicatorSize: TabBarIndicatorSize.tab,
+          indicator: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+              25.0,
+            ),
+            color: PRIMARY_COLOR,
+          ),
+          labelColor: Colors.black,
+          unselectedLabelColor: Colors.white,
+          tabs: const [
+            Tab(text: 'Now Playing'),
+            Tab(text: 'Coming Soon'),
+          ],
         ),
       ),
     );
