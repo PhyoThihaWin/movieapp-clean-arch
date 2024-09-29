@@ -2,7 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
-import 'package:movieapp_clean_arch/utils/ext.dart';
+import 'package:movieapp_clean_arch/utils/context_ext.dart';
+import 'package:movieapp_clean_arch/utils/primitive_ext.dart';
 import 'package:movieapp_clean_arch/widget/svg_image.dart';
 
 import '../../resource/dimens.dart';

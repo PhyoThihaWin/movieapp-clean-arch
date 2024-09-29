@@ -9,6 +9,7 @@ const String ENDPOINT_POPULAR_MOVIES = "/3/movie/popular";
 const String ENDPOINT_POPULAR_PERSON = "/3/person/popular";
 const String ENDPOINT_MOVIE_DETAIL = "/3/movie/{id}";
 const String ENDPOINT_MOVIE_DETAIL_CREDITS = "/3/movie/{id}/credits";
+const String ENDPOINT_MOVIE_SEARCH = "/3/search/movie";
 
 /// Parameters
 const String PARAM_MOVIE_CURRENT = "current";

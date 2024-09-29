@@ -139,4 +139,13 @@ class MovieRepositoryImpl extends MovieRepository {
     var raw = await movieApiService.getUpComingMovies(page: page);
     return raw.data?.map((e) => e.toMovieVo(false)).toList() ?? [];
   }
+
+  @override
+  Future<List<MovieVo>> searchMoviesPaging({
+    String? query,
+    int page = 1,
+  }) async {
+    var raw = await movieApiService.searchMovies(query: query, page: page);
+    return raw.data?.map((e) => e.toMovieVo(false)).toList() ?? [];
+  }
 }

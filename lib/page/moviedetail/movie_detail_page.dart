@@ -13,7 +13,7 @@ import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page_controlle
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
-import 'package:movieapp_clean_arch/utils/ext.dart';
+import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/widget/button_view_fullwidth.dart';
 import 'package:movieapp_clean_arch/widget/favorite_icon_view.dart';
 import 'package:movieapp_clean_arch/widget/my_cached_network_image.dart';
@@ -201,7 +201,7 @@ class MovieCrewsListSection extends StatelessWidget {
         HorizontalSingleChildListView(
           padding:
               const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
-          itemCount: 10,
+          itemCount: actors.length,
           itemBuilder: (context, index) =>
               MovieActorListiItemView(actorVo: actors[index]),
         )
@@ -227,7 +227,7 @@ class MovieCastsListSeciton extends StatelessWidget {
         HorizontalSingleChildListView(
           padding:
               const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
-          itemCount: 10,
+          itemCount: actors.length,
           itemBuilder: (context, index) => MovieActorListiItemView(
             actorVo: actors[index],
           ),
@@ -421,7 +421,7 @@ class MovieDetailInfoSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SectionTitleText(movieDetailVo.title),
+              Expanded(child: SectionTitleText(movieDetailVo.title)),
               FavoriteIconView(
                   isFavorite: movieDetailVo.isFavorite,
                   onTap: () {

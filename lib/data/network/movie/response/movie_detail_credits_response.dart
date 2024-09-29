@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:movieapp_clean_arch/data/network/apiclient/api_constants.dart';
 import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
-import 'package:movieapp_clean_arch/utils/ext.dart';
+import 'package:movieapp_clean_arch/utils/primitive_ext.dart';
 
 part 'movie_detail_credits_response.g.dart';
 

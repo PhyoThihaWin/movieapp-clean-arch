@@ -8,8 +8,9 @@ import 'package:movieapp_clean_arch/page/home/home_page_controller.dart';
 import 'package:movieapp_clean_arch/page/movielist/movie_listing_page.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
-import 'package:movieapp_clean_arch/utils/ext.dart';
+import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/widget/horizontal_list_view.dart';
+import 'package:movieapp_clean_arch/widget/search_box_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../domain/models/actor_vo.dart';
@@ -59,7 +60,11 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: Dimens.MARGIN_MEDIUM_2),
                     child: Column(children: [
-                      const HomeSearchViewSection(),
+                      InkWell(
+                          onTap: () {
+                            context.navigate(NavHostHelper.searchPath);
+                          },
+                          child: SearchBoxView(enable: false)),
                       SectionTitleAndSeeAll("Now Playing", onClick: () {
                         context.navigate(
                             "${NavHostHelper.listingPath}/${MovieType.nowPlaying.name}");
@@ -443,48 +448,6 @@ class SeeAllText extends StatelessWidget {
   }
 }
 
-class HomeSearchViewSection extends StatelessWidget {
-  const HomeSearchViewSection({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: Dimens.MARGIN_MEDIUM_2),
-      padding: const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
-      decoration: const BoxDecoration(
-        color: SEARCH_BOX_COLOR,
-        borderRadius: BorderRadius.all(Radius.circular(Dimens.MARGIN_MEDIUM)),
-      ),
-      child: const Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.search,
-            color: Colors.white,
-          ),
-          SizedBox(
-            width: Dimens.MARGIN_MEDIUM,
-          ),
-          Flexible(
-            child: TextField(
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Search",
-                  hintStyle: TextStyle(
-                      color: Colors.white38,
-                      fontWeight: FontWeight.w300,
-                      fontSize: Dimens.TEXT_REGULAR_2)),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
 class WelcomeAndNotificationIconSection extends StatelessWidget {
   const WelcomeAndNotificationIconSection({
     super.key,
@@ -555,7 +518,7 @@ class CarouselSliderViewSection extends StatelessWidget {
       children: [
         CarouselSlider(
           options: CarouselOptions(
-            height: MediaQuery.of(context).size.height / 3.0,
+            height: context.getScreenHeightBy(3.0),
             viewportFraction: 0.6,
             initialPage: 0,
             enableInfiniteScroll: false,

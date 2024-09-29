@@ -11,6 +11,7 @@ abstract class MovieRepository {
 
   Future<List<MovieVo>> getNowPlayingMoviesPaging({int page = 1});
   Future<List<MovieVo>> getUpComingMoviesPaging({int page = 1});
+  Future<List<MovieVo>> searchMoviesPaging({String? query, int page = 1});
 
   Stream<List<MovieVo>> getDbNowPlayingMovies();
   Stream<List<MovieVo>> getDbUpComingMovies();

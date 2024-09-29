@@ -1,7 +1,7 @@
 import 'package:movieapp_clean_arch/base/mapper/unidirection_mapper.dart';
 import 'package:movieapp_clean_arch/data/network/movie/response/popular_person_response.dart';
 import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
-import 'package:movieapp_clean_arch/utils/ext.dart';
+import 'package:movieapp_clean_arch/utils/primitive_ext.dart';
 
 import '../../apiclient/api_constants.dart';
 

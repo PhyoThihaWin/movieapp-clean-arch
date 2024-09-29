@@ -38,4 +38,10 @@ abstract class MovieApiService {
   @GET(ENDPOINT_MOVIE_DETAIL_CREDITS)
   Future<MovieDetailCreditsResponse> getMovieDetailCredits(
       @Path("id") int movieId);
+
+  @GET(ENDPOINT_MOVIE_SEARCH)
+  Future<DataResponse<List<MovieResponse>>> searchMovies({
+    @Query(PARAM_QUERY) String? query,
+    @Query(PARAM_PAGE) int page = 1,
+  });
 }

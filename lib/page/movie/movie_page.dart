@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movieapp_clean_arch/page/movie/movie_page_controller.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
+import 'package:movieapp_clean_arch/utils/context_ext.dart';
 
 import '../../domain/models/movie_vo.dart';
 import '../../resource/dimens.dart';
@@ -43,7 +44,7 @@ class MoviePage extends StatelessWidget {
                   vertical: Dimens.MARGIN_LARGE),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisSpacing: Dimens.MARGIN_MEDIUM_2,
-                mainAxisExtent: MediaQuery.of(context).size.height / 2.4,
+                mainAxisExtent: context.getScreenHeightBy(2.4),
                 crossAxisCount: 2,
               ),
               pagingController: moviePageController.pagingController,

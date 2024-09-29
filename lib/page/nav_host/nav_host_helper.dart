@@ -13,6 +13,8 @@ import 'package:movieapp_clean_arch/page/movielist/movie_listing_binding.dart';
 import 'package:movieapp_clean_arch/page/movielist/movie_listing_page.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_page.dart';
 import 'package:movieapp_clean_arch/page/profile/profile_page.dart';
+import 'package:movieapp_clean_arch/page/search/movie_search_page.dart';
+import 'package:movieapp_clean_arch/page/search/movie_search_page_binding.dart';
 
 class NavHostHelper {
   static final NavHostHelper _instance = NavHostHelper._internal();
@@ -51,6 +53,7 @@ class NavHostHelper {
 
   static const String detailPath = '/detail';
   static const String listingPath = '/listing';
+  static const String searchPath = "/search";
 
   NavHostHelper._internal() {
     final routes = [
@@ -149,6 +152,17 @@ class NavHostHelper {
           var movieType = state.pathParameters["movieType"] ?? "";
           return getPage(
             child: MovieListingPage(movieType),
+            state: state,
+          );
+        },
+      ),
+      GoRoute(
+        path: "$searchPath",
+        onExit: (context, state) => MovieSearchPageBinding().dispose(),
+        pageBuilder: (context, state) {
+          MovieSearchPageBinding().dependencies();
+          return getPage(
+            child: MovieSearchPage(),
             state: state,
           );
         },

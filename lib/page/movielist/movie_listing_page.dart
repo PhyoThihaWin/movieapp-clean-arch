@@ -7,6 +7,7 @@ import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 import 'package:movieapp_clean_arch/page/movielist/movie_listing_page_controller.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
+import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/widget/my_cached_network_image.dart';
 
 import '../../resource/colors.dart';
@@ -52,7 +53,7 @@ class _MovieListingPageState extends State<MovieListingPage> {
               vertical: Dimens.MARGIN_MEDIUM_2),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisSpacing: Dimens.MARGIN_MEDIUM_2,
-            mainAxisExtent: MediaQuery.of(context).size.height / 2.4,
+            mainAxisExtent: context.getScreenHeightBy(2.4),
             crossAxisCount: 2,
           ),
           pagingController: widget.movieListingPageController.pagingController,
@@ -86,7 +87,7 @@ class MovieGridItemView extends StatelessWidget {
             child: MyCachedNetworkImage(
               imageUrl: movie.posterPath,
               width: double.maxFinite,
-              height: MediaQuery.of(context).size.height / 3.6,
+              height: context.getScreenHeightBy(3.6),
             ),
           ),
           const SizedBox(height: Dimens.MARGIN_MEDIUM),
