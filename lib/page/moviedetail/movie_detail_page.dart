@@ -46,11 +46,7 @@ class MovieDetailPage extends StatelessWidget {
                         left: Dimens.MARGIN_MEDIUM_2,
                         top: 50,
                         child: PageBackIconView(onBack: () {
-                          if (kIsWeb) {
-                            context.go(NavHostHelper.homePath);
-                          } else {
-                            context.popBack();
-                          }
+                          context.navigateBack(NavHostHelper.homePath);
                         }),
                       ),
                       Positioned(

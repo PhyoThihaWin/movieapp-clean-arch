@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/entities/actor_entity.dart';
 import 'package:movieapp_clean_arch/initial_binding.dart';
+import 'package:movieapp_clean_arch/theme/theme.dart';
 
 import 'data/cache/hive/entities/movie_entity.dart';
 import 'data/cache/hive/hive_constants.dart';
 import 'page/nav_host/nav_host_helper.dart';
-import 'resource/colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,13 +37,21 @@ class MyApp extends StatelessWidget {
       initialBinding: InitialBinding(),
       title: 'MovieCleanArchitecture',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primaryColor: PRIMARY_COLOR,
-          primarySwatch: PRIMARY_COLOR_MATERIAL,
-          fontFamily: "Poppins"),
       routerDelegate: NavHostHelper.router.routerDelegate,
       routeInformationParser: NavHostHelper.router.routeInformationParser,
       routeInformationProvider: NavHostHelper.router.routeInformationProvider,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.system,
     );
+  }
+}
+
+class ThemeDataController extends GetxController {
+  var themeMode = ThemeMode.system.obs;
+
+  void switchTheme() {
+    themeMode.value =
+        themeMode.value == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
   }
 }

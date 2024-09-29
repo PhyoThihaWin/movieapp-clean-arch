@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
+import 'package:movieapp_clean_arch/main.dart';
 import 'package:movieapp_clean_arch/page/home/home_page_controller.dart';
 import 'package:movieapp_clean_arch/page/movielist/movie_listing_page.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
@@ -25,6 +26,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomePageController homeController = Get.find();
+    final ThemeDataController themeController = Get.find();
 
     RefreshController refreshController =
         RefreshController(initialRefresh: false);
@@ -41,10 +43,10 @@ class HomePage extends StatelessWidget {
         onRefresh: onRefresh,
         child: CustomScrollView(
           slivers: [
-            const SliverAppBar(
+            SliverAppBar(
               toolbarHeight: 20.0 + kToolbarHeight,
-              backgroundColor: Colors.black,
-              flexibleSpace: Padding(
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              flexibleSpace: const Padding(
                 padding: EdgeInsets.only(
                     left: Dimens.MARGIN_MEDIUM_2,
                     right: Dimens.MARGIN_MEDIUM_2,
@@ -64,11 +66,16 @@ class HomePage extends StatelessWidget {
                           onTap: () {
                             context.navigate(NavHostHelper.searchPath);
                           },
-                          child: SearchBoxView(enable: false)),
-                      SectionTitleAndSeeAll("Now Playing", onClick: () {
-                        context.navigate(
-                            "${NavHostHelper.listingPath}/${MovieType.nowPlaying.name}");
-                      }),
+                          child: const SearchBoxView(enable: false)),
+                      SectionTitleAndSeeAll(
+                        "Now Playing",
+                        onClick: () {
+                          themeController.switchTheme();
+                          Get.changeThemeMode(themeController.themeMode.value);
+                          // context.navigate(
+                          //     "${NavHostHelper.listingPath}/${MovieType.nowPlaying.name}");
+                        },
+                      ),
                       const SizedBox(height: Dimens.MARGIN_20),
                     ]),
                   ),

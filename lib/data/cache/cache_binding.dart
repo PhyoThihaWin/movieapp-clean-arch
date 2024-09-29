@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:movieapp_clean_arch/data/cache/datasource/app_config_datasource.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/daos/actor_dao.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/daos/impl/actor_dao_impl.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/daos/movie_dao.dart';
@@ -10,5 +11,6 @@ class CacheBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<MovieDao>(() => MovieDaoImpl());
     Get.lazyPut<ActorDao>(() => ActorDaoImpl());
+    Get.lazyPut<AppConfigDatasource>(() => AppConfigDatasource());
   }
 }

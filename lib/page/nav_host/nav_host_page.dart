@@ -23,7 +23,7 @@ class _NavHostPageState extends State<NavHostPage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: widget.child,
         bottomNavigationBar: NavigationBarTheme(
           data: NavigationBarThemeData(

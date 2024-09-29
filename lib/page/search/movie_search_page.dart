@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
 import 'package:movieapp_clean_arch/page/search/movie_search_page_controller.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
@@ -25,7 +26,7 @@ class MovieSearchPage extends StatelessWidget {
         backgroundColor: Colors.black,
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () => context.popBack(),
+            onPressed: () => context.navigateBack(NavHostHelper.homePath),
             icon: const Icon(Icons.arrow_back_rounded),
             color: Colors.white,
           ),

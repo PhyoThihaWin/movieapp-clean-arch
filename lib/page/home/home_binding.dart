@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:movieapp_clean_arch/data/repository/app_config_repository_impl.dart';
 import 'package:movieapp_clean_arch/domain/home/fetch_home_movies_usecase.dart';
+import 'package:movieapp_clean_arch/domain/repository/other/app_config_repository.dart';
 import 'package:movieapp_clean_arch/domain/usecase/favorite_movie_usecase.dart';
 import 'package:movieapp_clean_arch/domain/usecase/fetch_popular_person_usecase.dart';
 import 'package:movieapp_clean_arch/domain/usecase/get_movie_detail_usecase.dart';
@@ -20,7 +22,10 @@ class HomeBinding extends Bindings {
 
     Get.lazyPut(() => GetMovieDetailUsecase(Get.find()));
 
+    Get.lazyPut<AppConfigRepository>(() => AppConfigRepositoryImpl(Get.find()));
+
     Get.lazyPut(() => HomePageController(
+          Get.find(),
           Get.find(),
           Get.find(),
           Get.find(),

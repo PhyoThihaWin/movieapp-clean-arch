@@ -51,6 +51,8 @@ extension PageNavigator on BuildContext {
     kIsWeb ? go(location, extra: extra) : push(location, extra: extra);
   }
 
+  void navigateBack(String location) => kIsWeb ? go(location) : popBack();
+
   double getScreenHeightBy(double times) =>
       MediaQuery.of(this).size.height / times;
 
