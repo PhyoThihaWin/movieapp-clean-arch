@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
-import 'package:movieapp_clean_arch/data/repository/app_config_repository_impl.dart';
 import 'package:movieapp_clean_arch/domain/home/fetch_home_movies_usecase.dart';
 import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
-import 'package:movieapp_clean_arch/domain/repository/other/app_config_repository.dart';
+import 'package:movieapp_clean_arch/domain/usecase/fetch_popular_person_usecase.dart';
 import 'package:movieapp_clean_arch/domain/usecase/get_now_playing_movies_usecase.dart';
 import 'package:movieapp_clean_arch/domain/usecase/get_popular_movies_usecase.dart';
-import 'package:movieapp_clean_arch/domain/usecase/fetch_popular_person_usecase.dart';
 import 'package:movieapp_clean_arch/domain/usecase/get_up_coming_movies_usecase.dart';
 
 import '../../domain/usecase/favorite_movie_usecase.dart';
@@ -21,8 +19,6 @@ class HomePageController extends GetxController {
   final GetUpComingMoviesUseCase _upComingMoviesUseCase;
   final FavoriteMovieUseCase _favoriteMovieUseCase;
 
-  final AppConfigRepository _appConfigRepository;
-
   HomePageController(
     this._fetchHomeMoviesUsecase,
     this._nowPlayingMoviesUseCase,
@@ -30,7 +26,6 @@ class HomePageController extends GetxController {
     this._popularPersonUseCase,
     this._upComingMoviesUseCase,
     this._favoriteMovieUseCase,
-    this._appConfigRepository,
   );
 
   var nowPlayingMovies = Rx<ViewState<List<MovieVo>>>(ViewState.idle());
@@ -86,9 +81,5 @@ class HomePageController extends GetxController {
     getPopularPerson();
 
     fetchHomeMovies();
-
-    _appConfigRepository
-        .getThemeMode()
-        .then((onValue) => Get.changeThemeMode(onValue));
   }
 }

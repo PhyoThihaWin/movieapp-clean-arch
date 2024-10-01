@@ -1,4 +1,3 @@
-import 'package:dart_extensions/dart_extensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppConfigDatasource {

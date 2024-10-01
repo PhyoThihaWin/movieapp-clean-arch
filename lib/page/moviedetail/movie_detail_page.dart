@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_detail_vo.dart';
@@ -30,7 +28,6 @@ class MovieDetailPage extends StatelessWidget {
     movieDetailPageController.getMovieDetail(movieId);
 
     return Scaffold(
-      backgroundColor: HOME_SCREEN_BACKGROUND_COLOR,
       body: Obx(() => ViewStateRender(
             viewState: movieDetailPageController.movieDetails.value,
             loading: const Center(child: CircularProgressIndicator()),
@@ -127,12 +124,13 @@ class MovieDetailCinemaSection extends StatelessWidget {
                   bottom: Dimens.MARGIN_MEDIUM_2),
               decoration: BoxDecoration(
                   border: Border.all(
-                      color:
-                          index == cinemaIndex ? PRIMARY_COLOR : GREY_BOX_COLOR,
+                      color: index == cinemaIndex
+                          ? PRIMARY_COLOR
+                          : context.getColorScheme().surfaceContainerHighest,
                       width: 1.5),
                   color: index == cinemaIndex
                       ? PRIMARY_COLOR.withOpacity(0.3)
-                      : GREY_BOX_COLOR,
+                      : context.getColorScheme().surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(Dimens.MARGIN_10)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,9 +143,9 @@ class MovieDetailCinemaSection extends StatelessWidget {
                       const Text(
                         "Vincom Ocean Park CGV",
                         style: TextStyle(
-                            fontSize: Dimens.TEXT_REGULAR_3,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white),
+                          fontSize: Dimens.TEXT_REGULAR_3,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       ClipRRect(
                         borderRadius:
@@ -165,10 +163,7 @@ class MovieDetailCinemaSection extends StatelessWidget {
                   const SizedBox(height: Dimens.MARGIN_6),
                   const Text(
                     "9.32 km | 27 Co Linh, Long Bien, Ha Noi",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: Dimens.TEXT_SMALL,
-                    ),
+                    style: TextStyle(fontSize: Dimens.TEXT_SMALL),
                   )
                 ],
               ),
@@ -242,7 +237,7 @@ class MovieActorListiItemView extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimens.RADIUS_MEDIUM),
-          color: GREY_BOX_COLOR),
+          color: context.getColorScheme().surfaceContainerHighest),
       width: 140,
       padding: const EdgeInsets.symmetric(
           vertical: Dimens.MARGIN_MEDIUM, horizontal: Dimens.MARGIN_MEDIUM_2),
@@ -266,7 +261,6 @@ class MovieActorListiItemView extends StatelessWidget {
               actorVo.name,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
-              style: const TextStyle(color: Colors.white),
             ),
           )
         ],
@@ -293,7 +287,6 @@ class MovieStoryLineSection extends StatelessWidget {
           const SizedBox(height: Dimens.MARGIN_12),
           Text(
             movieDetailVo.overview,
-            style: const TextStyle(color: Colors.white),
           ),
         ],
       ),
@@ -346,17 +339,13 @@ class MovieDescTextView extends StatelessWidget {
         children: [
           Expanded(
             flex: 2,
-            child: Text(
-              desc,
-              style: const TextStyle(color: Colors.white70),
-            ),
+            child: Text(desc),
           ),
           Expanded(
             flex: 4,
             child: Text(
               text,
-              style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.w600),
+              style: const TextStyle(fontWeight: FontWeight.w600),
             ),
           ),
         ],
@@ -404,7 +393,7 @@ class MovieDetailInfoSection extends StatelessWidget {
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
-        color: GREY_BOX_COLOR,
+        color: context.getColorScheme().surfaceContainerHigh,
         borderRadius: BorderRadius.circular(Dimens.MARGIN_10),
       ),
       padding: const EdgeInsets.symmetric(
@@ -427,7 +416,6 @@ class MovieDetailInfoSection extends StatelessWidget {
           ),
           Text(
             "${minutesToHoursAndMinutes(movieDetailVo.runtime)} • ${movieDetailVo.releaseDate}",
-            style: const TextStyle(color: Colors.white70),
           ),
           const SizedBox(
             height: 30,
@@ -438,7 +426,6 @@ class MovieDetailInfoSection extends StatelessWidget {
             children: [
               Text("Review",
                   style: TextStyle(
-                    color: Colors.white,
                     fontWeight: FontWeight.w700,
                     fontSize: Dimens.TEXT_REGULAR_2,
                   )),
@@ -454,17 +441,13 @@ class MovieDetailInfoSection extends StatelessWidget {
                 children: [
                   Text("4.8",
                       style: TextStyle(
-                        color: Colors.white,
                         fontWeight: FontWeight.w700,
                         fontSize: Dimens.TEXT_REGULAR_2,
                       )),
                   SizedBox(width: Dimens.MARGIN_SMALL),
                   Text(
                     "(1.222)",
-                    style: TextStyle(
-                        height: 1.7,
-                        color: Colors.white70,
-                        fontSize: Dimens.TEXT_SMALL),
+                    style: TextStyle(height: 1.7, fontSize: Dimens.TEXT_SMALL),
                   ),
                 ],
               )

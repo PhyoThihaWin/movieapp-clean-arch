@@ -5,9 +5,6 @@ import 'package:movieapp_clean_arch/domain/usecase/search_movies_usecase.dart';
 
 import '../../domain/models/movie_vo.dart';
 import '../../domain/usecase/favorite_movie_usecase.dart';
-import '../../domain/usecase/get_nowplaying_paging_usecase.dart';
-import '../../domain/usecase/get_upcoming_paging_usecase.dart';
-import '../movielist/movie_listing_page.dart';
 
 class MovieSearchPageController extends GetxController {
   final SearchMoviesUsecase _searchMoviesUsecase;

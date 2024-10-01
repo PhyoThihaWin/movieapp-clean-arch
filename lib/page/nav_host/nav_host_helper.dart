@@ -1,6 +1,6 @@
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:dart_extensions/dart_extensions.dart';
 import 'package:movieapp_clean_arch/page/favorite/favorite_page.dart';
 import 'package:movieapp_clean_arch/page/favorite/favorite_page_binding.dart';
 import 'package:movieapp_clean_arch/page/home/home_binding.dart';

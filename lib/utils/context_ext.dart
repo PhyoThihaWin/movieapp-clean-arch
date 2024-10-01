@@ -58,4 +58,8 @@ extension PageNavigator on BuildContext {
 
   double getScreenWidthBy(double times) =>
       MediaQuery.of(this).size.width / times;
+
+  ThemeData getTheme() => Theme.of(this);
+
+  ColorScheme getColorScheme() => Theme.of(this).colorScheme;
 }

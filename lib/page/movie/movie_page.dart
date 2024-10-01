@@ -19,14 +19,13 @@ class MoviePage extends StatelessWidget {
     return SafeArea(
       bottom: false,
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverPadding(
                 padding: const EdgeInsets.only(top: Dimens.MARGIN_MEDIUM),
                 sliver: SliverAppBar(
-                  backgroundColor: Colors.black,
                   automaticallyImplyLeading: false,
                   centerTitle: true,
                   pinned: false,
@@ -72,7 +71,7 @@ class MovieTabarView extends StatelessWidget {
       height: 50,
       padding: const EdgeInsets.all(Dimens.MARGIN_SMALL),
       decoration: BoxDecoration(
-        color: Colors.grey.shade800,
+        color: context.getColorScheme().surfaceContainerHighest,
         borderRadius: BorderRadius.circular(
           25.0,
         ),
@@ -90,7 +89,7 @@ class MovieTabarView extends StatelessWidget {
             color: PRIMARY_COLOR,
           ),
           labelColor: Colors.black,
-          unselectedLabelColor: Colors.white,
+          unselectedLabelColor: context.getColorScheme().onSurfaceVariant,
           tabs: const [
             Tab(text: 'Now Playing'),
             Tab(text: 'Coming Soon'),

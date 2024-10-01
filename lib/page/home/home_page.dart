@@ -2,23 +2,24 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:movieapp_clean_arch/base/view_state.dart';
-import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
-import 'package:movieapp_clean_arch/main.dart';
-import 'package:movieapp_clean_arch/page/home/home_page_controller.dart';
-import 'package:movieapp_clean_arch/page/movielist/movie_listing_page.dart';
-import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
-import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
-import 'package:movieapp_clean_arch/widget/horizontal_list_view.dart';
-import 'package:movieapp_clean_arch/widget/search_box_view.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../base/view_state.dart';
 import '../../domain/models/actor_vo.dart';
+import '../../domain/models/movie_vo.dart';
+import '../../main.dart';
 import '../../resource/colors.dart';
+import '../../resource/dimens.dart';
 import '../../widget/favorite_icon_view.dart';
+import '../../widget/horizontal_list_view.dart';
 import '../../widget/horizontal_singlechild_list_view.dart';
 import '../../widget/my_cached_network_image.dart';
+import '../../widget/search_box_view.dart';
+import '../movielist/movie_listing_page.dart';
+import '../nav_host/nav_host_helper.dart';
+import 'home_page_controller.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -26,7 +27,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomePageController homeController = Get.find();
-    final ThemeDataController themeController = Get.find();
 
     RefreshController refreshController =
         RefreshController(initialRefresh: false);
@@ -70,10 +70,8 @@ class HomePage extends StatelessWidget {
                       SectionTitleAndSeeAll(
                         "Now Playing",
                         onClick: () {
-                          themeController.switchTheme();
-                          Get.changeThemeMode(themeController.themeMode.value);
-                          // context.navigate(
-                          //     "${NavHostHelper.listingPath}/${MovieType.nowPlaying.name}");
+                          context.navigate(
+                              "${NavHostHelper.listingPath}/${MovieType.nowPlaying.name}");
                         },
                       ),
                       const SizedBox(height: Dimens.MARGIN_20),
@@ -268,9 +266,7 @@ class MoviesNewsItemView extends StatelessWidget {
           Text(
             movieVo.title,
             style: const TextStyle(
-                color: Colors.white,
-                fontSize: Dimens.TEXT_REGULAR_2,
-                fontWeight: FontWeight.w500),
+                fontSize: Dimens.TEXT_REGULAR_2, fontWeight: FontWeight.w500),
           ),
         ],
       ),
@@ -305,9 +301,7 @@ class ServiceListItemView extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             style: const TextStyle(
-                color: Colors.white,
-                fontSize: Dimens.TEXT_REGULAR_2,
-                fontWeight: FontWeight.w500),
+                fontSize: Dimens.TEXT_REGULAR_2, fontWeight: FontWeight.w500),
           ),
         ],
       ),
@@ -358,6 +352,8 @@ class HomeMovieListItemView extends StatelessWidget {
             const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
             Text(
               movie.title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   color: PRIMARY_COLOR,
                   fontSize: Dimens.TEXT_REGULAR_2,
@@ -368,14 +364,12 @@ class HomeMovieListItemView extends StatelessWidget {
               children: [
                 Icon(
                   Icons.videocam_outlined,
-                  color: Colors.white,
                   size: Dimens.MARGIN_MEDIUM_2,
                 ),
                 SizedBox(width: Dimens.MARGIN_MEDIUM),
                 Text(
                   "Adventure, Sci-fi",
-                  style: TextStyle(
-                      color: Colors.white, fontSize: Dimens.TEXT_SMALL),
+                  style: TextStyle(fontSize: Dimens.TEXT_SMALL),
                 ),
               ],
             ),
@@ -384,14 +378,12 @@ class HomeMovieListItemView extends StatelessWidget {
               children: [
                 const Icon(
                   Icons.calendar_month_outlined,
-                  color: Colors.white,
                   size: Dimens.MARGIN_MEDIUM_2,
                 ),
                 const SizedBox(width: Dimens.MARGIN_MEDIUM),
                 Text(
                   movie.releaseDate,
-                  style: const TextStyle(
-                      color: Colors.white, fontSize: Dimens.TEXT_SMALL),
+                  style: const TextStyle(fontSize: Dimens.TEXT_SMALL),
                 ),
               ],
             )
@@ -470,15 +462,12 @@ class WelcomeAndNotificationIconSection extends StatelessWidget {
           children: [
             Text(
               "Hi, Angelina 👋",
-              style: TextStyle(color: Colors.white, fontSize: 18),
+              style: TextStyle(fontSize: 18),
             ),
             SectionTitleText("Welcome back")
           ],
         ),
-        Icon(
-          Icons.notifications_active,
-          color: Colors.white,
-        )
+        Icon(Icons.notifications_active)
       ],
     );
   }
@@ -499,7 +488,6 @@ class SectionTitleText extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
         fontSize: fontSize,
-        color: Colors.white,
         fontWeight: FontWeight.w600,
       ),
     );
@@ -575,7 +563,6 @@ class CarouselSliderViewSection extends StatelessWidget {
         ),
         const Text(
           "2h29m • Action, adventure, sci-fi",
-          style: TextStyle(color: Colors.white70),
         ),
         const SizedBox(height: Dimens.MARGIN_MEDIUM),
         Obx(() => DotsIndicatorView(

@@ -14,7 +14,7 @@ class FavoritePage extends StatelessWidget {
     var favoritePageController = Get.find<FavoritePageController>();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        scrolledUnderElevation: 0,
         title: const SectionTitleText(
           "Favorite Movies",
           fontSize: Dimens.TEXT_LARGE,

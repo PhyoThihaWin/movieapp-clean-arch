@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movieapp_clean_arch/main.dart';
+import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/widget/svg_image.dart';
 
 import '../../resource/colors.dart';
@@ -19,35 +21,42 @@ class _NavHostPageState extends State<NavHostPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+    debugPrint("Theme: ${context.getTheme().brightness.name}");
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: context.getColorScheme().surface,
+      statusBarBrightness: context.getTheme().brightness == Brightness.light
+          ? Brightness.dark
+          : Brightness.light,
+      statusBarIconBrightness: context.getTheme().brightness == Brightness.light
+          ? Brightness.dark
+          : Brightness.light,
+    ));
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        body: widget.child,
-        bottomNavigationBar: NavigationBarTheme(
-          data: NavigationBarThemeData(
-            labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>(
-              (Set<WidgetState> states) => states.contains(WidgetState.selected)
-                  ? const TextStyle(color: PRIMARY_COLOR)
-                  : const TextStyle(color: Colors.white),
-            ),
+    return Scaffold(
+      backgroundColor: context.getColorScheme().surface,
+      body: widget.child,
+      bottomNavigationBar: NavigationBarTheme(
+        data: NavigationBarThemeData(
+          labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>(
+            (Set<WidgetState> states) => states.contains(WidgetState.selected)
+                ? const TextStyle(color: PRIMARY_COLOR)
+                : const TextStyle(color: Colors.grey),
           ),
-          child: NavigationBar(
-              indicatorColor: Colors.white,
-              backgroundColor: HOME_SCREEN_BACKGROUND_COLOR,
-              selectedIndex: pageIndex,
-              onDestinationSelected: (index) {
-                setState(() {
-                  pageIndex = index;
-                  widget.child.goBranch(
-                    index,
-                    initialLocation: index == widget.child.currentIndex,
-                  );
-                });
-              },
-              destinations: destinationItems()),
         ),
+        child: NavigationBar(
+            indicatorColor: context.getColorScheme().surfaceContainerHighest,
+            backgroundColor: context.getColorScheme().surface,
+            selectedIndex: pageIndex,
+            onDestinationSelected: (index) {
+              setState(() {
+                pageIndex = index;
+                widget.child.goBranch(
+                  index,
+                  initialLocation: index == widget.child.currentIndex,
+                );
+              });
+            },
+            destinations: destinationItems()),
       ),
     );
   }

@@ -39,9 +39,8 @@ class _MovieListingPageState extends State<MovieListingPage> {
     return SafeArea(
       bottom: false,
       child: Scaffold(
-        backgroundColor: Colors.black,
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          scrolledUnderElevation: 0,
           title: const SectionTitleText(
             "Now Playing Movies",
             fontSize: Dimens.TEXT_LARGE,
@@ -105,14 +104,12 @@ class MovieGridItemView extends StatelessWidget {
             children: [
               Icon(
                 Icons.videocam_outlined,
-                color: Colors.white,
                 size: Dimens.MARGIN_MEDIUM_2,
               ),
               SizedBox(width: Dimens.MARGIN_MEDIUM),
               Text(
                 "Adventure, Sci-fi",
-                style:
-                    TextStyle(color: Colors.white, fontSize: Dimens.TEXT_SMALL),
+                style: TextStyle(fontSize: Dimens.TEXT_SMALL),
               ),
             ],
           ),
@@ -121,14 +118,12 @@ class MovieGridItemView extends StatelessWidget {
             children: [
               const Icon(
                 Icons.calendar_month_outlined,
-                color: Colors.white,
                 size: Dimens.MARGIN_MEDIUM_2,
               ),
               const SizedBox(width: Dimens.MARGIN_MEDIUM),
               Text(
                 movie.releaseDate,
-                style: const TextStyle(
-                    color: Colors.white, fontSize: Dimens.TEXT_SMALL),
+                style: const TextStyle(fontSize: Dimens.TEXT_SMALL),
               ),
             ],
           )

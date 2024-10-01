@@ -4,7 +4,6 @@ import 'package:movieapp_clean_arch/page/search/movie_search_page_controller.dar
 
 import '../../domain/usecase/favorite_movie_usecase.dart';
 import '../../domain/usecase/get_nowplaying_paging_usecase.dart';
-import '../../domain/usecase/get_upcoming_paging_usecase.dart';
 
 class MovieSearchPageBinding extends Bindings {
   @override

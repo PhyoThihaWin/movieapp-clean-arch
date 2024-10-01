@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
+import 'package:movieapp_clean_arch/utils/context_ext.dart';
 
 class FavoriteIconView extends StatelessWidget {
   const FavoriteIconView(
@@ -19,9 +20,9 @@ class FavoriteIconView extends StatelessWidget {
               Icons.favorite,
               color: PRIMARY_COLOR,
             )
-          : const Icon(
+          : Icon(
               Icons.favorite_border,
-              color: Colors.white,
+              color: context.getColorScheme().onSurface,
             ),
     );
   }
