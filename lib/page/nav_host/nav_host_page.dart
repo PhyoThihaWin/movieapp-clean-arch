@@ -21,12 +21,14 @@ class _NavHostPageState extends State<NavHostPage> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Theme: ${context.getTheme().brightness.name}");
+    debugPrint("Theme b: ${context.getTheme().brightness.name}");
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: context.getColorScheme().surface,
-      statusBarBrightness: context.getTheme().brightness == Brightness.light
-          ? Brightness.dark
-          : Brightness.light,
+
+      /// for iOS
+      statusBarBrightness: context.getTheme().brightness,
+
+      /// for Android
       statusBarIconBrightness: context.getTheme().brightness == Brightness.light
           ? Brightness.dark
           : Brightness.light,
