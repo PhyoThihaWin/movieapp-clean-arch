@@ -65,7 +65,7 @@ class ThemeProvider extends ChangeNotifier {
     currentTheme =
         currentTheme == ThemeMode.system ? ThemeMode.dark : ThemeMode.system;
     _repository.storeThemeMode(currentTheme);
-    Get.changeThemeMode(currentTheme);
+    notifyListeners();
   }
 
   setInitialTheme() async {

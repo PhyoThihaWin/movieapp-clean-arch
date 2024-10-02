@@ -31,7 +31,9 @@ class MoviePage extends StatelessWidget {
                   pinned: false,
                   floating: true,
                   title: MovieTabarView(
-                    moviePageController: moviePageController,
+                    onTap: (index) {
+                      moviePageController.changeTab(index);
+                    },
                   ),
                 ),
               ),
@@ -49,6 +51,7 @@ class MoviePage extends StatelessWidget {
               pagingController: moviePageController.pagingController,
               showNewPageProgressIndicatorAsGridChild: false,
               builderDelegate: PagedChildBuilderDelegate<MovieVo>(
+                animateTransitions: true,
                 itemBuilder: (context, item, index) => MovieGridItemView(item),
               )),
         ),
@@ -58,12 +61,9 @@ class MoviePage extends StatelessWidget {
 }
 
 class MovieTabarView extends StatelessWidget {
-  const MovieTabarView({
-    super.key,
-    required this.moviePageController,
-  });
+  final Function(int) onTap;
 
-  final MoviePageController moviePageController;
+  const MovieTabarView({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class MovieTabarView extends StatelessWidget {
       child: DefaultTabController(
         length: 2,
         child: TabBar(
-          onTap: (index) => moviePageController.changeTab(index),
+          onTap: onTap,
           dividerHeight: 0,
           indicatorSize: TabBarIndicatorSize.tab,
           indicator: BoxDecoration(

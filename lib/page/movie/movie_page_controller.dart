@@ -43,7 +43,8 @@ class MoviePageController extends GetxController {
     }
   }
 
-  Future changeTab(int tabIndex) async {
+  changeTab(int tabIndex) async {
+    await Future.delayed(const Duration(milliseconds: 200));
     _tabIndex = tabIndex;
     pagingController.refresh();
   }

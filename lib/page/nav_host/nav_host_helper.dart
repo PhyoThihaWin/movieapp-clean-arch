@@ -13,6 +13,7 @@ import 'package:movieapp_clean_arch/page/movielist/movie_listing_binding.dart';
 import 'package:movieapp_clean_arch/page/movielist/movie_listing_page.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_page.dart';
 import 'package:movieapp_clean_arch/page/profile/profile_page.dart';
+import 'package:movieapp_clean_arch/page/profile/profile_page_binding.dart';
 import 'package:movieapp_clean_arch/page/search/movie_search_page.dart';
 import 'package:movieapp_clean_arch/page/search/movie_search_page_binding.dart';
 
@@ -111,8 +112,9 @@ class NavHostHelper {
               GoRoute(
                 path: profilePath,
                 pageBuilder: (context, state) {
+                  ProfilePageBinding().dependencies();
                   return getPage(
-                    child: const ProfilePage(),
+                    child: ProfilePage(),
                     state: state,
                   );
                 },
