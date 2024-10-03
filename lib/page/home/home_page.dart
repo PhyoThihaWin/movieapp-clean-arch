@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
                           },
                           child: const SearchBoxView(enable: false)),
                       SectionTitleAndSeeAll(
-                        LocaleKeys.title.tr(),
+                        LocaleKeys.txtNowPlaying.tr(),
                         onClick: () {
                           context.navigate(
                               "${NavHostHelper.listingPath}/${MovieType.nowPlaying.name}");
@@ -101,7 +101,8 @@ class HomePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: Dimens.MARGIN_MEDIUM_2),
-                    child: SectionTitleAndSeeAll("Coming soon", onClick: () {
+                    child: SectionTitleAndSeeAll(LocaleKeys.txtComingSoon.tr(),
+                        onClick: () {
                       context.navigate(
                           "${NavHostHelper.listingPath}/${MovieType.upComing.name}");
                     }),
@@ -131,7 +132,7 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: Dimens.MARGIN_MEDIUM_2),
                     child: SectionTitleAndSeeAll(
-                      "Promo & Discount",
+                      LocaleKeys.txtPromoDiscount.tr(),
                       onClick: () {},
                     ),
                   ),
@@ -157,7 +158,7 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: Dimens.MARGIN_MEDIUM_2),
                     child: SectionTitleAndSeeAll(
-                      "Celebrities",
+                      LocaleKeys.txtCelebrities.tr(),
                       onClick: () {},
                     ),
                   ),
@@ -180,7 +181,10 @@ class HomePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: Dimens.MARGIN_MEDIUM_2),
-                    child: SectionTitleAndSeeAll("Movie news", onClick: () {}),
+                    child: SectionTitleAndSeeAll(
+                      LocaleKeys.txtMovieNews.tr(),
+                      onClick: () {},
+                    ),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                   Obx(() => ViewStateRender(

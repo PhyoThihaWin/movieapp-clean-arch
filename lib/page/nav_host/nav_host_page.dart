@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/widget/svg_image.dart';
 
+import '../../generated/locale_keys.g.dart';
 import '../../resource/colors.dart';
 import '../../resource/strings.dart';
 
@@ -65,25 +67,25 @@ class _NavHostPageState extends State<NavHostPage> {
 
 List<NavigationDestination> destinationItems() {
   return [
-    const NavigationDestination(
-      icon: SvgIcon("ic_home.svg"),
-      selectedIcon: SvgIcon("ic_home_selected.svg"),
-      label: MENU_MOVIE_TEXT,
+    NavigationDestination(
+      icon: const SvgIcon("ic_home.svg"),
+      selectedIcon: const SvgIcon("ic_home_selected.svg"),
+      label: LocaleKeys.navTitleHome.tr(),
     ),
-    const NavigationDestination(
-      icon: SvgIcon("ic_ticket.svg"),
-      selectedIcon: SvgIcon("ic_ticket_selected.svg"),
-      label: MENU_FAVORITE_TEXT,
+    NavigationDestination(
+      icon: const SvgIcon("ic_ticket.svg"),
+      selectedIcon: const SvgIcon("ic_ticket_selected.svg"),
+      label: LocaleKeys.navTitleFavorite.tr(),
     ),
-    const NavigationDestination(
-      icon: SvgIcon("ic_video.svg"),
-      selectedIcon: SvgIcon("ic_video_selected.svg"),
-      label: MENU_TICKET_TEXT,
+    NavigationDestination(
+      icon: const SvgIcon("ic_video.svg"),
+      selectedIcon: const SvgIcon("ic_video_selected.svg"),
+      label: LocaleKeys.navTitleMovie.tr(),
     ),
-    const NavigationDestination(
-      icon: SvgIcon("ic_user.svg"),
-      selectedIcon: SvgIcon("ic_user_selected.svg"),
-      label: MENU_PROFILE_TEXT,
+    NavigationDestination(
+      icon: const SvgIcon("ic_user.svg"),
+      selectedIcon: const SvgIcon("ic_user_selected.svg"),
+      label: LocaleKeys.navTitleProfile.tr(),
     ),
   ];
 }

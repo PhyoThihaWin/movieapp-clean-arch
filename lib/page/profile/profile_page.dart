@@ -1,6 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:movieapp_clean_arch/domain/general/localization.dart';
+import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
+import 'package:movieapp_clean_arch/page/profile/profile_page_controller.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
+import 'package:movieapp_clean_arch/utils/app_constant.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/utils/primitive_ext.dart';
 import 'package:movieapp_clean_arch/widget/space_widget.dart';
@@ -12,10 +20,15 @@ import '../../resource/dimens.dart';
 import '../../widget/button_view_fullwidth.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  ProfilePage({super.key});
+
+  final ProfilePageController _pageController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    _pageController.localeCode.value =
+        Provider.of<LocalizationProvider>(context).localeCode;
+
     return SafeArea(
       bottom: false,
       child: Column(
@@ -23,7 +36,7 @@ class ProfilePage extends StatelessWidget {
           const ProfileInfoSectionView(),
           const VerticalSpacer(Dimens.MARGIN_XXXLARGE),
           ProfileMenuItemView(
-            text: "My ticket",
+            text: LocaleKeys.txtMyTicket.tr(),
             icon: "ic_ticket_setting.svg",
             onClick: () {},
           ),
@@ -31,7 +44,7 @@ class ProfilePage extends StatelessWidget {
             color: Colors.grey.withOpacity(0.3),
           ),
           ProfileMenuItemView(
-            text: "Payment history",
+            text: LocaleKeys.txtPaymentHistory.tr(),
             icon: "ic_cart_setting.svg",
             onClick: () {},
           ),
@@ -39,25 +52,30 @@ class ProfilePage extends StatelessWidget {
             color: Colors.grey.withOpacity(0.3),
           ),
           ProfileMenuItemView(
-            text: "Change language",
+            text: LocaleKeys.txtChangeLanguage.tr(),
             icon: "ic_translate_setting.svg",
             onClick: () {
-              show(context);
+              showLanguageBottomSheet(
+                context: context,
+                onDimiss: () async {
+                  await Future.delayed(const Duration(milliseconds: 200));
+                  context.read<LocalizationProvider>().changeLocalization(
+                        context,
+                        _pageController.localeCode.value,
+                      );
+                },
+              );
             },
           ),
-          Divider(
-            color: Colors.grey.withOpacity(0.3),
-          ),
+          Divider(color: Colors.grey.withOpacity(0.3)),
           ProfileMenuItemView(
-            text: "Change password",
+            text: LocaleKeys.txtChangePassword.tr(),
             icon: "ic_lock_setting.svg",
             onClick: () {},
           ),
-          Divider(
-            color: Colors.grey.withOpacity(0.3),
-          ),
+          Divider(color: Colors.grey.withOpacity(0.3)),
           ProfileMenuItemWithToggle(
-            text: "Dark Mode",
+            text: LocaleKeys.txtDarkMode.tr(),
             icon: "ic_biometric_setting.svg",
             toggle: Provider.of<ThemeProvider>(context).currentTheme ==
                 ThemeMode.dark,
@@ -70,94 +88,120 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  void show(BuildContext context) {
-    int selectedRadioTile = 1;
-
+  void showLanguageBottomSheet({
+    required BuildContext context,
+    required Function() onDimiss,
+  }) {
     showModalBottomSheet(
       context: context,
       useRootNavigator: true,
       builder: (BuildContext context) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Center(
-              child: Container(
-                height: 4,
-                width: 30,
-                margin: const EdgeInsets.only(top: Dimens.MARGIN_20),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimens.RADIUS_MEDIUM),
-                    color: Colors.grey.shade400),
+        return Obx(() {
+          var localeCode = _pageController.localeCode.value;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Center(
+                child: Container(
+                  height: 4,
+                  width: 30,
+                  margin: const EdgeInsets.only(top: Dimens.MARGIN_20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimens.RADIUS_MEDIUM),
+                      color: Colors.grey.shade400),
+                ),
               ),
-            ),
-            const VerticalSpacer(Dimens.MARGIN_LARGE),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
-              child: SectionTitleText("Choose Language"),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
-              child: Text("Which language do you want to use"),
-            ),
-            const VerticalSpacer(Dimens.MARGIN_MEDIUM_2),
-
-            // This goes to the build method
-            RadioListTile(
-              value: 1,
-              groupValue: selectedRadioTile,
-              title: Text(
-                "🇺🇸\ \ \ \ \ \ English",
-                style: TextStyle(
-                    color: selectedRadioTile == 1
-                        ? PRIMARY_COLOR
-                        : context.getColorScheme().onSurface),
+              const VerticalSpacer(Dimens.MARGIN_LARGE),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: Dimens.MARGIN_MEDIUM_2),
+                child: SectionTitleText(localeCode == Localization.ENGLISH
+                    ? AppConstant.txtChooseLangauge
+                    : AppConstant.txtChooseLangaugeMM),
               ),
-              visualDensity: const VisualDensity(vertical: 3),
-              controlAffinity: ListTileControlAffinity.trailing,
-              onChanged: (val) {
-                print("Radio Tile pressed $val");
-                // setSelectedRadioTile(val);
-              },
-              activeColor: PRIMARY_COLOR,
-              selected: true,
-            ),
-
-            Divider(
-              color: Colors.grey.withOpacity(0.3),
-            ),
-
-            RadioListTile(
-              value: 2,
-              groupValue: selectedRadioTile,
-              title: Text(
-                "🇲🇲\ \ \ \ \ \ မြန်မာ",
-                style: TextStyle(
-                    color: selectedRadioTile == 2
-                        ? PRIMARY_COLOR
-                        : context.getColorScheme().onSurface),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: Dimens.MARGIN_MEDIUM_2),
+                child: Text(localeCode == Localization.ENGLISH
+                    ? AppConstant.txtLanguageChangeDesc
+                    : AppConstant.txtLanguageChangeDescMM),
               ),
-              controlAffinity: ListTileControlAffinity.trailing,
-              visualDensity: const VisualDensity(vertical: 3),
-              onChanged: (val) {
-                print("Radio Tile pressed $val");
-                // setSelectedRadioTile(val);
-              },
-              activeColor: PRIMARY_COLOR,
-              selected: false,
-            ),
+              const VerticalSpacer(Dimens.MARGIN_MEDIUM_2),
 
-            const VerticalSpacer(Dimens.MARGIN_LARGE),
-            ButtonViewFullWidth(
-              margin: const EdgeInsets.symmetric(
-                  horizontal: Dimens.MARGIN_MEDIUM_2),
-              btnText: "Continue",
-              onClick: () {},
-            ),
-            const VerticalSpacer(Dimens.MARGIN_LARGE),
-          ],
-        );
+              // English Radio
+              LanguageRadioTile(
+                localeCode: localeCode,
+                value: Localization.ENGLISH,
+                onClick: (value) {
+                  _pageController.localeCode.value = Localization.ENGLISH;
+                },
+              ),
+
+              Divider(
+                color: Colors.grey.withOpacity(0.3),
+              ),
+
+              // Myanmar Radio
+              LanguageRadioTile(
+                localeCode: localeCode,
+                value: Localization.MYANMAR,
+                onClick: (value) {
+                  _pageController.localeCode.value = Localization.MYANMAR;
+                },
+              ),
+
+              const VerticalSpacer(Dimens.MARGIN_LARGE),
+              ButtonViewFullWidth(
+                margin: const EdgeInsets.symmetric(
+                    horizontal: Dimens.MARGIN_MEDIUM_2),
+                btnText: localeCode == Localization.ENGLISH
+                    ? AppConstant.txtSelectLangauge
+                    : AppConstant.txtSelectLangaugeMM,
+                onClick: () {
+                  context.popBack();
+                  onDimiss();
+                },
+              ),
+              const VerticalSpacer(Dimens.MARGIN_LARGE),
+            ],
+          );
+        });
       },
+    );
+  }
+}
+
+class LanguageRadioTile extends StatelessWidget {
+  final String localeCode;
+  final String value;
+  final Function(String?) onClick;
+
+  const LanguageRadioTile(
+      {super.key,
+      required this.localeCode,
+      required this.value,
+      required this.onClick});
+
+  @override
+  Widget build(BuildContext context) {
+    return RadioListTile(
+      value: value,
+      groupValue: localeCode,
+      title: Text(
+        value == Localization.ENGLISH
+            ? AppConstant.txtEnglishLanguage
+            : AppConstant.txtMyanmarLanguage,
+        style: TextStyle(
+            color: localeCode == value
+                ? PRIMARY_COLOR
+                : context.getColorScheme().onSurface),
+      ),
+      visualDensity: const VisualDensity(vertical: 3),
+      controlAffinity: ListTileControlAffinity.trailing,
+      onChanged: onClick,
+      activeColor: PRIMARY_COLOR,
+      selected: true,
     );
   }
 }

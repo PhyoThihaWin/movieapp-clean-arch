@@ -19,4 +19,14 @@ class AppConfigRepositoryImpl implements AppConfigRepository {
   void storeThemeMode(ThemeMode themeMode) {
     _appConfigDatasource.saveThemeMode(themeMode.name);
   }
+
+  @override
+  void storeLocalization(String localeCode) {
+    _appConfigDatasource.saveLocalization(localeCode);
+  }
+
+  @override
+  Future<String> getLocalization() {
+    return _appConfigDatasource.getLocalization();
+  }
 }

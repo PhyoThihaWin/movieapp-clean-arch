@@ -4,11 +4,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movieapp_clean_arch/data/cache/datasource/app_config_datasource.dart';
 import 'package:movieapp_clean_arch/data/cache/hive/entities/actor_entity.dart';
 import 'package:movieapp_clean_arch/data/repository/app_config_repository_impl.dart';
+import 'package:movieapp_clean_arch/domain/general/localization.dart';
 import 'package:movieapp_clean_arch/domain/repository/other/app_config_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'data/cache/hive/entities/movie_entity.dart';
 import 'data/cache/hive/hive_constants.dart';
+import 'generated/codegen_loader.g.dart';
 import 'initial_binding.dart';
 import 'page/nav_host/nav_host_helper.dart';
 import 'theme/theme.dart';
@@ -28,16 +30,30 @@ void main() async {
   var themeProvider = ThemeProvider();
   await themeProvider.setInitialTheme();
 
-  runApp(EasyLocalization(
-    supportedLocales: const [Locale('en'), Locale('my')],
-    fallbackLocale: const Locale('my'),
-    path: 'assets/translations', // <-- change the path of the translation files
-    // assetLoader: CodegenLoader(),
-    child: ChangeNotifierProvider<ThemeProvider>(
-      create: (BuildContext context) => themeProvider,
-      child: const MyApp(),
+  var localizationProvider = LocalizationProvider();
+  await localizationProvider.setInitialLocalization();
+
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale(Localization.ENGLISH),
+        Locale(Localization.MYANMAR),
+      ],
+      path: 'assets/translations',
+      // assetLoader: const CodegenLoader(),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<LocalizationProvider>(
+            create: (BuildContext context) => localizationProvider,
+          ),
+          ChangeNotifierProvider<ThemeProvider>(
+            create: (BuildContext context) => themeProvider,
+          ),
+        ],
+        child: const MyApp(),
+      ),
     ),
-  ));
+  );
 }
 
 /// MyApp
@@ -49,7 +65,10 @@ class MyApp extends StatelessWidget {
     const cacheSize200Mb = 1000 * 1024 * 1024;
     PaintingBinding.instance.imageCache.maximumSizeBytes = cacheSize200Mb;
 
-    context.setLocale(const Locale('my'));
+    // set init localeCode
+    var code = Provider.of<LocalizationProvider>(context).localeCode;
+    context.setLocale(Locale(code));
+    debugPrint("Locale: $code , ${context.locale}");
 
     return GetMaterialApp.router(
       initialBinding: InitialBinding(),
@@ -71,8 +90,14 @@ class MyApp extends StatelessWidget {
 /// Theme Provider
 class ThemeProvider extends ChangeNotifier {
   ThemeMode currentTheme = ThemeMode.system;
+
   final AppConfigRepository _repository =
       AppConfigRepositoryImpl(AppConfigDatasource());
+
+  setInitialTheme() async {
+    currentTheme = await _repository.getThemeMode();
+    notifyListeners();
+  }
 
   changeCurrentTheme() {
     currentTheme =
@@ -80,9 +105,26 @@ class ThemeProvider extends ChangeNotifier {
     _repository.storeThemeMode(currentTheme);
     notifyListeners();
   }
+}
 
-  setInitialTheme() async {
-    currentTheme = await _repository.getThemeMode();
+class LocalizationProvider extends ChangeNotifier {
+  String localeCode = Localization.ENGLISH;
+
+  final AppConfigRepository _repository =
+      AppConfigRepositoryImpl(AppConfigDatasource());
+
+  setInitialLocalization() async {
+    localeCode = await _repository.getLocalization();
     notifyListeners();
+  }
+
+  Future<void> changeLocalization(
+      BuildContext context, String localeCode) async {
+    this.localeCode = localeCode;
+    _repository.storeLocalization(localeCode);
+    notifyListeners();
+
+    await context.setLocale(Locale(localeCode));
+    Get.updateLocale(Locale(localeCode));
   }
 }

@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
+import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
 import 'package:movieapp_clean_arch/page/favorite/favorite_page_controller.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
@@ -15,8 +18,8 @@ class FavoritePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        title: const SectionTitleText(
-          "Favorite Movies",
+        title: SectionTitleText(
+          LocaleKeys.txtFavoriteMovies.tr(),
           fontSize: Dimens.TEXT_LARGE,
         ),
       ),
