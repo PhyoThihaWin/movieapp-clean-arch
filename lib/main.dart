@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movieapp_clean_arch/data/cache/datasource/app_config_datasource.dart';
@@ -7,7 +6,7 @@ import 'package:movieapp_clean_arch/data/cache/hive/entities/actor_entity.dart';
 import 'package:movieapp_clean_arch/data/repository/app_config_repository_impl.dart';
 import 'package:movieapp_clean_arch/domain/repository/other/app_config_repository.dart';
 import 'package:provider/provider.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'data/cache/hive/entities/movie_entity.dart';
 import 'data/cache/hive/hive_constants.dart';
 import 'initial_binding.dart';
@@ -16,6 +15,7 @@ import 'theme/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   NavHostHelper.instance;
 
   await Hive.initFlutter();
@@ -28,12 +28,19 @@ void main() async {
   var themeProvider = ThemeProvider();
   await themeProvider.setInitialTheme();
 
-  runApp(ChangeNotifierProvider<ThemeProvider>(
-    create: (BuildContext context) => themeProvider,
-    child: const MyApp(),
+  runApp(EasyLocalization(
+    supportedLocales: const [Locale('en'), Locale('my')],
+    fallbackLocale: const Locale('my'),
+    path: 'assets/translations', // <-- change the path of the translation files
+    // assetLoader: CodegenLoader(),
+    child: ChangeNotifierProvider<ThemeProvider>(
+      create: (BuildContext context) => themeProvider,
+      child: const MyApp(),
+    ),
   ));
 }
 
+/// MyApp
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -41,6 +48,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     const cacheSize200Mb = 1000 * 1024 * 1024;
     PaintingBinding.instance.imageCache.maximumSizeBytes = cacheSize200Mb;
+
+    context.setLocale(const Locale('my'));
 
     return GetMaterialApp.router(
       initialBinding: InitialBinding(),
@@ -52,10 +61,14 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: Provider.of<ThemeProvider>(context).currentTheme,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
     );
   }
 }
 
+/// Theme Provider
 class ThemeProvider extends ChangeNotifier {
   ThemeMode currentTheme = ThemeMode.system;
   final AppConfigRepository _repository =

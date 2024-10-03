@@ -18,7 +18,8 @@ enum MovieType { nowPlaying, upComing, popular }
 class MovieListingPage extends StatefulWidget {
   final String movieType;
   MovieListingPage(this.movieType, {super.key});
-  MovieListingPageController movieListingPageController = Get.find();
+
+  final MovieListingPageController movieListingPageController = Get.find();
 
   @override
   State<MovieListingPage> createState() => _MovieListingPageState();

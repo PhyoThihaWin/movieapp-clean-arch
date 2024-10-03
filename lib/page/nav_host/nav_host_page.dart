@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movieapp_clean_arch/main.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/widget/svg_image.dart';
 

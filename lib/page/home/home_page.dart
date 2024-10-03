@@ -1,15 +1,18 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
-import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../base/view_state.dart';
 import '../../domain/models/actor_vo.dart';
 import '../../domain/models/movie_vo.dart';
-import '../../main.dart';
 import '../../resource/colors.dart';
 import '../../resource/dimens.dart';
 import '../../widget/favorite_icon_view.dart';
@@ -68,7 +71,7 @@ class HomePage extends StatelessWidget {
                           },
                           child: const SearchBoxView(enable: false)),
                       SectionTitleAndSeeAll(
-                        "Now Playing",
+                        LocaleKeys.title.tr(),
                         onClick: () {
                           context.navigate(
                               "${NavHostHelper.listingPath}/${MovieType.nowPlaying.name}");

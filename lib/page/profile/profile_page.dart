@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
+import 'package:movieapp_clean_arch/resource/colors.dart';
+import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/utils/primitive_ext.dart';
 import 'package:movieapp_clean_arch/widget/space_widget.dart';
 import 'package:movieapp_clean_arch/widget/svg_image.dart';
@@ -7,11 +9,10 @@ import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import '../../resource/dimens.dart';
+import '../../widget/button_view_fullwidth.dart';
 
 class ProfilePage extends StatelessWidget {
-  ProfilePage({super.key});
-
-  // final ProfilePageController _profilePageController = Get.find();
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,9 @@ class ProfilePage extends StatelessWidget {
           ProfileMenuItemView(
             text: "Change language",
             icon: "ic_translate_setting.svg",
-            onClick: () {},
+            onClick: () {
+              show(context);
+            },
           ),
           Divider(
             color: Colors.grey.withOpacity(0.3),
@@ -64,6 +67,97 @@ class ProfilePage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void show(BuildContext context) {
+    int selectedRadioTile = 1;
+
+    showModalBottomSheet(
+      context: context,
+      useRootNavigator: true,
+      builder: (BuildContext context) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(
+              child: Container(
+                height: 4,
+                width: 30,
+                margin: const EdgeInsets.only(top: Dimens.MARGIN_20),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimens.RADIUS_MEDIUM),
+                    color: Colors.grey.shade400),
+              ),
+            ),
+            const VerticalSpacer(Dimens.MARGIN_LARGE),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
+              child: SectionTitleText("Choose Language"),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
+              child: Text("Which language do you want to use"),
+            ),
+            const VerticalSpacer(Dimens.MARGIN_MEDIUM_2),
+
+            // This goes to the build method
+            RadioListTile(
+              value: 1,
+              groupValue: selectedRadioTile,
+              title: Text(
+                "🇺🇸\ \ \ \ \ \ English",
+                style: TextStyle(
+                    color: selectedRadioTile == 1
+                        ? PRIMARY_COLOR
+                        : context.getColorScheme().onSurface),
+              ),
+              visualDensity: const VisualDensity(vertical: 3),
+              controlAffinity: ListTileControlAffinity.trailing,
+              onChanged: (val) {
+                print("Radio Tile pressed $val");
+                // setSelectedRadioTile(val);
+              },
+              activeColor: PRIMARY_COLOR,
+              selected: true,
+            ),
+
+            Divider(
+              color: Colors.grey.withOpacity(0.3),
+            ),
+
+            RadioListTile(
+              value: 2,
+              groupValue: selectedRadioTile,
+              title: Text(
+                "🇲🇲\ \ \ \ \ \ မြန်မာ",
+                style: TextStyle(
+                    color: selectedRadioTile == 2
+                        ? PRIMARY_COLOR
+                        : context.getColorScheme().onSurface),
+              ),
+              controlAffinity: ListTileControlAffinity.trailing,
+              visualDensity: const VisualDensity(vertical: 3),
+              onChanged: (val) {
+                print("Radio Tile pressed $val");
+                // setSelectedRadioTile(val);
+              },
+              activeColor: PRIMARY_COLOR,
+              selected: false,
+            ),
+
+            const VerticalSpacer(Dimens.MARGIN_LARGE),
+            ButtonViewFullWidth(
+              margin: const EdgeInsets.symmetric(
+                  horizontal: Dimens.MARGIN_MEDIUM_2),
+              btnText: "Continue",
+              onClick: () {},
+            ),
+            const VerticalSpacer(Dimens.MARGIN_LARGE),
+          ],
+        );
+      },
     );
   }
 }
@@ -110,7 +204,7 @@ class ProfileMenuItemWithToggle extends StatelessWidget {
 class ProfileMenuItemView extends StatelessWidget {
   final String text;
   final String icon;
-  final Function onClick;
+  final Function() onClick;
 
   const ProfileMenuItemView(
       {super.key,
@@ -121,7 +215,7 @@ class ProfileMenuItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onClick,
       child: Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: Dimens.MARGIN_MEDIUM_2, vertical: Dimens.MARGIN_20),

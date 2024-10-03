@@ -21,7 +21,8 @@ import '../../widget/horizontal_singlechild_list_view.dart';
 class MovieDetailPage extends StatelessWidget {
   final int movieId;
   MovieDetailPage({super.key, required this.movieId});
-  MovieDetailPageController movieDetailPageController = Get.find();
+
+  final MovieDetailPageController movieDetailPageController = Get.find();
 
   @override
   Widget build(BuildContext context) {
