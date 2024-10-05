@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:movieapp_clean_arch/resource/colors.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 
 import '../generated/locale_keys.g.dart';

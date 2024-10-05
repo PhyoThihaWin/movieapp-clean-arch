@@ -9,13 +9,11 @@ import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_detail_vo.dart';
 import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
-import 'package:movieapp_clean_arch/page/home/cinema_seat_page.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
 import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page_controller.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
-import 'package:movieapp_clean_arch/widget/button_view_fullwidth.dart';
 import 'package:movieapp_clean_arch/widget/favorite_icon_view.dart';
 import 'package:movieapp_clean_arch/widget/my_cached_network_image.dart';
 
@@ -109,7 +107,8 @@ class MovieDetailCinemaSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
+          padding:
+              const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
           child: SectionTitleText(LocaleKeys.txtCinema.tr()),
         ),
         const SizedBox(height: Dimens.MARGIN_12),
@@ -191,7 +190,7 @@ class MovieCrewsListSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: Dimens.MARGIN_MEDIUM_2),
+          padding: const EdgeInsets.only(left: Dimens.MARGIN_MEDIUM_2),
           child: SectionTitleText(LocaleKeys.txtCrews.tr()),
         ),
         const SizedBox(height: Dimens.MARGIN_12),
@@ -217,7 +216,7 @@ class MovieCastsListSeciton extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: Dimens.MARGIN_MEDIUM_2),
+          padding: const EdgeInsets.only(left: Dimens.MARGIN_MEDIUM_2),
           child: SectionTitleText(LocaleKeys.txtCasts.tr()),
         ),
         const SizedBox(height: Dimens.MARGIN_12),
