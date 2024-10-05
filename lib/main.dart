@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'data/cache/hive/entities/movie_entity.dart';
 import 'data/cache/hive/hive_constants.dart';
-import 'generated/codegen_loader.g.dart';
 import 'initial_binding.dart';
 import 'page/nav_host/nav_host_helper.dart';
 import 'theme/theme.dart';

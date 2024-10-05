@@ -159,7 +159,7 @@ class NavHostHelper {
         },
       ),
       GoRoute(
-        path: "$searchPath",
+        path: searchPath,
         onExit: (context, state) => MovieSearchPageBinding().dispose(),
         pageBuilder: (context, state) {
           MovieSearchPageBinding().dependencies();

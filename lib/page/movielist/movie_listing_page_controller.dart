@@ -9,12 +9,12 @@ import '../../domain/usecase/get_nowplaying_paging_usecase.dart';
 import '../../domain/usecase/get_upcoming_paging_usecase.dart';
 
 class MovieListingPageController extends GetxController {
-  final GetNowplayingPagingUsecase _nowPlayingMoviesUseCase;
+  final GetNowplayingPagingUsecase _nowPlayingPagingUseCase;
   final GetUpcomingPagingUsecase _upcomingPagingUsecase;
   final FavoriteMovieUseCase _favoriteMovieUseCase;
 
   MovieListingPageController(
-    this._nowPlayingMoviesUseCase,
+    this._nowPlayingPagingUseCase,
     this._favoriteMovieUseCase,
     this._upcomingPagingUsecase,
   );
@@ -27,7 +27,7 @@ class MovieListingPageController extends GetxController {
     try {
       debugPrint("Reached Fetch $pageKey");
       final newItems = switch (movieType) {
-        MovieType.nowPlaying => await _nowPlayingMoviesUseCase(pageKey),
+        MovieType.nowPlaying => await _nowPlayingPagingUseCase(pageKey),
         MovieType.upComing => await _upcomingPagingUsecase(pageKey),
         MovieType.popular => throw UnimplementedError(),
       };

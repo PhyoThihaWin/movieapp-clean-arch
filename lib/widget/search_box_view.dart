@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp_clean_arch/resource/colors.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 
+import '../generated/locale_keys.g.dart';
 import '../resource/dimens.dart';
 
 class SearchBoxView extends StatefulWidget {
@@ -57,10 +60,11 @@ class _SearchBoxViewState extends State<SearchBoxView> {
             child: TextField(
               controller: _editingController,
               enabled: widget.enable,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: "Search",
-                hintStyle: TextStyle(
+                hintText: LocaleKeys.txtSearch.tr(),
+                hintStyle: const TextStyle(
+                    color: Color.fromARGB(255, 130, 130, 130),
                     fontWeight: FontWeight.w300,
                     fontSize: Dimens.TEXT_REGULAR_2),
               ),

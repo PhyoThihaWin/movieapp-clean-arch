@@ -1,9 +1,12 @@
 import 'package:dart_extensions/dart_extensions.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
+import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
 import 'package:movieapp_clean_arch/page/movielist/movie_listing_page_controller.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
@@ -37,30 +40,31 @@ class _MovieListingPageState extends State<MovieListingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: false,
-      child: Scaffold(
-        appBar: AppBar(
-          scrolledUnderElevation: 0,
-          title: const SectionTitleText(
-            "Now Playing Movies",
-            fontSize: Dimens.TEXT_LARGE,
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+        title: SectionTitleText(
+          widget.movieType == MovieType.nowPlaying.name
+              ? LocaleKeys.txtNowPlaying.tr()
+              : widget.movieType == MovieType.upComing.name
+                  ? LocaleKeys.txtComingSoon.tr()
+                  : LocaleKeys.txtPromoDiscount.tr(),
+          fontSize: Dimens.TEXT_LARGE,
         ),
-        body: PagedGridView<int, MovieVo>(
-          padding: const EdgeInsets.symmetric(
-              horizontal: Dimens.MARGIN_MEDIUM_2,
-              vertical: Dimens.MARGIN_MEDIUM_2),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisSpacing: Dimens.MARGIN_MEDIUM_2,
-            mainAxisExtent: context.getScreenHeightBy(2.4),
-            crossAxisCount: 2,
-          ),
-          pagingController: widget.movieListingPageController.pagingController,
-          showNewPageProgressIndicatorAsGridChild: false,
-          builderDelegate: PagedChildBuilderDelegate<MovieVo>(
-            itemBuilder: (context, item, index) => MovieGridItemView(item),
-          ),
+      ),
+      body: PagedGridView<int, MovieVo>(
+        padding: const EdgeInsets.symmetric(
+            horizontal: Dimens.MARGIN_MEDIUM_2,
+            vertical: Dimens.MARGIN_MEDIUM_2),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisSpacing: Dimens.MARGIN_MEDIUM_2,
+          mainAxisExtent: context.getScreenHeightBy(2.4),
+          crossAxisCount: 2,
+        ),
+        pagingController: widget.movieListingPageController.pagingController,
+        showNewPageProgressIndicatorAsGridChild: false,
+        builderDelegate: PagedChildBuilderDelegate<MovieVo>(
+          itemBuilder: (context, item, index) => MovieGridItemView(item),
         ),
       ),
     );

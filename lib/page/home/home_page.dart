@@ -133,7 +133,10 @@ class HomePage extends StatelessWidget {
                         horizontal: Dimens.MARGIN_MEDIUM_2),
                     child: SectionTitleAndSeeAll(
                       LocaleKeys.txtPromoDiscount.tr(),
-                      onClick: () {},
+                      onClick: () {
+                        context.navigate(
+                            "${NavHostHelper.listingPath}/${MovieType.popular.name}");
+                      },
                     ),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
@@ -413,7 +416,7 @@ class SectionTitleAndSeeAll extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SectionTitleText(title),
+        Expanded(child: SectionTitleText(title)),
         InkWell(
             onTap: onClick,
             customBorder: const RoundedRectangleBorder(
@@ -485,7 +488,7 @@ class SectionTitleText extends StatelessWidget {
   final double fontSize;
 
   const SectionTitleText(this.text,
-      {super.key, this.fontSize = Dimens.TEXT_HEADING});
+      {super.key, this.fontSize = Dimens.TEXT_XLARGE});
 
   @override
   Widget build(BuildContext context) {

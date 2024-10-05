@@ -1,21 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_detail_vo.dart';
+import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
 import 'package:movieapp_clean_arch/page/home/cinema_seat_page.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
 import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page_controller.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
-import 'package:movieapp_clean_arch/resource/colors.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/widget/button_view_fullwidth.dart';
 import 'package:movieapp_clean_arch/widget/favorite_icon_view.dart';
 import 'package:movieapp_clean_arch/widget/my_cached_network_image.dart';
 
+import '../../resource/colors.dart';
 import '../../widget/horizontal_singlechild_list_view.dart';
 
 class MovieDetailPage extends StatelessWidget {
@@ -75,14 +79,14 @@ class MovieDetailPage extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: Dimens.MARGIN_LARGE),
-                  ButtonViewFullWidth(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: Dimens.MARGIN_MEDIUM_2),
-                    btnText: "Continue",
-                    onClick: () {
-                      context.next(const CinemaSeatPage());
-                    },
-                  ),
+                  // ButtonViewFullWidth(
+                  //   margin: const EdgeInsets.symmetric(
+                  //       horizontal: Dimens.MARGIN_MEDIUM_2),
+                  //   btnText: "Continue",
+                  //   onClick: () {
+                  //     context.next(const CinemaSeatPage());
+                  //   },
+                  // ),
                   const SizedBox(height: Dimens.MARGIN_LARGE)
                 ],
               ),
@@ -104,14 +108,15 @@ class MovieDetailCinemaSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
-          child: SectionTitleText("Cinema"),
+          child: SectionTitleText(LocaleKeys.txtCinema.tr()),
         ),
         const SizedBox(height: Dimens.MARGIN_12),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
           itemCount: 3,
           itemBuilder: (context, index) => GestureDetector(
             onTap: () {
@@ -185,9 +190,9 @@ class MovieCrewsListSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.only(left: Dimens.MARGIN_MEDIUM_2),
-          child: SectionTitleText("Crews"),
+          child: SectionTitleText(LocaleKeys.txtCrews.tr()),
         ),
         const SizedBox(height: Dimens.MARGIN_12),
         HorizontalSingleChildListView(
@@ -211,9 +216,9 @@ class MovieCastsListSeciton extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.only(left: Dimens.MARGIN_MEDIUM_2),
-          child: SectionTitleText("Cast"),
+          child: SectionTitleText(LocaleKeys.txtCasts.tr()),
         ),
         const SizedBox(height: Dimens.MARGIN_12),
         HorizontalSingleChildListView(
@@ -284,7 +289,7 @@ class MovieStoryLineSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SectionTitleText("Storyline"),
+          SectionTitleText(LocaleKeys.txtStoryline.tr()),
           const SizedBox(height: Dimens.MARGIN_12),
           Text(
             movieDetailVo.overview,
@@ -307,17 +312,17 @@ class MovieDescriptionsSection extends StatelessWidget {
     return Column(
       children: [
         MovieDescTextView(
-          desc: "Movie genre:",
+          desc: LocaleKeys.txtMovieGenre.tr(),
           text: movieDetailVo.genres.map((item) => item.name).join(", "),
         ),
         const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
-        const MovieDescTextView(
-          desc: "Censorship:",
+        MovieDescTextView(
+          desc: LocaleKeys.txtCensorship.tr(),
           text: "13+",
         ),
         const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
-        const MovieDescTextView(
-          desc: "Language:",
+        MovieDescTextView(
+          desc: LocaleKeys.txtLanguage.tr(),
           text: "English",
         ),
       ],
@@ -421,23 +426,23 @@ class MovieDetailInfoSection extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("Review",
-                  style: TextStyle(
+              Text(LocaleKeys.txtReview.tr(),
+                  style: const TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: Dimens.TEXT_REGULAR_2,
                   )),
-              SizedBox(width: Dimens.MARGIN_MEDIUM),
-              Icon(
+              const SizedBox(width: Dimens.MARGIN_MEDIUM),
+              const Icon(
                 Icons.star,
                 color: Colors.amber,
                 size: Dimens.MARGIN_20,
               ),
-              SizedBox(width: Dimens.MARGIN_MEDIUM),
-              Row(
+              const SizedBox(width: Dimens.MARGIN_MEDIUM),
+              const Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text("4.8",
@@ -482,17 +487,17 @@ class MovieDetailInfoSection extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(Dimens.MARGIN_SMALL),
                     border: Border.all(color: Colors.grey)),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.play_arrow,
                       color: Colors.grey,
                       size: Dimens.MARGIN_MEDIUM_2,
                     ),
                     Text(
-                      "Watch trailer",
-                      style: TextStyle(
+                      LocaleKeys.txtWatchTrailer.tr(),
+                      style: const TextStyle(
                           color: Colors.grey, fontSize: Dimens.TEXT_SMALL),
                     )
                   ],

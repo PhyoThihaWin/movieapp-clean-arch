@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
 import 'package:movieapp_clean_arch/page/search/movie_search_page_controller.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
@@ -27,8 +30,8 @@ class MovieSearchPage extends StatelessWidget {
           onPressed: () => context.navigateBack(NavHostHelper.homePath),
           icon: const Icon(Icons.arrow_back_rounded),
         ),
-        title: const SectionTitleText(
-          "Now Playing Movies",
+        title: SectionTitleText(
+          LocaleKeys.txtDiscover.tr(),
           fontSize: Dimens.TEXT_LARGE,
         ),
       ),
@@ -71,16 +74,16 @@ class MovieSearchPage extends StatelessWidget {
                         color: PRIMARY_COLOR, // Customize the color
                       ),
                     ),
-                noItemsFoundIndicatorBuilder: (context) => const Column(
+                noItemsFoundIndicatorBuilder: (context) => Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.data_array,
                           size: Dimens.MARGIN_XXLARGE,
                         ),
-                        SizedBox(height: Dimens.MARGIN_MEDIUM_2),
+                        const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                         Text(
-                          "The list is currently empty",
+                          LocaleKeys.txtNoMovie.tr(),
                         ),
                       ],
                     ))),

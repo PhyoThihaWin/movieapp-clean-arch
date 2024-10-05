@@ -34,3 +34,12 @@ const CINEMA_AVAILABLE = "available";
 const CINEMA_FILLING_FAST = "filling_fast";
 const CINEMA_ALMOST_FULL = "almost_full";
 const CINEMA_SOLD_OUT = "sold_out";
+
+const txtChooseLangauge = "Choose Language";
+const txtLanguageChangeDesc = "Which language do you want to use";
+const txtChooseLangaugeMM = "ဘာသာစကားရွေးချယ်ရန်";
+const txtLanguageChangeDescMM = "မည်သည့်ဘာသာစကားကို အသုံးပြုချင်ပါသလဲ။";
+const txtSelectLangauge = "Select";
+const txtSelectLangaugeMM = "ရွေးချယ်မည်";
+const txtEnglishLanguage = "🇺🇸      English";
+const txtMyanmarLanguage = "🇲🇲      မြန်မာ";

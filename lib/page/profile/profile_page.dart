@@ -8,7 +8,6 @@ import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
 import 'package:movieapp_clean_arch/page/profile/profile_page_controller.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
-import 'package:movieapp_clean_arch/utils/app_constant.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/utils/primitive_ext.dart';
 import 'package:movieapp_clean_arch/widget/space_widget.dart';
@@ -17,6 +16,7 @@ import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import '../../resource/dimens.dart';
+import '../../resource/strings.dart';
 import '../../widget/button_view_fullwidth.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -96,6 +96,8 @@ class ProfilePage extends StatelessWidget {
       context: context,
       useRootNavigator: true,
       builder: (BuildContext context) {
+        _pageController.localeCode.value =
+            Provider.of<LocalizationProvider>(context).localeCode;
         return Obx(() {
           var localeCode = _pageController.localeCode.value;
           return Column(
@@ -117,15 +119,15 @@ class ProfilePage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                     horizontal: Dimens.MARGIN_MEDIUM_2),
                 child: SectionTitleText(localeCode == Localization.ENGLISH
-                    ? AppConstant.txtChooseLangauge
-                    : AppConstant.txtChooseLangaugeMM),
+                    ? txtChooseLangauge
+                    : txtChooseLangaugeMM),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: Dimens.MARGIN_MEDIUM_2),
                 child: Text(localeCode == Localization.ENGLISH
-                    ? AppConstant.txtLanguageChangeDesc
-                    : AppConstant.txtLanguageChangeDescMM),
+                    ? txtLanguageChangeDesc
+                    : txtLanguageChangeDescMM),
               ),
               const VerticalSpacer(Dimens.MARGIN_MEDIUM_2),
 
@@ -156,8 +158,8 @@ class ProfilePage extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(
                     horizontal: Dimens.MARGIN_MEDIUM_2),
                 btnText: localeCode == Localization.ENGLISH
-                    ? AppConstant.txtSelectLangauge
-                    : AppConstant.txtSelectLangaugeMM,
+                    ? txtSelectLangauge
+                    : txtSelectLangaugeMM,
                 onClick: () {
                   context.popBack();
                   onDimiss();
@@ -189,9 +191,7 @@ class LanguageRadioTile extends StatelessWidget {
       value: value,
       groupValue: localeCode,
       title: Text(
-        value == Localization.ENGLISH
-            ? AppConstant.txtEnglishLanguage
-            : AppConstant.txtMyanmarLanguage,
+        value == Localization.ENGLISH ? txtEnglishLanguage : txtMyanmarLanguage,
         style: TextStyle(
             color: localeCode == value
                 ? PRIMARY_COLOR
