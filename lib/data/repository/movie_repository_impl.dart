@@ -131,13 +131,23 @@ class MovieRepositoryImpl extends MovieRepository {
   @override
   Future<List<MovieVo>> getNowPlayingMoviesPaging({int page = 1}) async {
     var raw = await movieApiService.getNowPlayingMovies(page: page);
-    return raw.data?.map((e) => e.toMovieVo(false)).toList() ?? [];
+    var favoriteMovies = await movieDao.getFavoriteMovies().first;
+    return raw.data?.map((item) {
+          return item.toMovieVo(
+              favoriteMovies.filter((it) => it.id == item.id).isNotEmpty);
+        }).toList() ??
+        [];
   }
 
   @override
   Future<List<MovieVo>> getUpComingMoviesPaging({int page = 1}) async {
     var raw = await movieApiService.getUpComingMovies(page: page);
-    return raw.data?.map((e) => e.toMovieVo(false)).toList() ?? [];
+    var favoriteMovies = await movieDao.getFavoriteMovies().first;
+    return raw.data?.map((item) {
+          return item.toMovieVo(
+              favoriteMovies.filter((it) => it.id == item.id).isNotEmpty);
+        }).toList() ??
+        [];
   }
 
   @override
@@ -146,6 +156,11 @@ class MovieRepositoryImpl extends MovieRepository {
     int page = 1,
   }) async {
     var raw = await movieApiService.searchMovies(query: query, page: page);
-    return raw.data?.map((e) => e.toMovieVo(false)).toList() ?? [];
+    var favoriteMovies = await movieDao.getFavoriteMovies().first;
+    return raw.data?.map((item) {
+          return item.toMovieVo(
+              favoriteMovies.filter((it) => it.id == item.id).isNotEmpty);
+        }).toList() ??
+        [];
   }
 }

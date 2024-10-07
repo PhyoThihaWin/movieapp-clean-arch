@@ -67,10 +67,14 @@ class MovieSearchPage extends StatelessWidget {
             pagingController: _pageController.pagingController,
             showNewPageProgressIndicatorAsGridChild: false,
             builderDelegate: PagedChildBuilderDelegate<MovieVo>(
-                itemBuilder: (context, item, index) => MovieGridItemView(item),
-                // ignore: prefer_const_constructors
-                firstPageProgressIndicatorBuilder: (context) => Center(
-                      child: const CircularProgressIndicator(
+                itemBuilder: (context, item, index) => MovieGridItemView(
+                      movie: item,
+                      onFavorite: (movieId) {
+                        _pageController.saveFavoriteMovie(movieId);
+                      },
+                    ),
+                firstPageProgressIndicatorBuilder: (context) => const Center(
+                      child: CircularProgressIndicator(
                         color: PRIMARY_COLOR, // Customize the color
                       ),
                     ),

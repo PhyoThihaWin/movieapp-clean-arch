@@ -19,6 +19,8 @@ class MovieListingPageController extends GetxController {
     this._upcomingPagingUsecase,
   );
 
+  var movies = <MovieVo>[].obs;
+
   // paging controller
   final PagingController<int, MovieVo> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 15);
@@ -48,6 +50,21 @@ class MovieListingPageController extends GetxController {
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey + 1, movieType);
     });
+  }
+
+  saveFavoriteMovie(int id) {
+    _favoriteMovieUseCase.execute(id);
+    pagingController.itemList = pagingController.itemList?.map(
+      (e) {
+        if (e.id == id) {
+          var item = e;
+          item.isFavorite = !e.isFavorite;
+          return item;
+        } else {
+          return e;
+        }
+      },
+    ).toList();
   }
 
   @override

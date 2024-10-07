@@ -55,7 +55,12 @@ class MoviePage extends StatelessWidget {
               showNewPageProgressIndicatorAsGridChild: false,
               builderDelegate: PagedChildBuilderDelegate<MovieVo>(
                 animateTransitions: true,
-                itemBuilder: (context, item, index) => MovieGridItemView(item),
+                itemBuilder: (context, item, index) => MovieGridItemView(
+                  movie: item,
+                  onFavorite: (movieId) {
+                    moviePageController.saveFavoriteMovie(movieId);
+                  },
+                ),
               )),
         ),
       ),

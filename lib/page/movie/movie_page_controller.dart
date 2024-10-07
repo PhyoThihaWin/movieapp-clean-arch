@@ -49,6 +49,21 @@ class MoviePageController extends GetxController {
     pagingController.refresh();
   }
 
+  saveFavoriteMovie(int id) {
+    _favoriteMovieUseCase.execute(id);
+    pagingController.itemList = pagingController.itemList?.map(
+      (e) {
+        if (e.id == id) {
+          var item = e;
+          item.isFavorite = !e.isFavorite;
+          return item;
+        } else {
+          return e;
+        }
+      },
+    ).toList();
+  }
+
   @override
   void onInit() {
     super.onInit();

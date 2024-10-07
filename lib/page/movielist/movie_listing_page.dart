@@ -14,6 +14,7 @@ import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/widget/my_cached_network_image.dart';
 
 import '../../resource/colors.dart';
+import '../../widget/favorite_icon_view.dart';
 import '../home/home_page.dart';
 
 enum MovieType { nowPlaying, upComing, popular }
@@ -64,7 +65,12 @@ class _MovieListingPageState extends State<MovieListingPage> {
         pagingController: widget.movieListingPageController.pagingController,
         showNewPageProgressIndicatorAsGridChild: false,
         builderDelegate: PagedChildBuilderDelegate<MovieVo>(
-          itemBuilder: (context, item, index) => MovieGridItemView(item),
+          itemBuilder: (context, item, index) => MovieGridItemView(
+            movie: item,
+            onFavorite: (movieId) {
+              widget.movieListingPageController.saveFavoriteMovie(movieId);
+            },
+          ),
         ),
       ),
     );
@@ -73,8 +79,10 @@ class _MovieListingPageState extends State<MovieListingPage> {
 
 class MovieGridItemView extends StatelessWidget {
   final MovieVo movie;
+  final Function(int movieId) onFavorite;
 
-  const MovieGridItemView(this.movie, {super.key});
+  const MovieGridItemView(
+      {super.key, required this.movie, required this.onFavorite});
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +93,27 @@ class MovieGridItemView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius:
-                const BorderRadius.all(Radius.circular(Dimens.MARGIN_MEDIUM)),
-            child: MyCachedNetworkImage(
-              imageUrl: movie.posterPath,
-              width: double.maxFinite,
-              height: context.getScreenHeightBy(3.6),
-            ),
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.all(
+                    Radius.circular(Dimens.MARGIN_MEDIUM)),
+                child: MyCachedNetworkImage(
+                  imageUrl: movie.posterPath,
+                  width: double.maxFinite,
+                  height: context.getScreenHeightBy(3.6),
+                ),
+              ),
+              Positioned(
+                  top: Dimens.MARGIN_MEDIUM,
+                  right: Dimens.MARGIN_MEDIUM,
+                  child: FavoriteIconView(
+                    isFavorite: movie.isFavorite,
+                    onTap: () {
+                      onFavorite(movie.id);
+                    },
+                  ))
+            ],
           ),
           const SizedBox(height: Dimens.MARGIN_MEDIUM),
           Text(
