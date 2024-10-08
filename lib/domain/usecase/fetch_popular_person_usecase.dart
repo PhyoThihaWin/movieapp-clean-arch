@@ -9,7 +9,8 @@ class FetchPopularPersonUseCase extends NoParamStreamUseCase<List<ActorVo>> {
   FetchPopularPersonUseCase(this.repo);
 
   @override
-  Stream<List<ActorVo>> execute() {
-    return repo.getDbPopularPerson();
+  Stream<List<ActorVo>> execute() async* {
+    await Future.delayed(const Duration(seconds: 1));
+    yield* repo.getDbPopularPerson();
   }
 }

@@ -9,7 +9,8 @@ class GetUpComingMoviesUseCase extends NoParamStreamUseCase<List<MovieVo>> {
   GetUpComingMoviesUseCase(this.repo);
 
   @override
-  Stream<List<MovieVo>> execute() {
-    return repo.getDbUpComingMovies();
+  Stream<List<MovieVo>> execute() async* {
+    await Future.delayed(const Duration(seconds: 1));
+    yield* repo.getDbNowPlayingMovies();
   }
 }

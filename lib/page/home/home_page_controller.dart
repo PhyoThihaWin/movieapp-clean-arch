@@ -8,6 +8,7 @@ import 'package:movieapp_clean_arch/domain/usecase/fetch_popular_person_usecase.
 import 'package:movieapp_clean_arch/domain/usecase/get_now_playing_movies_usecase.dart';
 import 'package:movieapp_clean_arch/domain/usecase/get_popular_movies_usecase.dart';
 import 'package:movieapp_clean_arch/domain/usecase/get_up_coming_movies_usecase.dart';
+import 'package:rxdart/transformers.dart';
 
 import '../../domain/usecase/favorite_movie_usecase.dart';
 
@@ -39,7 +40,7 @@ class HomePageController extends GetxController {
 
   getNowPlayingMovies() {
     nowPlayingMovies.value = ViewState.loading();
-    _nowPlayingMoviesUseCase.execute().listen((event) {
+    _nowPlayingMoviesUseCase.execute().listen((event) async {
       if (event.isNotEmpty) {
         nowPlayingMovies.value = ViewState.success(event);
       }
@@ -49,7 +50,6 @@ class HomePageController extends GetxController {
   getUpComingMovies() async {
     upcomingMovies.value = ViewState.loading();
     _upComingMoviesUseCase.execute().listen((event) {
-      debugPrint("HomeController ${event.length}");
       upcomingMovies.value = ViewState.success(event);
     });
   }

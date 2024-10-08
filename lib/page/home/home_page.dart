@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -9,6 +10,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../base/view_state.dart';
 import '../../domain/models/actor_vo.dart';
@@ -82,19 +84,29 @@ class HomePage extends StatelessWidget {
                   ),
 
                   // Now playing
-                  Obx(() => ViewStateRender(
-                        viewState: homeController.nowPlayingMovies.value,
-                        loading: const CircularProgressIndicator(),
-                        success: (data) => CarouselSliderViewSection(
-                          list: data.take(8).toList(),
+                  Obx(
+                    () => ViewStateRender(
+                      viewState: homeController.nowPlayingMovies.value,
+                      loading: Skeletonizer(
+                        enabled: true,
+                        child: CarouselSliderViewSection(
+                          list: MovieVo.fakeMovieList,
                           position: homeController.position,
-                          onPageChanged: (index) =>
-                              homeController.position.value = index,
-                          onFavorite: (id) =>
-                              homeController.saveFavoriteMovie(id),
+                          onPageChanged: (index) {},
+                          onFavorite: (id) => {},
                         ),
-                        error: (message) => Container(),
-                      )),
+                      ),
+                      success: (data) => CarouselSliderViewSection(
+                        list: data.take(8).toList(),
+                        position: homeController.position,
+                        onPageChanged: (index) =>
+                            homeController.position.value = index,
+                        onFavorite: (id) =>
+                            homeController.saveFavoriteMovie(id),
+                      ),
+                      error: (message) => Container(),
+                    ),
+                  ),
                   const SizedBox(height: Dimens.MARGIN_LARGE),
 
                   // Upcoming
@@ -110,10 +122,25 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
                   Obx(() => ViewStateRender(
                       viewState: homeController.upcomingMovies.value,
-                      loading: const CircularProgressIndicator(),
+                      loading: Skeletonizer(
+                        enabled: true,
+                        child: HorizontalListView(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: Dimens.MARGIN_MEDIUM_2,
+                          ),
+                          height: 350,
+                          itemCount: 10,
+                          itemBuilder: (context, index) =>
+                              HomeMovieListItemView(
+                            movie: MovieVo.fakeMovieList[index],
+                            onFavorite: (id) {},
+                          ),
+                        ),
+                      ),
                       success: (data) => HorizontalListView(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: Dimens.MARGIN_MEDIUM_2),
+                              horizontal: Dimens.MARGIN_MEDIUM_2,
+                            ),
                             height: 350,
                             itemCount: data.length,
                             itemBuilder: (context, index) =>

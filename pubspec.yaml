@@ -61,7 +61,8 @@ dependencies:
   shared_preferences: ^2.3.2
   provider: ^6.1.2
   easy_localization: ^3.0.7
-
+  skeletonizer: ^1.4.2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
