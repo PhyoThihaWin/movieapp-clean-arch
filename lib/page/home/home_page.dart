@@ -23,7 +23,10 @@ import '../movielist/movie_type.dart';
 import '../nav_host/nav_host_helper.dart';
 
 class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  final RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   ConsumerState<HomePage> createState() => _HomePageState();
@@ -37,19 +40,16 @@ class _HomePageState extends ConsumerState<HomePage> {
     ref.read(fetchHomeMoviesUsecaseProvider)();
   }
 
+  void onRefresh() async {
+    await ref.watch(fetchHomeMoviesUsecaseProvider)();
+    widget.refreshController.refreshCompleted();
+  }
+
   @override
   Widget build(BuildContext context) {
-    RefreshController refreshController =
-        RefreshController(initialRefresh: false);
-
-    void onRefresh() async {
-      ref.watch(fetchHomeMoviesUsecaseProvider)();
-      refreshController.refreshCompleted();
-    }
-
     return SafeArea(
       child: SmartRefresher(
-        controller: refreshController,
+        controller: widget.refreshController,
         header: const WaterDropHeader(),
         onRefresh: onRefresh,
         child: CustomScrollView(

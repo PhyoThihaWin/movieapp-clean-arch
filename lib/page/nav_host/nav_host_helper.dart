@@ -61,7 +61,7 @@ class NavHostHelper {
                 path: homePath,
                 pageBuilder: (context, GoRouterState state) {
                   return getPage(
-                    child: const HomePage(),
+                    child: HomePage(),
                     state: state,
                   );
                 },
