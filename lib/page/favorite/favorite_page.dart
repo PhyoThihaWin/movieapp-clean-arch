@@ -1,39 +1,38 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
-import 'package:movieapp_clean_arch/page/favorite/favorite_page_controller.dart';
+import 'package:movieapp_clean_arch/page/favorite/favorite_page_provider.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/widget/my_cached_network_image.dart';
 
-class FavoritePage extends StatelessWidget {
+class FavoritePage extends ConsumerWidget {
   const FavoritePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    var favoritePageController = Get.find<FavoritePageController>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    var favoriteMovies = ref.watch(favoriteMoviesProvider);
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        title: SectionTitleText(
-          LocaleKeys.txtFavoriteMovies.tr(),
-          fontSize: Dimens.TEXT_LARGE,
+        appBar: AppBar(
+          scrolledUnderElevation: 0,
+          title: SectionTitleText(
+            LocaleKeys.txtFavoriteMovies.tr(),
+            fontSize: Dimens.TEXT_LARGE,
+          ),
         ),
-      ),
-      body: StreamBuilder(
-          stream: favoritePageController.getFavoriteMovies(),
-          initialData: const [],
-          builder: (context, snapshot) => ListView.builder(
-                padding: const EdgeInsets.all(Dimens.MARGIN_MEDIUM),
-                itemCount: snapshot.requireData.length,
-                itemBuilder: (context, index) => FavoriteMovieItemView(
-                  movieVo: snapshot.requireData[index],
-                ),
-              )),
-    );
+        body: favoriteMovies.when(
+          data: (data) => ListView.builder(
+            padding: const EdgeInsets.all(Dimens.MARGIN_MEDIUM),
+            itemCount: data.length,
+            itemBuilder: (context, index) => FavoriteMovieItemView(
+              movieVo: data[index],
+            ),
+          ),
+          error: (error, stackTrace) {},
+          loading: () {},
+        ));
   }
 }
 

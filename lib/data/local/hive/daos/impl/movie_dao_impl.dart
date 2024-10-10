@@ -1,8 +1,8 @@
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:hive/hive.dart';
-import 'package:movieapp_clean_arch/data/cache/hive/daos/movie_dao.dart';
-import 'package:movieapp_clean_arch/data/cache/hive/entities/movie_entity.dart';
-import 'package:movieapp_clean_arch/data/cache/hive/hive_constants.dart';
+import 'package:movieapp_clean_arch/data/local/hive/daos/movie_dao.dart';
+import 'package:movieapp_clean_arch/data/local/hive/entities/movie_entity.dart';
+import 'package:movieapp_clean_arch/data/local/hive/hive_constants.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 class MovieDaoImpl extends MovieDao {

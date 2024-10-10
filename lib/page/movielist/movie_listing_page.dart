@@ -1,42 +1,51 @@
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
-import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
-import 'package:movieapp_clean_arch/page/movielist/movie_listing_page_controller.dart';
-import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
-import 'package:movieapp_clean_arch/resource/dimens.dart';
+import 'package:movieapp_clean_arch/page/home/home_page_provider.dart';
+import 'package:movieapp_clean_arch/page/movielist/movie_listing_page_provider.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
-import 'package:movieapp_clean_arch/widget/my_cached_network_image.dart';
 
+import '../../domain/models/movie_vo.dart';
+import '../../generated/locale_keys.g.dart';
 import '../../resource/colors.dart';
+import '../../resource/dimens.dart';
 import '../../widget/favorite_icon_view.dart';
+import '../../widget/my_cached_network_image.dart';
 import '../home/home_page.dart';
+import '../nav_host/nav_host_helper.dart';
+import 'movie_type.dart';
 
-enum MovieType { nowPlaying, upComing, popular }
-
-class MovieListingPage extends StatefulWidget {
+class MovieListingPage extends ConsumerStatefulWidget {
   final String movieType;
   MovieListingPage(this.movieType, {super.key});
 
-  final MovieListingPageController movieListingPageController = Get.find();
+  // paging controller
+  final PagingController<int, MovieVo> pagingController =
+      PagingController(firstPageKey: 0, invisibleItemsThreshold: 15);
 
   @override
-  State<MovieListingPage> createState() => _MovieListingPageState();
+  ConsumerState<MovieListingPage> createState() => _MovieListingPageState();
 }
 
-class _MovieListingPageState extends State<MovieListingPage> {
+class _MovieListingPageState extends ConsumerState<MovieListingPage> {
   @override
   void initState() {
     super.initState();
+
     var movieType =
         MovieType.values.find((value) => value.name == widget.movieType) ??
             MovieType.nowPlaying;
-    widget.movieListingPageController.fetchMovies(movieType);
+
+    widget.pagingController.addPageRequestListener((pageKey) {
+      ref.watch(listPagingMoviesProvider.notifier).fetchPage(
+            pageKey + 1,
+            movieType,
+            widget.pagingController,
+          );
+    });
   }
 
   @override
@@ -62,13 +71,13 @@ class _MovieListingPageState extends State<MovieListingPage> {
           mainAxisExtent: context.getScreenHeightBy(2.4),
           crossAxisCount: 2,
         ),
-        pagingController: widget.movieListingPageController.pagingController,
+        pagingController: widget.pagingController,
         showNewPageProgressIndicatorAsGridChild: false,
         builderDelegate: PagedChildBuilderDelegate<MovieVo>(
           itemBuilder: (context, item, index) => MovieGridItemView(
             movie: item,
             onFavorite: (movieId) {
-              widget.movieListingPageController.saveFavoriteMovie(movieId);
+              ref.read(favoriteMovieUseCaseProvider)(movieId);
             },
           ),
         ),

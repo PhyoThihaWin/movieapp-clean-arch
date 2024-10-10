@@ -1,6 +1,6 @@
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:movieapp_clean_arch/data/cache/datasource/app_config_datasource.dart';
+import 'package:movieapp_clean_arch/data/local/datasource/app_config_datasource.dart';
 import 'package:movieapp_clean_arch/domain/repository/other/app_config_repository.dart';
 
 class AppConfigRepositoryImpl implements AppConfigRepository {

@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:movieapp_clean_arch/data/cache/hive/hive_constants.dart';
+import 'package:movieapp_clean_arch/data/local/hive/hive_constants.dart';
 import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
 
 import '../../../network/apiclient/api_constants.dart';

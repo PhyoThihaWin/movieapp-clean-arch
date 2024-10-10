@@ -1,9 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:movieapp_clean_arch/page/movie/movie_page_controller.dart';
+import 'package:movieapp_clean_arch/page/movie/movie_page_provider.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 
@@ -12,13 +11,53 @@ import '../../generated/locale_keys.g.dart';
 import '../../resource/dimens.dart';
 import '../movielist/movie_listing_page.dart';
 
-class MoviePage extends StatelessWidget {
-  const MoviePage({super.key});
+class MoviePage extends ConsumerStatefulWidget {
+  MoviePage({super.key});
+
+  // paging controller
+  final PagingController<int, MovieVo> pagingController =
+      PagingController(firstPageKey: 0, invisibleItemsThreshold: 15);
+
+  @override
+  ConsumerState<MoviePage> createState() => _MoviePageState();
+}
+
+class _MoviePageState extends ConsumerState<MoviePage> {
+  @override
+  void initState() {
+    super.initState();
+    widget.pagingController.addPageRequestListener((pageKey) {
+      ref.watch(pagingMoviesProvider.notifier).fetchPage(
+            pageKey + 1,
+            widget.pagingController,
+          );
+    });
+  }
+
+  @override
+  void dispose() {
+    widget.pagingController.dispose();
+    debugPrint("ListPage Controller disposed");
+    super.dispose();
+  }
+
+  saveFavoriteMovie(int id) {
+    ref.read(favoriteMovieUseCaseProvider)(id);
+    widget.pagingController.itemList = widget.pagingController.itemList?.map(
+      (e) {
+        if (e.id == id) {
+          var item = e;
+          item.isFavorite = !e.isFavorite;
+          return item;
+        } else {
+          return e;
+        }
+      },
+    ).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
-    MoviePageController moviePageController = Get.find();
-
     return SafeArea(
       bottom: false,
       child: Scaffold(
@@ -35,7 +74,10 @@ class MoviePage extends StatelessWidget {
                   floating: true,
                   title: MovieTabarView(
                     onTap: (index) {
-                      moviePageController.changeTab(index);
+                      // moviePageController.changeTab(index);
+                      ref
+                          .watch(pagingMoviesProvider.notifier)
+                          .changeTab(index, widget.pagingController);
                     },
                   ),
                 ),
@@ -51,14 +93,14 @@ class MoviePage extends StatelessWidget {
                 mainAxisExtent: context.getScreenHeightBy(2.4),
                 crossAxisCount: 2,
               ),
-              pagingController: moviePageController.pagingController,
+              pagingController: widget.pagingController,
               showNewPageProgressIndicatorAsGridChild: false,
               builderDelegate: PagedChildBuilderDelegate<MovieVo>(
                 animateTransitions: true,
                 itemBuilder: (context, item, index) => MovieGridItemView(
                   movie: item,
                   onFavorite: (movieId) {
-                    moviePageController.saveFavoriteMovie(movieId);
+                    saveFavoriteMovie(movieId);
                   },
                 ),
               )),

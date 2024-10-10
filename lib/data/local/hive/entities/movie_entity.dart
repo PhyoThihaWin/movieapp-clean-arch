@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:movieapp_clean_arch/data/cache/hive/hive_constants.dart';
+import 'package:movieapp_clean_arch/data/local/hive/hive_constants.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 
 part 'movie_entity.g.dart';

@@ -1,4 +1,4 @@
-import 'package:movieapp_clean_arch/data/cache/hive/entities/movie_entity.dart';
+import 'package:movieapp_clean_arch/data/local/hive/entities/movie_entity.dart';
 
 abstract class MovieDao {
   void saveAllMovie(List<MovieEntity> movieList);

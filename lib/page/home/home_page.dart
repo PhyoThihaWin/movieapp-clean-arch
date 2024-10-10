@@ -2,12 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
+import 'package:movieapp_clean_arch/page/home/home_page_provider.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -22,22 +19,31 @@ import '../../widget/horizontal_list_view.dart';
 import '../../widget/horizontal_singlechild_list_view.dart';
 import '../../widget/my_cached_network_image.dart';
 import '../../widget/search_box_view.dart';
-import '../movielist/movie_listing_page.dart';
+import '../movielist/movie_type.dart';
 import '../nav_host/nav_host_helper.dart';
-import 'home_page_controller.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final HomePageController homeController = Get.find();
+  ConsumerState<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends ConsumerState<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    ref.read(fetchHomeMoviesUsecaseProvider)();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     RefreshController refreshController =
         RefreshController(initialRefresh: false);
 
     void onRefresh() async {
-      await homeController.fetchHomeMovies();
+      ref.watch(fetchHomeMoviesUsecaseProvider)();
       refreshController.refreshCompleted();
     }
 
@@ -68,7 +74,7 @@ class HomePage extends StatelessWidget {
                         horizontal: Dimens.MARGIN_MEDIUM_2),
                     child: Column(children: [
                       InkWell(
-                          onTap: () {
+                          onTap: () async {
                             context.navigate(NavHostHelper.searchPath);
                           },
                           child: const SearchBoxView(enable: false)),
@@ -84,28 +90,39 @@ class HomePage extends StatelessWidget {
                   ),
 
                   // Now playing
-                  Obx(
-                    () => ViewStateRender(
-                      viewState: homeController.nowPlayingMovies.value,
-                      loading: Skeletonizer(
-                        enabled: true,
-                        child: CarouselSliderViewSection(
-                          list: MovieVo.fakeMovieList,
-                          position: homeController.position,
-                          onPageChanged: (index) {},
-                          onFavorite: (id) => {},
-                        ),
+                  StateRender(
+                    refValue: ref.watch(nowPlayingMoviesProvider),
+                    loading: Skeletonizer(
+                      enabled: true,
+                      child: CarouselSliderViewSection(
+                        list: MovieVo.fakeMovieList,
+                        position: ref.watch(homeCarouselIndexProvider),
+                        onPageChanged: (index) {},
+                        onFavorite: (id) => {},
                       ),
-                      success: (data) => CarouselSliderViewSection(
-                        list: data.take(8).toList(),
-                        position: homeController.position,
-                        onPageChanged: (index) =>
-                            homeController.position.value = index,
-                        onFavorite: (id) =>
-                            homeController.saveFavoriteMovie(id),
-                      ),
-                      error: (message) => Container(),
                     ),
+                    success: (data) {
+                      return data.isEmpty
+                          ? Skeletonizer(
+                              enabled: true,
+                              child: CarouselSliderViewSection(
+                                list: MovieVo.fakeMovieList,
+                                position: ref.watch(homeCarouselIndexProvider),
+                                onPageChanged: (index) {},
+                                onFavorite: (id) => {},
+                              ),
+                            )
+                          : CarouselSliderViewSection(
+                              list: data.take(8).toList(),
+                              position: ref.watch(homeCarouselIndexProvider),
+                              onPageChanged: (index) => ref
+                                  .watch(homeCarouselIndexProvider.notifier)
+                                  .updateIndex(index),
+                              onFavorite: (id) =>
+                                  ref.watch(favoriteMovieUseCaseProvider)(id),
+                            );
+                    },
+                    error: (message) => Container(),
                   ),
                   const SizedBox(height: Dimens.MARGIN_LARGE),
 
@@ -120,8 +137,9 @@ class HomePage extends StatelessWidget {
                     }),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
-                  Obx(() => ViewStateRender(
-                      viewState: homeController.upcomingMovies.value,
+
+                  StateRender(
+                      refValue: ref.watch(upComingMoviesProvider),
                       loading: Skeletonizer(
                         enabled: true,
                         child: HorizontalListView(
@@ -147,11 +165,12 @@ class HomePage extends StatelessWidget {
                                 HomeMovieListItemView(
                               movie: data[index],
                               onFavorite: (id) {
-                                homeController.saveFavoriteMovie(id);
+                                ref.watch(favoriteMovieUseCaseProvider)(id);
                               },
                             ),
                           ),
-                      error: (message) => Container())),
+                      error: (message) => Container()),
+
                   const SizedBox(height: Dimens.MARGIN_LARGE),
 
                   // popular
@@ -167,20 +186,22 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
-                  Obx(() => ViewStateRender(
-                        viewState: homeController.popularMovies.value,
-                        loading: const CircularProgressIndicator(),
-                        success: (data) => SizedBox(
-                          height: 180,
-                          child: PromoPageViewSection(
-                            movies: data,
-                            onFavorite: (id) {
-                              homeController.saveFavoriteMovie(id);
-                            },
-                          ),
-                        ),
-                        error: (message) => Container(),
-                      )),
+
+                  StateRender(
+                    refValue: ref.watch(popularMoviesProvider),
+                    loading: const CircularProgressIndicator(),
+                    success: (data) => SizedBox(
+                      height: 180,
+                      child: PromoPageViewSection(
+                        movies: data,
+                        onFavorite: (id) {
+                          ref.watch(favoriteMovieUseCaseProvider)(id);
+                        },
+                      ),
+                    ),
+                    error: (message) => Container(),
+                  ),
+
                   const SizedBox(height: Dimens.MARGIN_LARGE),
 
                   // celebrities
@@ -193,18 +214,19 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
-                  Obx(() => ViewStateRender(
-                        viewState: homeController.popularPerson.value,
-                        loading: const CircularProgressIndicator(),
-                        success: (data) => HorizontalSingleChildListView(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: Dimens.MARGIN_MEDIUM_2),
-                          itemCount: data.take(12).length,
-                          itemBuilder: (context, index) =>
-                              ServiceListItemView(data[index]),
-                        ),
-                        error: (message) => Container(),
-                      )),
+
+                  StateRender(
+                    refValue: ref.watch(popularPersonsProvider),
+                    loading: const CircularProgressIndicator(),
+                    success: (data) => HorizontalSingleChildListView(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Dimens.MARGIN_MEDIUM_2),
+                      itemCount: data.take(12).length,
+                      itemBuilder: (context, index) =>
+                          ServiceListItemView(data[index]),
+                    ),
+                    error: (message) => Container(),
+                  ),
                   const SizedBox(height: Dimens.MARGIN_LARGE),
 
                   // movie news
@@ -217,8 +239,8 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: Dimens.MARGIN_MEDIUM_2),
-                  Obx(() => ViewStateRender(
-                      viewState: homeController.nowPlayingMovies.value,
+                  StateRender(
+                      refValue: ref.watch(nowPlayingMoviesProvider),
                       loading: const CircularProgressIndicator(),
                       success: (data) => HorizontalListView(
                             padding: const EdgeInsets.symmetric(
@@ -228,7 +250,7 @@ class HomePage extends StatelessWidget {
                             itemBuilder: (context, index) =>
                                 MoviesNewsItemView(data[index]),
                           ),
-                      error: (message) => Container())),
+                      error: (message) => Container()),
                 ],
               )
             ]))
@@ -491,20 +513,20 @@ class WelcomeAndNotificationIconSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Hi, Angelina 👋",
-              style: TextStyle(fontSize: 18),
+              LocaleKeys.txtHiThree.tr(),
+              style: const TextStyle(fontSize: 18),
             ),
-            SectionTitleText("Welcome back")
+            SectionTitleText(LocaleKeys.txtWelcomeBack.tr())
           ],
         ),
-        Icon(Icons.notifications_active)
+        const Icon(Icons.notifications_active)
       ],
     );
   }
@@ -533,7 +555,7 @@ class SectionTitleText extends StatelessWidget {
 
 class CarouselSliderViewSection extends StatelessWidget {
   final List<MovieVo> list;
-  final RxInt position;
+  final int position;
   final Function(int position) onPageChanged;
   final Function(int id) onFavorite;
 
@@ -595,15 +617,13 @@ class CarouselSliderViewSection extends StatelessWidget {
         Padding(
           padding:
               const EdgeInsets.symmetric(horizontal: Dimens.MARGIN_MEDIUM_2),
-          child:
-              Obx(() => SectionTitleText(list[position.value.toInt()].title)),
+          child: SectionTitleText(list[position].title),
         ),
         const Text(
           "2h29m • Action, adventure, sci-fi",
         ),
         const SizedBox(height: Dimens.MARGIN_MEDIUM),
-        Obx(() => DotsIndicatorView(
-            dotsCount: list.length, position: position.value.toDouble()))
+        DotsIndicatorView(dotsCount: list.length, position: position.toDouble())
       ],
     );
   }

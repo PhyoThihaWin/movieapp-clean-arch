@@ -1,21 +1,14 @@
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movieapp_clean_arch/page/favorite/favorite_page.dart';
-import 'package:movieapp_clean_arch/page/favorite/favorite_page_binding.dart';
-import 'package:movieapp_clean_arch/page/home/home_binding.dart';
-import 'package:movieapp_clean_arch/page/home/home_page.dart';
-import 'package:movieapp_clean_arch/page/movie/movie_page.dart';
-import 'package:movieapp_clean_arch/page/movie/movie_page_binding.dart';
-import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_binding.dart';
-import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page.dart';
-import 'package:movieapp_clean_arch/page/movielist/movie_listing_binding.dart';
-import 'package:movieapp_clean_arch/page/movielist/movie_listing_page.dart';
-import 'package:movieapp_clean_arch/page/nav_host/nav_host_page.dart';
-import 'package:movieapp_clean_arch/page/profile/profile_page.dart';
-import 'package:movieapp_clean_arch/page/profile/profile_page_binding.dart';
-import 'package:movieapp_clean_arch/page/search/movie_search_page.dart';
-import 'package:movieapp_clean_arch/page/search/movie_search_page_binding.dart';
+
+import '../favorite/favorite_page.dart';
+import '../home/home_page.dart';
+import '../movie/movie_page.dart';
+import '../moviedetail/movie_detail_page.dart';
+import '../movielist/movie_listing_page.dart';
+import '../profile/profile_page.dart';
+import 'nav_host_page.dart';
 
 class NavHostHelper {
   static final NavHostHelper _instance = NavHostHelper._internal();
@@ -67,7 +60,6 @@ class NavHostHelper {
               GoRoute(
                 path: homePath,
                 pageBuilder: (context, GoRouterState state) {
-                  HomeBinding().dependencies();
                   return getPage(
                     child: const HomePage(),
                     state: state,
@@ -82,7 +74,6 @@ class NavHostHelper {
               GoRoute(
                 path: favoritePath,
                 pageBuilder: (context, state) {
-                  FavoritePageBinding().dependencies();
                   return getPage(
                     child: const FavoritePage(),
                     state: state,
@@ -97,9 +88,8 @@ class NavHostHelper {
               GoRoute(
                 path: moviePath,
                 pageBuilder: (context, state) {
-                  MoviePageBinding().dependencies();
                   return getPage(
-                    child: const MoviePage(),
+                    child: MoviePage(),
                     state: state,
                   );
                 },
@@ -112,9 +102,8 @@ class NavHostHelper {
               GoRoute(
                 path: profilePath,
                 pageBuilder: (context, state) {
-                  ProfilePageBinding().dependencies();
                   return getPage(
-                    child: ProfilePage(),
+                    child: const ProfilePage(),
                     state: state,
                   );
                 },
@@ -136,9 +125,7 @@ class NavHostHelper {
       GoRoute(
         parentNavigatorKey: parentNavigatorKey,
         path: "$detailPath/:id",
-        onExit: (context, state) => MovieDetailBinding().dispose(),
         pageBuilder: (context, state) {
-          MovieDetailBinding().dependencies();
           var id = state.pathParameters['id'].toIntOrNull() ?? 0;
           return getPage(
             child: MovieDetailPage(movieId: id),
@@ -148,9 +135,7 @@ class NavHostHelper {
       ),
       GoRoute(
         path: "$listingPath/:movieType",
-        onExit: (context, state) => MovieListingBinding().dispose(),
         pageBuilder: (context, state) {
-          MovieListingBinding().dependencies();
           var movieType = state.pathParameters["movieType"] ?? "";
           return getPage(
             child: MovieListingPage(movieType),
@@ -158,17 +143,17 @@ class NavHostHelper {
           );
         },
       ),
-      GoRoute(
-        path: searchPath,
-        onExit: (context, state) => MovieSearchPageBinding().dispose(),
-        pageBuilder: (context, state) {
-          MovieSearchPageBinding().dependencies();
-          return getPage(
-            child: MovieSearchPage(),
-            state: state,
-          );
-        },
-      ),
+      // GoRoute(
+      //   path: searchPath,
+      //   onExit: (context, state) => MovieSearchPageBinding().dispose(),
+      //   pageBuilder: (context, state) {
+      //     MovieSearchPageBinding().dependencies();
+      //     return getPage(
+      //       child: MovieSearchPage(),
+      //       state: state,
+      //     );
+      //   },
+      // ),
     ];
 
     router = GoRouter(

@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:movieapp_clean_arch/data/cache/hive/entities/actor_entity.dart';
-import 'package:movieapp_clean_arch/data/cache/hive/hive_constants.dart';
-import 'package:movieapp_clean_arch/data/cache/hive/daos/actor_dao.dart';
+import 'package:movieapp_clean_arch/data/local/hive/entities/actor_entity.dart';
+import 'package:movieapp_clean_arch/data/local/hive/hive_constants.dart';
+import 'package:movieapp_clean_arch/data/local/hive/daos/actor_dao.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 class ActorDaoImpl extends ActorDao {

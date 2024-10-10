@@ -2,15 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_detail_vo.dart';
 import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
-import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page_controller.dart';
+import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page_provider.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
 import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
@@ -20,77 +18,72 @@ import 'package:movieapp_clean_arch/widget/my_cached_network_image.dart';
 import '../../resource/colors.dart';
 import '../../widget/horizontal_singlechild_list_view.dart';
 
-class MovieDetailPage extends StatelessWidget {
+class MovieDetailPage extends ConsumerWidget {
   final int movieId;
-  MovieDetailPage({super.key, required this.movieId});
-
-  final MovieDetailPageController movieDetailPageController = Get.find();
+  const MovieDetailPage({super.key, required this.movieId});
 
   @override
-  Widget build(BuildContext context) {
-    movieDetailPageController.getMovieDetail(movieId);
-
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: Obx(() => ViewStateRender(
-            viewState: movieDetailPageController.movieDetails.value,
-            loading: const Center(child: CircularProgressIndicator()),
-            success: (data) => SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      MovieLandscapeImageSection(imageUrl: data.backdropPath),
-                      Positioned(
-                        left: Dimens.MARGIN_MEDIUM_2,
-                        top: 50,
-                        child: PageBackIconView(onBack: () {
-                          context.navigateBack(NavHostHelper.homePath);
-                        }),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: Dimens.MARGIN_MEDIUM_2,
-                        right: Dimens.MARGIN_MEDIUM_2,
-                        child: MovieDetailInfoSection(
-                          movieDetailVo: data,
-                          onFavorite: (id) =>
-                              movieDetailPageController.saveFavoriteMovie(id),
-                        ),
-                      ),
-                    ],
+        body: StateRender(
+      refValue: ref.watch(getMovieDetailsProvider(movieId)),
+      loading: const Center(child: CircularProgressIndicator()),
+      success: (data) => SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                MovieLandscapeImageSection(imageUrl: data.backdropPath),
+                Positioned(
+                  left: Dimens.MARGIN_MEDIUM_2,
+                  top: 50,
+                  child: PageBackIconView(onBack: () {
+                    context.navigateBack(NavHostHelper.homePath);
+                  }),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: Dimens.MARGIN_MEDIUM_2,
+                  right: Dimens.MARGIN_MEDIUM_2,
+                  child: MovieDetailInfoSection(
+                    movieDetailVo: data,
+                    onFavorite: (id) {},
+                    //  =>   movieDetailPageController.saveFavoriteMovie(id)
                   ),
-                  const SizedBox(height: Dimens.MARGIN_LARGE),
-                  MovieDescriptionsSection(movieDetailVo: data),
-                  const SizedBox(height: Dimens.MARGIN_LARGE),
-                  MovieStoryLineSection(movieDetailVo: data),
-                  const SizedBox(height: Dimens.MARGIN_LARGE),
-                  MovieCastsListSeciton(actors: data.casts),
-                  const SizedBox(height: Dimens.MARGIN_LARGE),
-                  MovieCrewsListSection(actors: data.crews),
-                  const SizedBox(height: Dimens.MARGIN_LARGE),
-                  MovieDetailCinemaSection(
-                    cinemaIndex: movieDetailPageController.cinemaIndex.value,
-                    select: (index) {
-                      movieDetailPageController.cinemaIndex.value = index;
-                    },
-                  ),
-                  const SizedBox(height: Dimens.MARGIN_LARGE),
-                  // ButtonViewFullWidth(
-                  //   margin: const EdgeInsets.symmetric(
-                  //       horizontal: Dimens.MARGIN_MEDIUM_2),
-                  //   btnText: "Continue",
-                  //   onClick: () {
-                  //     context.next(const CinemaSeatPage());
-                  //   },
-                  // ),
-                  const SizedBox(height: Dimens.MARGIN_LARGE)
-                ],
-              ),
+                ),
+              ],
             ),
-          )),
-    );
+            const SizedBox(height: Dimens.MARGIN_LARGE),
+            MovieDescriptionsSection(movieDetailVo: data),
+            const SizedBox(height: Dimens.MARGIN_LARGE),
+            MovieStoryLineSection(movieDetailVo: data),
+            const SizedBox(height: Dimens.MARGIN_LARGE),
+            MovieCastsListSeciton(actors: data.casts),
+            const SizedBox(height: Dimens.MARGIN_LARGE),
+            MovieCrewsListSection(actors: data.crews),
+            const SizedBox(height: Dimens.MARGIN_LARGE),
+            MovieDetailCinemaSection(
+              cinemaIndex: 0,
+              select: (index) {
+                // movieDetailPageController.cinemaIndex.value = index;
+              },
+            ),
+            const SizedBox(height: Dimens.MARGIN_LARGE),
+            // ButtonViewFullWidth(
+            //   margin: const EdgeInsets.symmetric(
+            //       horizontal: Dimens.MARGIN_MEDIUM_2),
+            //   btnText: "Continue",
+            //   onClick: () {
+            //     context.next(const CinemaSeatPage());
+            //   },
+            // ),
+            const SizedBox(height: Dimens.MARGIN_LARGE)
+          ],
+        ),
+      ),
+    ));
   }
 }
 

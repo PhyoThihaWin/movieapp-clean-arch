@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:movieapp_clean_arch/data/cache/hive/entities/actor_entity.dart';
+import 'package:movieapp_clean_arch/data/local/hive/entities/actor_entity.dart';
 import 'package:movieapp_clean_arch/utils/primitive_ext.dart';
 
 import '../../apiclient/api_constants.dart';

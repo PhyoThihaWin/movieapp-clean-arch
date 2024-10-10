@@ -5,7 +5,7 @@ class FavoriteMovieUseCase {
 
   FavoriteMovieUseCase(this._repo);
 
-  execute(int params) {
+  call(int params) {
     _repo.saveFavoriteMovie(params);
   }
 }

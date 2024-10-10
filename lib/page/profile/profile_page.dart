@@ -1,36 +1,27 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movieapp_clean_arch/domain/general/localization.dart';
 import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
-import 'package:movieapp_clean_arch/page/profile/profile_page_controller.dart';
+import 'package:movieapp_clean_arch/page/profile/profile_page_provider.dart';
 import 'package:movieapp_clean_arch/resource/colors.dart';
+import 'package:movieapp_clean_arch/theme_provider.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/utils/primitive_ext.dart';
 import 'package:movieapp_clean_arch/widget/space_widget.dart';
 import 'package:movieapp_clean_arch/widget/svg_image.dart';
-import 'package:provider/provider.dart';
 
-import '../../main.dart';
 import '../../resource/dimens.dart';
 import '../../resource/strings.dart';
 import '../../widget/button_view_fullwidth.dart';
 
-class ProfilePage extends StatelessWidget {
-  ProfilePage({super.key});
-
-  final ProfilePageController _pageController = Get.find();
+class ProfilePage extends ConsumerWidget {
+  const ProfilePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    _pageController.localeCode.value =
-        Provider.of<LocalizationProvider>(context).localeCode;
-
+  Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
-      bottom: false,
       child: Column(
         children: [
           const ProfileInfoSectionView(),
@@ -55,16 +46,10 @@ class ProfilePage extends StatelessWidget {
             text: LocaleKeys.txtChangeLanguage.tr(),
             icon: "ic_translate_setting.svg",
             onClick: () {
-              showLanguageBottomSheet(
-                context: context,
-                onDimiss: () async {
-                  await Future.delayed(const Duration(milliseconds: 200));
-                  context.read<LocalizationProvider>().changeLocalization(
-                        context,
-                        _pageController.localeCode.value,
-                      );
-                },
-              );
+              ref
+                  .watch(localeCodeProvider.notifier)
+                  .update(context.locale.languageCode);
+              showLanguageBottomSheet(context);
             },
           ),
           Divider(color: Colors.grey.withOpacity(0.3)),
@@ -77,10 +62,9 @@ class ProfilePage extends StatelessWidget {
           ProfileMenuItemWithToggle(
             text: LocaleKeys.txtDarkMode.tr(),
             icon: "ic_biometric_setting.svg",
-            toggle: Provider.of<ThemeProvider>(context).currentTheme ==
-                ThemeMode.dark,
+            toggle: ref.watch(currentThemeModeProvider).value == ThemeMode.dark,
             onToggle: (value) {
-              context.read<ThemeProvider>().changeCurrentTheme();
+              ref.read(currentThemeModeProvider.notifier).updateThemeMode();
             },
           ),
         ],
@@ -88,18 +72,14 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  void showLanguageBottomSheet({
-    required BuildContext context,
-    required Function() onDimiss,
-  }) {
+  ///  Show Language changed bottom sheet
+  void showLanguageBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       useRootNavigator: true,
       builder: (BuildContext context) {
-        _pageController.localeCode.value =
-            Provider.of<LocalizationProvider>(context).localeCode;
-        return Obx(() {
-          var localeCode = _pageController.localeCode.value;
+        return Consumer(builder: (context, ref, child) {
+          var localeCode = ref.watch(localeCodeProvider);
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -136,7 +116,9 @@ class ProfilePage extends StatelessWidget {
                 localeCode: localeCode,
                 value: Localization.ENGLISH,
                 onClick: (value) {
-                  _pageController.localeCode.value = Localization.ENGLISH;
+                  ref
+                      .read(localeCodeProvider.notifier)
+                      .update(Localization.ENGLISH);
                 },
               ),
 
@@ -149,7 +131,9 @@ class ProfilePage extends StatelessWidget {
                 localeCode: localeCode,
                 value: Localization.MYANMAR,
                 onClick: (value) {
-                  _pageController.localeCode.value = Localization.MYANMAR;
+                  ref
+                      .read(localeCodeProvider.notifier)
+                      .update(Localization.MYANMAR);
                 },
               ),
 
@@ -162,13 +146,15 @@ class ProfilePage extends StatelessWidget {
                     : txtSelectLangaugeMM,
                 onClick: () {
                   context.popBack();
-                  onDimiss();
+                  context.setLocale(Locale(localeCode));
+                  // onDimiss();
                 },
               ),
               const VerticalSpacer(Dimens.MARGIN_LARGE),
             ],
           );
         });
+        ;
       },
     );
   }
@@ -221,25 +207,25 @@ class ProfileMenuItemWithToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: Dimens.MARGIN_MEDIUM_2, vertical: Dimens.MARGIN_20),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SvgIcon(icon),
-            const HorizontalSpacer(Dimens.MARGIN_MEDIUM_2),
-            Text(
-              text,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w500, fontSize: Dimens.TEXT_REGULAR_2),
-            ),
-            const Spacer(),
-            Switch(value: toggle, onChanged: onToggle)
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: Dimens.MARGIN_MEDIUM_2, vertical: Dimens.MARGIN_20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+              height: Dimens.MARGIN_XLARGE,
+              width: Dimens.MARGIN_XLARGE,
+              child: SvgIcon(icon)),
+          const HorizontalSpacer(Dimens.MARGIN_MEDIUM_2),
+          Text(
+            text,
+            style: const TextStyle(
+                fontWeight: FontWeight.w500, fontSize: Dimens.TEXT_REGULAR_2),
+          ),
+          const Spacer(),
+          Switch(value: toggle, onChanged: onToggle)
+        ],
       ),
     );
   }
@@ -266,7 +252,10 @@ class ProfileMenuItemView extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SvgIcon(icon),
+            SizedBox(
+                height: Dimens.MARGIN_XLARGE,
+                width: Dimens.MARGIN_XLARGE,
+                child: SvgIcon(icon)),
             const HorizontalSpacer(Dimens.MARGIN_MEDIUM_2),
             Text(
               text,

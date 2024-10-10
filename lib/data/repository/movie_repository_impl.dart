@@ -1,6 +1,6 @@
 import 'package:dart_extensions/dart_extensions.dart';
-import 'package:movieapp_clean_arch/data/cache/hive/daos/actor_dao.dart';
-import 'package:movieapp_clean_arch/data/cache/hive/daos/movie_dao.dart';
+import 'package:movieapp_clean_arch/data/local/hive/daos/actor_dao.dart';
+import 'package:movieapp_clean_arch/data/local/hive/daos/movie_dao.dart';
 import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 import 'package:movieapp_clean_arch/domain/repository/home/movie_repository.dart';

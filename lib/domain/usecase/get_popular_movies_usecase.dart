@@ -11,6 +11,6 @@ class GetPopularMoviesUseCase extends NoParamStreamUseCase<List<MovieVo>> {
   @override
   Stream<List<MovieVo>> execute() async* {
     await Future.delayed(const Duration(seconds: 1));
-    yield* repo.getDbNowPlayingMovies();
+    yield* repo.getDbPopularMovies();
   }
 }
