@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movieapp_clean_arch/data/local/hive/entities/actor_entity.dart';
 import 'package:movieapp_clean_arch/domain/general/localization.dart';
-import 'package:movieapp_clean_arch/provider_log.dart';
 import 'package:movieapp_clean_arch/theme_provider.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
