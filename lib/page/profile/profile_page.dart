@@ -5,15 +5,15 @@ import 'package:movieapp_clean_arch/domain/general/localization.dart';
 import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
 import 'package:movieapp_clean_arch/page/profile/profile_page_provider.dart';
-import 'package:movieapp_clean_arch/resource/colors.dart';
-import 'package:movieapp_clean_arch/theme_provider.dart';
+import 'package:movieapp_clean_arch/theme/resource/colors.dart';
+import 'package:movieapp_clean_arch/theme/theme_provider.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/utils/primitive_ext.dart';
 import 'package:movieapp_clean_arch/widget/space_widget.dart';
 import 'package:movieapp_clean_arch/widget/svg_image.dart';
 
-import '../../resource/dimens.dart';
-import '../../resource/strings.dart';
+import '../../theme/resource/dimens.dart';
+import '../../theme/resource/strings.dart';
 import '../../widget/button_view_fullwidth.dart';
 
 class ProfilePage extends ConsumerWidget {

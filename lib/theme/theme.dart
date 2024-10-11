@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp_clean_arch/resource/colors.dart';
+import 'package:movieapp_clean_arch/theme/resource/colors.dart';
 
 class CustomTransitionBuilder extends PageTransitionsBuilder {
   const CustomTransitionBuilder();

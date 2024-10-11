@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp_clean_arch/resource/colors.dart';
+import 'package:movieapp_clean_arch/theme/resource/colors.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 
 class FavoriteIconView extends StatelessWidget {

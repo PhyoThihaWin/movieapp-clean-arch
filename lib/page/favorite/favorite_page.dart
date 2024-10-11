@@ -6,7 +6,7 @@ import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
 import 'package:movieapp_clean_arch/page/favorite/favorite_page_provider.dart';
 import 'package:movieapp_clean_arch/page/home/home_page.dart';
-import 'package:movieapp_clean_arch/resource/dimens.dart';
+import 'package:movieapp_clean_arch/theme/resource/dimens.dart';
 import 'package:movieapp_clean_arch/widget/my_cached_network_image.dart';
 
 class FavoritePage extends ConsumerWidget {

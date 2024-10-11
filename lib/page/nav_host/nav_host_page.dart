@@ -6,7 +6,7 @@ import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/widget/svg_image.dart';
 
 import '../../generated/locale_keys.g.dart';
-import '../../resource/colors.dart';
+import '../../theme/resource/colors.dart';
 
 class NavHostPage extends StatefulWidget {
   final StatefulNavigationShell child;

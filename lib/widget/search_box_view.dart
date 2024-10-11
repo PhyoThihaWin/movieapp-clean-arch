@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 
 import '../generated/locale_keys.g.dart';
-import '../resource/dimens.dart';
+import '../theme/resource/dimens.dart';
 
 class SearchBoxView extends StatefulWidget {
   final bool enable;

@@ -10,8 +10,8 @@ import 'package:movieapp_clean_arch/utils/context_ext.dart';
 
 import '../../domain/models/movie_vo.dart';
 import '../../generated/locale_keys.g.dart';
-import '../../resource/colors.dart';
-import '../../resource/dimens.dart';
+import '../../theme/resource/colors.dart';
+import '../../theme/resource/dimens.dart';
 import '../../widget/favorite_icon_view.dart';
 import '../../widget/my_cached_network_image.dart';
 import '../home/home_page.dart';

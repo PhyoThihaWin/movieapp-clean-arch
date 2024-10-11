@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movieapp_clean_arch/page/movie/movie_page_provider.dart';
-import 'package:movieapp_clean_arch/resource/colors.dart';
+import 'package:movieapp_clean_arch/theme/resource/colors.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 
 import '../../domain/models/movie_vo.dart';
 import '../../generated/locale_keys.g.dart';
-import '../../resource/dimens.dart';
+import '../../theme/resource/dimens.dart';
 import '../movielist/movie_listing_page.dart';
 
 class MoviePage extends ConsumerStatefulWidget {

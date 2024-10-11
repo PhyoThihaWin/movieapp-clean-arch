@@ -8,12 +8,12 @@ import 'package:movieapp_clean_arch/page/home/home_page_provider.dart';
 import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
 import 'package:movieapp_clean_arch/page/search/movie_search_page_provider.dart';
 
-import 'package:movieapp_clean_arch/resource/colors.dart';
+import 'package:movieapp_clean_arch/theme/resource/colors.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 import 'package:movieapp_clean_arch/widget/search_box_view.dart';
 
 import '../../domain/models/movie_vo.dart';
-import '../../resource/dimens.dart';
+import '../../theme/resource/dimens.dart';
 import '../home/home_page.dart';
 import '../movielist/movie_listing_page.dart';
 

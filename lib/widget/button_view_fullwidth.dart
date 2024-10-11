@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../resource/colors.dart';
-import '../resource/dimens.dart';
+import '../theme/resource/colors.dart';
+import '../theme/resource/dimens.dart';
 
 class ButtonViewFullWidth extends StatelessWidget {
   final Function() onClick;

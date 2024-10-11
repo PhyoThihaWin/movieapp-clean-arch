@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../resource/dimens.dart';
+import '../theme/resource/dimens.dart';
 
 /// Context Extension
 extension PageNavigator on BuildContext {
