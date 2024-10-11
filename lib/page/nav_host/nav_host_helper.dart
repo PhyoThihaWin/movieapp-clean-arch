@@ -8,6 +8,7 @@ import '../movie/movie_page.dart';
 import '../moviedetail/movie_detail_page.dart';
 import '../movielist/movie_listing_page.dart';
 import '../profile/profile_page.dart';
+import '../search/movie_search_page.dart';
 import 'nav_host_page.dart';
 
 class NavHostHelper {
@@ -143,17 +144,15 @@ class NavHostHelper {
           );
         },
       ),
-      // GoRoute(
-      //   path: searchPath,
-      //   onExit: (context, state) => MovieSearchPageBinding().dispose(),
-      //   pageBuilder: (context, state) {
-      //     MovieSearchPageBinding().dependencies();
-      //     return getPage(
-      //       child: MovieSearchPage(),
-      //       state: state,
-      //     );
-      //   },
-      // ),
+      GoRoute(
+        path: searchPath,
+        pageBuilder: (context, state) {
+          return getPage(
+            child: MovieSearchPage(),
+            state: state,
+          );
+        },
+      ),
     ];
 
     router = GoRouter(

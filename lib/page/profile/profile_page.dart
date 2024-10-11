@@ -154,7 +154,6 @@ class ProfilePage extends ConsumerWidget {
             ],
           );
         });
-        ;
       },
     );
   }

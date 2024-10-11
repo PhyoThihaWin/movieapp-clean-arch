@@ -44,19 +44,19 @@ FavoriteMovieUseCase favoriteMovieUseCase(FavoriteMovieUseCaseRef ref) =>
 ///
 @riverpod
 Stream<List<MovieVo>> nowPlayingMovies(NowPlayingMoviesRef ref) =>
-    ref.watch(getNowPlayingMoviesUseCaseProvider).execute();
+    ref.read(getNowPlayingMoviesUseCaseProvider).execute();
 
 @riverpod
 Stream<List<MovieVo>> upComingMovies(UpComingMoviesRef ref) =>
-    ref.watch(getUpComingMoviesUseCaseProvider).execute();
+    ref.read(getUpComingMoviesUseCaseProvider).execute();
 
 @riverpod
 Stream<List<MovieVo>> popularMovies(PopularMoviesRef ref) =>
-    ref.watch(getPopularMoviesUseCaseProvider).execute();
+    ref.read(getPopularMoviesUseCaseProvider).execute();
 
 @riverpod
 Stream<List<ActorVo>> popularPersons(PopularPersonsRef ref) =>
-    ref.watch(fetchPopularPersonUseCaseProvider).execute();
+    ref.read(fetchPopularPersonUseCaseProvider).execute();
 
 @riverpod
 class HomeCarouselIndex extends _$HomeCarouselIndex {

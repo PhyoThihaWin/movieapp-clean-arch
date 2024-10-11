@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movieapp_clean_arch/base/view_state.dart';
 import 'package:movieapp_clean_arch/domain/models/movie_vo.dart';
 import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
 import 'package:movieapp_clean_arch/page/favorite/favorite_page_provider.dart';
@@ -22,16 +23,15 @@ class FavoritePage extends ConsumerWidget {
             fontSize: Dimens.TEXT_LARGE,
           ),
         ),
-        body: favoriteMovies.when(
-          data: (data) => ListView.builder(
+        body: StateRender(
+          refValue: favoriteMovies,
+          success: (data) => ListView.builder(
             padding: const EdgeInsets.all(Dimens.MARGIN_MEDIUM),
             itemCount: data.length,
             itemBuilder: (context, index) => FavoriteMovieItemView(
               movieVo: data[index],
             ),
           ),
-          error: (error, stackTrace) {},
-          loading: () {},
         ));
   }
 }

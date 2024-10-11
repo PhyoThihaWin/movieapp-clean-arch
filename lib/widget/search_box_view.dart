@@ -7,7 +7,7 @@ import '../resource/dimens.dart';
 
 class SearchBoxView extends StatefulWidget {
   final bool enable;
-  final Function(String value)? onChanged;
+  final Function(String? value)? onChanged;
 
   const SearchBoxView({super.key, required this.enable, this.onChanged});
 
@@ -20,14 +20,8 @@ class _SearchBoxViewState extends State<SearchBoxView> {
 
   @override
   void initState() {
-    _editingController = TextEditingController();
     super.initState();
-
-    _editingController.addListener(() {
-      setState(() {
-        widget.onChanged?.call(_editingController.text);
-      });
-    });
+    _editingController = TextEditingController();
   }
 
   @override
@@ -67,16 +61,22 @@ class _SearchBoxViewState extends State<SearchBoxView> {
                     fontWeight: FontWeight.w300,
                     fontSize: Dimens.TEXT_REGULAR_2),
               ),
+              onChanged: (value) {
+                setState(() {
+                  widget.onChanged?.call(_editingController.text);
+                });
+              },
             ),
           ),
           _editingController.text.length > 2
               ? GestureDetector(
                   onTap: () {
                     _editingController.clear();
+                    setState(() {
+                      widget.onChanged?.call(null);
+                    });
                   },
-                  child: const Icon(
-                    Icons.clear,
-                  ),
+                  child: const Icon(Icons.clear),
                 )
               : Container(),
         ],

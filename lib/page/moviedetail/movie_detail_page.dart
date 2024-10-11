@@ -1,22 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movieapp_clean_arch/base/view_state.dart';
-import 'package:movieapp_clean_arch/domain/models/actor_vo.dart';
-import 'package:movieapp_clean_arch/domain/models/movie_detail_vo.dart';
-import 'package:movieapp_clean_arch/generated/locale_keys.g.dart';
-import 'package:movieapp_clean_arch/page/home/home_page.dart';
-import 'package:movieapp_clean_arch/page/moviedetail/movie_detail_page_provider.dart';
-import 'package:movieapp_clean_arch/page/nav_host/nav_host_helper.dart';
-import 'package:movieapp_clean_arch/resource/dimens.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
-import 'package:movieapp_clean_arch/widget/favorite_icon_view.dart';
-import 'package:movieapp_clean_arch/widget/my_cached_network_image.dart';
 
+import '../../base/view_state.dart';
+import '../../domain/models/actor_vo.dart';
+import '../../domain/models/movie_detail_vo.dart';
+import '../../generated/locale_keys.g.dart';
 import '../../resource/colors.dart';
+import '../../resource/dimens.dart';
+import '../../widget/favorite_icon_view.dart';
 import '../../widget/horizontal_singlechild_list_view.dart';
+import '../../widget/my_cached_network_image.dart';
+import '../home/home_page.dart';
+import '../nav_host/nav_host_helper.dart';
+import 'movie_detail_page_provider.dart';
 
 class MovieDetailPage extends ConsumerWidget {
   final int movieId;
@@ -39,9 +40,11 @@ class MovieDetailPage extends ConsumerWidget {
                 Positioned(
                   left: Dimens.MARGIN_MEDIUM_2,
                   top: 50,
-                  child: PageBackIconView(onBack: () {
-                    context.navigateBack(NavHostHelper.homePath);
-                  }),
+                  child: !kIsWeb
+                      ? PageBackIconView(onBack: () {
+                          context.navigateBack(NavHostHelper.homePath);
+                        })
+                      : const SizedBox.shrink(),
                 ),
                 Positioned(
                   bottom: 0,
