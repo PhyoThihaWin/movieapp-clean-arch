@@ -280,8 +280,11 @@ class PromoPageViewSection extends StatelessWidget {
           child: Stack(
             children: [
               Positioned.fill(
-                child:
-                    MyCachedNetworkImage(imageUrl: movies[index].backdropPath),
+                child: MyCachedNetworkImage(
+                  imageUrl: movies[index].backdropPath,
+                  height: 180,
+                  width: double.maxFinite,
+                ),
               ),
               Positioned(
                 top: Dimens.MARGIN_MEDIUM,
@@ -595,6 +598,7 @@ class CarouselSliderViewSection extends StatelessWidget {
                         borderRadius: BorderRadius.circular(Dimens.MARGIN_12),
                         child: MyCachedNetworkImage(
                           imageUrl: item.posterPath,
+                          height: context.getScreenHeightBy(3.0),
                           width: double.maxFinite,
                         ),
                       ),
