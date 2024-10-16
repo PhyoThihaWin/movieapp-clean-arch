@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movieapp_clean_arch/page/home/home_page_provider.dart';
 import 'package:movieapp_clean_arch/utils/context_ext.dart';
 
 import '../../base/view_state.dart';
@@ -52,7 +53,12 @@ class MovieDetailPage extends ConsumerWidget {
                   right: Dimens.MARGIN_MEDIUM_2,
                   child: MovieDetailInfoSection(
                     movieDetailVo: data,
-                    onFavorite: (id) {},
+                    onFavorite: (id) {
+                      ref.read(favoriteMovieUseCaseProvider)(id);
+                      ref
+                          .watch(getMovieDetailsProvider(movieId).notifier)
+                          .updateFavorite();
+                    },
                     //  =>   movieDetailPageController.saveFavoriteMovie(id)
                   ),
                 ),

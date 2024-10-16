@@ -16,4 +16,10 @@ class GetMovieDetails extends _$GetMovieDetails {
   Future<MovieDetailVo> build(int movieId) async {
     return ref.watch(getMovieDetailUsecaseProvider)(movieId);
   }
+
+  updateFavorite() {
+    final details = state.requireValue;
+    details.isFavorite = !details.isFavorite;
+    state = AsyncData(details);
+  }
 }
