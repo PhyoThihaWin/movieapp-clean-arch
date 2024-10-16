@@ -21,3 +21,6 @@ Map<String, dynamic> get environment {
     null => throw UnimplementedError('baseUrl: flavor is unknown value'),
   };
 }
+
+/// usage
+/// environment['baseUrl'].toString()

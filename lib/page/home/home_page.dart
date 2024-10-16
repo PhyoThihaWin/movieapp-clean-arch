@@ -12,7 +12,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../base/view_state.dart';
 import '../../domain/models/actor_vo.dart';
 import '../../domain/models/movie_vo.dart';
-import '../../env_variable.dart';
+import '../../flavors.dart';
 import '../../theme/resource/colors.dart';
 import '../../theme/resource/dimens.dart';
 import '../../widget/favorite_icon_view.dart';
@@ -527,7 +527,7 @@ class WelcomeAndNotificationIconSection extends StatelessWidget {
               LocaleKeys.txtHiThree.tr(),
               style: const TextStyle(fontSize: 18),
             ),
-            SectionTitleText(environment['baseUrl'].toString())
+            SectionTitleText("${LocaleKeys.txtWelcomeBack.tr()} from ${F.name}")
           ],
         ),
         const Icon(Icons.notifications_active)
