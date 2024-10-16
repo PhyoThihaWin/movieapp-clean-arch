@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movieapp_clean_arch/data/local/hive/entities/actor_entity.dart';
@@ -13,7 +14,7 @@ import 'generated/codegen_loader.g.dart';
 import 'page/nav_host/nav_host_helper.dart';
 import 'theme/theme.dart';
 
-void main() async {
+Future<void> main() async {
   // splash
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -31,6 +32,9 @@ void main() async {
 
   // Localization
   await EasyLocalization.ensureInitialized();
+
+  // dot env
+  await dotenv.load(fileName: ".env");
 
   // GoRouter nav helper
   NavHostHelper.instance;

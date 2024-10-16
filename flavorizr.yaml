@@ -1,0 +1,34 @@
+app:
+  android:
+    flavorDimensions: "flavor-type"
+
+flavors:
+  dev:
+    app:
+      name: "Dev MovieApp"
+    android:
+      applicationId: "com.pthw.movieapp.dev"
+    ios:
+      bundleId: "com.pthw.movieapp.dev"
+    macos:
+      bundleId: "com.pthw.movieapp.dev"        
+  uat:
+    app:
+      name: "UAT MovieApp"
+    android:
+      applicationId: "com.pthw.movieapp.uat"
+    ios:
+      bundleId: "com.pthw.movieapp.uat"
+    macos:
+      bundleId: "com.pthw.movieapp.uat"
+  prod:
+    app:
+      name: "Movie App"
+    android:
+      applicationId: "com.pthw.movieapp"
+    ios:
+      bundleId: "com.pthw.movieapp"
+    macos:
+      bundleId: "com.pthw.movieapp"  
+
+ide: vscode

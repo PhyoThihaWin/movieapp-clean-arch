@@ -62,6 +62,7 @@ dependencies:
   skeletonizer: ^1.4.2
   flutter_riverpod: ^2.5.1
   riverpod_annotation: ^2.3.5
+  flutter_dotenv: ^5.2.1
   
 dev_dependencies:
   flutter_test:
@@ -80,13 +81,35 @@ dev_dependencies:
   riverpod_generator: ^2.4.3
   riverpod_lint: ^2.3.13
   freezed:
-
+  flutter_launcher_icons: ^0.14.1
+  flutter_flavorizr: ^2.2.3
+    
 flutter_native_splash:
   color: "#42a5f5"
   # background_image: "assets/background.png"
   image: assets/images/img_dummy_payment.png
   android_12:
     image: assets/images/img_dummy_payment.png
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  adaptive_icon_background: "#fc03db"
+  adaptive_icon_foreground: "assets/images/icon.jpg"
+  ios: true
+  image_path: "assets/images/icon.jpg"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "path/to/image.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "path/to/image.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "path/to/image.png"
     
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -104,6 +127,7 @@ flutter:
     - assets/translations/
     - assets/images/
     - assets/icons/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
