@@ -58,8 +58,8 @@ class _HomePageState extends ConsumerState<HomePage> {
             SliverAppBar(
               toolbarHeight: 20.0 + kToolbarHeight,
               backgroundColor: Theme.of(context).colorScheme.surface,
-              flexibleSpace: const Padding(
-                padding: EdgeInsets.only(
+              flexibleSpace: Padding(
+                padding: const EdgeInsets.only(
                     left: Dimens.MARGIN_MEDIUM_2,
                     right: Dimens.MARGIN_MEDIUM_2,
                     top: Dimens.MARGIN_MEDIUM),
@@ -511,9 +511,7 @@ class SeeAllText extends StatelessWidget {
 }
 
 class WelcomeAndNotificationIconSection extends StatelessWidget {
-  const WelcomeAndNotificationIconSection({
-    super.key,
-  });
+  WelcomeAndNotificationIconSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -527,7 +525,7 @@ class WelcomeAndNotificationIconSection extends StatelessWidget {
               LocaleKeys.txtHiThree.tr(),
               style: const TextStyle(fontSize: 18),
             ),
-            SectionTitleText("${LocaleKeys.txtWelcomeBack.tr()} from ${F.name}")
+            SectionTitleText("${LocaleKeys.txtWelcomeBack.tr()}, ${F.name}")
           ],
         ),
         const Icon(Icons.notifications_active)

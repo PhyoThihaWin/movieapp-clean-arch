@@ -1,18 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:movieapp_clean_arch/data/local/hive/entities/actor_entity.dart';
-import 'package:movieapp_clean_arch/domain/general/localization.dart';
-import 'package:movieapp_clean_arch/theme/theme_provider.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
+import 'data/local/hive/entities/actor_entity.dart';
 import 'data/local/hive/entities/movie_entity.dart';
 import 'data/local/hive/hive_constants.dart';
+import 'domain/general/localization.dart';
+import 'flavors.dart';
 import 'generated/codegen_loader.g.dart';
 import 'page/nav_host/nav_host_helper.dart';
 import 'theme/theme.dart';
+import 'theme/theme_provider.dart';
 
 Future<void> main() async {
   // splash
@@ -66,7 +67,7 @@ class MyApp extends ConsumerWidget {
     });
 
     return MaterialApp.router(
-      title: 'MovieCleanArchitecture',
+      title: F.title,
       debugShowCheckedModeBanner: false,
       routerDelegate: NavHostHelper.router.routerDelegate,
       routeInformationParser: NavHostHelper.router.routeInformationParser,

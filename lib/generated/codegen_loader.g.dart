@@ -26,7 +26,7 @@ class CodegenLoader extends AssetLoader{
   "txtChangePassword": "Change password",
   "txtFaceIdTouchId": "Face ID / Touch ID",
   "txtDarkMode": "Dark Mode",
-  "txtHiThree": "Hi, three! 👋",
+  "txtHiThree": "Hi, there! 👋",
   "txtWelcomeBack": "Welcome back",
   "txtNowPlaying": "Now playing",
   "txtComingSoon": "Coming soon",
